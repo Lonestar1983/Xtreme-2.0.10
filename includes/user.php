@@ -125,7 +125,7 @@ function UsernameColor( $username, $old_name = false ) {
 /**
  * Determines whether the current request is for an administrative interface page.
  *
- * Does not check if the user is an administrator; use is_user()
+ * Does not check if the user is logged in; use is_user()
  *
  * @since 1.0.5
  *
