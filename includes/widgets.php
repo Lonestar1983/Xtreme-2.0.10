@@ -233,27 +233,37 @@ function blockfileinc( $blockfiletitle, $blockfile, $side = 1, $bid ) {
 	}
 }
 
-function headlines($bid, $side=0, $row='') {
+function headlines( $bid, $side = 0, $row = '' ) {
 	global $prefix, $db, $my_headlines, $cache;
-	if(!$my_headlines) return;
-	$bid = intval($bid);
-	if (!is_array($row)) {
-		$row = $db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$prefix.'_blocks` WHERE `bid`='.$bid);
+
+	if ( ! $my_headlines ) {
+		return;
 	}
-	$content =& trim($row['content']);
-	if ($row['time'] < (time()-$row['refresh']) || empty($content)) {
-		$content = rss_content($row['url']);
-		$btime = time();
-		$db->sql_query("UPDATE `".$prefix."_blocks` SET `content`='".Fix_Quotes($content)."', `time`='$btime' WHERE `bid`='$bid'");
-		$cache->delete('blocks', 'config');
+
+	$bid = (int) $bid;
+
+	if ( ! is_array( $row ) ) {
+		$row = dburow( "SELECT title, content, url, refresh, time FROM " . _BLOCKS_TABLE . " WHERE bid = " . $bid . "'" );
 	}
-	if (empty($content)) {
-		$content = _RSSPROBLEM.' ('.$row['title'].')';
+
+	$content =& trim( $row['content'] );
+
+	if ( $row['time'] < ( time() - $row['refresh'] ) || empty( $content ) ) {
+		$content = rss_content( $row['url'] );
+		$btime   = time();
+		dbquery( "UPDATE " . _BLOCKS_TABLE . " SET content = '" . Fix_Quotes( $content ) . "', time = '" . $btime . "' WHERE bid = '" . $bid . "'" );
+		cache_delete( 'blocks', 'config' );
 	}
-	$content = '<span class="content">'.$content.'</span>';
-	if ($side == 'c' || $side == 'd') {
-		themecenterbox($row['title'], $content);
+
+	if ( empty( $content ) ) {
+		$content = _RSSPROBLEM . ' (' . $row['title'] . ')';
+	}
+
+	$content = '<span class="content">' . $content . '</span>';
+
+	if ( $side == 'c' || $side == 'd' ) {
+		themecenterbox( $row['title'], $content );
 	} else {
-		themesidebox($row['title'], $content, $bid);
+		themesidebox( $row['title'], $content, $bid );
 	}
 }
