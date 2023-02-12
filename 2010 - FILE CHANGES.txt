@@ -60,17 +60,3 @@ modules/News/admin/language/lang-english.php
 
 modules/Your_Account/index.php
 modules/Your_Account/language/lang-english.php
-
-
-REMOVED FILES
-
-includes/functions_deprecated.php
-includes/json.php
-includes/nsncb_func.php
-
-modules/Advertising/
-modules/Arcade_Tweaks/
-modules/Reviews/
-modules/Shout_Box/
-modules/Supporters/
-modules/Web_Links/
