@@ -129,7 +129,7 @@ function UsernameColor( $username, $old_name = false ) {
  *
  * @since 1.0.5
  *
- * @return bool True if inside administration interface, false otherwise.
+ * @return bool True if user is logged in as admin, false otherwise.
  */
 function is_admin() {
 	static $adminstatus;
