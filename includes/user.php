@@ -11,9 +11,9 @@ if ( realpath( __FILE__ ) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
 }
 
 /**
- * Determines whether the current request is for an administrative interface page.
+ * Determines whether the current user is logged in.
  *
- * Does not check if the user is an administrator; use is_user()
+ * Does not check if the user is an administrator; use is_admin()
  *
  * @since 1.0.5
  *
