@@ -20,10 +20,8 @@
       Nuke Patched                             v3.1.0       06/26/2005
  ************************************************************************/
 
-if(!defined('NUKE_EVO')) exit;
+defined( 'NUKE_EVO' ) || exit;
 
 $content = "<form onsubmit=\"this.submit.disabled='true'\" action=\"modules.php?name=Search\" method=\"post\">";
 $content .= "<center><input type=\"text\" name=\"query\" size=\"15\">";
 $content .= "<br /><input type=\"submit\" value=\""._SEARCH."\"></center></form>";
-
-?>

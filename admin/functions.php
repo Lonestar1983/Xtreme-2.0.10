@@ -41,7 +41,7 @@
 	  Persistent Admin Login                   v2.0.0       12/10/2005
  ************************************************************************/
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
 {
 	exit('Access Denied');
 }
@@ -49,7 +49,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
 /*****[BEGIN]******************************************
  [ Other:   Need To Delete                     v1.0.0 ]
  ******************************************************/
-function need_delete($file, $dir=false) 
+function need_delete($file, $dir=false)
 {
   // will be uncommented for release
   if (!$dir) {
@@ -68,7 +68,7 @@ function need_delete($file, $dir=false)
  [ Other:   Need To Delete                     v1.0.0 ]
  ******************************************************/
 
-function login() 
+function login()
 {
 	global $admin_file, $db, $prefix, $admlang;
 
@@ -82,9 +82,9 @@ function login()
 		$fcdate = date("mdYHi");
 		$fc     = dburow("SELECT * FROM `"._FAILED_LOGIN_INFO_TABLE."` WHERE fc_ip = '$ip'");
 		$fc_datetime = $fcdate - $fc['fc_datetime'];
-		$fc_lefttime = get_evo_option( 'admin_fc_timeout' ) - $fc_datetime; 
+		$fc_lefttime = get_evo_option( 'admin_fc_timeout' ) - $fc_datetime;
 
-		if ( $fc['fc_attempts'] <= get_evo_option( 'admin_fc_attempts' )  && $fc['fc_attempts'] != "0" && $fc_datetime <= get_evo_option( 'admin_fc_timeout' )) 
+		if ( $fc['fc_attempts'] <= get_evo_option( 'admin_fc_attempts' )  && $fc['fc_attempts'] != "0" && $fc_datetime <= get_evo_option( 'admin_fc_timeout' ))
 		{
 			$fctotal = get_evo_option( 'admin_fc_attempts' ) - $fc['fc_attempts'];
 			title($admlang['adminfail']['you_have'].'&nbsp;'.$fctotal.'&nbsp;'.$admlang['adminfail']['attempts'].'&nbsp;'.get_evo_option( 'admin_fc_timeout' ).'&nbsp;'.$admlang['adminfail']['min']);
@@ -162,7 +162,7 @@ function login()
 			border-color: #ffeeba;
 		}
 
-		@media (max-width: 768px) 
+		@media (max-width: 768px)
 		{
 			.al-width {
 				width: 100%;
@@ -203,7 +203,7 @@ function login()
 		</div>
 
 		<?php if ( in_array( get_evo_option('usegfxcheck'), array(1,5,6,7) ) ): ?>
-		<div class="divider"></div>     
+		<div class="divider"></div>
 
 		<div style="text-align: -webkit-center; text-align: -moz-center;">
 		<?php echo security_code(array(1,5,6,7), 'normal'); ?>
@@ -220,12 +220,12 @@ function login()
 	<input type="hidden" name="op" value="login">
 	</form>
 
-	<?php   
+	<?php
 	closetable();
 	get_footer();
 }
 
-function deleteNotice($id) 
+function deleteNotice($id)
 {
 	global $prefix, $db, $admin_file, $cache;
 	$id = intval($id);
@@ -240,7 +240,7 @@ function deleteNotice($id)
 	redirect($admin_file.".php?op=reviews");
 }
 
-function adminmenu($url, $title, $image) 
+function adminmenu($url, $title, $image)
 {
 	global $counter, $admingraphic, $admin, $module_folder_name;
 
@@ -270,7 +270,7 @@ function adminmenu($url, $title, $image)
 		else:
 			echo '    <td style="width: 16.6%;">';
 			echo '      <a href="'.$url.'">';
-			echo '      <table style="text-align: center; width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">';           
+			echo '      <table style="text-align: center; width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">';
 			echo '        <tr>';
 			echo '          <td class="row1">'.(($admingraphic) ? $image_file.'<br />' : '').'<em style="text-decoration: line-through; letter-spacing:1px;">'.$title.'</span></td>';
 			echo '        </tr>';
@@ -292,7 +292,7 @@ function adminmenu($url, $title, $image)
 
 			echo '    <td style="width: 16.6%;">';
 			echo '      <a href="'.$url.'">';
-			echo '      <table style="height: 75px; text-align: center; width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">';           
+			echo '      <table style="height: 75px; text-align: center; width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">';
 			echo '        <tr>';
 			echo '          <td class="row1">'.(($admingraphic) ? $image_file.'<br />' : '').$title.'</td>';
 			echo '        </tr>';
@@ -303,12 +303,8 @@ function adminmenu($url, $title, $image)
 		endif;
 	}
 
-	if ($counter == 5) 
-	{
-		if($end == FALSE)
-		{
-			echo '</tr>'."\n".'<tr>'."\n";
-		}
+	if ( $counter == 5 ) {
+		echo '</tr>'."\n".'<tr>'."\n";
 	}
 	$counter = ($counter == 5) ? 0 : (int) $counter+1;
 }
@@ -326,7 +322,7 @@ function track_admin_intrusion()
 	else
 		$admin_msg = '<span style="color:green; font-weight: bold;">'.$admlang['logs']['admin_fine'].'</span>';
 
-	$return .= '  <tr>'."\n";
+	$return  = '  <tr>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:65%;">'.$admin_msg.'</td>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:25%; text-align:center;"><a href="'.$admin_file.'.php?op=viewadminlog&amp;log=admin">'.$admlang['logs']['view'].'</a></td>'."\n";
 	$return .= '  </tr>'."\n";
@@ -346,21 +342,21 @@ function track_sql_errors()
 	else
 		$error_msg = '<span style="color:green; font-weight: bold;">'.$admlang['logs']['error_fine'].'</span>';
 
-	$return .= '  <tr>'."\n";
+	$return  = '  <tr>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:65%;">'.$error_msg.'</td>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:25%; text-align:center;"><a href="'.$admin_file.'.php?op=viewadminlog&amp;log=error">'.$admlang['logs']['view'].'</a></td>'."\n";
 	$return .= '  </tr>'."\n";
 	return $return;
 }
 
-function track_evo_version() 
+function track_evo_version()
 {
 	global $admin_file, $admlang;
 	/**
 	 * Version checker json
 	 */
 	$version_refresh = get_query_var( 'check-version', 'get', 'string', false );
-	$version_check_cache = cache_json_data('https://evolution-xtreme.co.uk/versions/evo-version.json', dirname(__FILE__).'/version.cache', $version_refresh); 
+	$version_check_cache = cache_json_data('https://evolution-xtreme.co.uk/versions/evo-version.json', dirname(__FILE__).'/version.cache', $version_refresh);
 
 	if ( $version_check_cache['version'] == NUKE_EVO ):
 
@@ -376,20 +372,20 @@ function track_evo_version()
 
 	endif;
 
-	$return .= '  <tr>'."\n";
+	$return  = '  <tr>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:65%;">'.$new_version_number.' - '.$version_desc.'</td>'."\n";
 	$return .= '    <td style="height:15px; font-size: 13px; width:25%; text-align:center;"><a href="'.$update_url.'">Check</a></td>'."\n";
 	$return .= '  </tr>'."\n";
 
 	return $return;
 }
- 
+
 /*****[BEGIN]******************************************
  [ Mod:    Admin Icon/Link Pos                 v1.0.0 ]
  ******************************************************/
 function GraphicAdmin($pos=1)
 {
-	global $aid, $admingraphic, $cache, $language, $admin, $prefix, $user_prefix, $db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $prefix, $user_prefix, $db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;
 	if ($pos != $admin_pos)
 		return;
 
@@ -414,14 +410,14 @@ function GraphicAdmin($pos=1)
 			<tr>
 				<td class="catHead" style="height:30px; letter-spacing: 1px;" class="catHead">
 					<?php echo $admlang['livefeed']['header']; ?>
-					<a href="<?php echo get_admin_filename(); ?>.php?refresh-feed=true"><span style="float: right;"><?php echo $admlang['livefeed']['refresh'] ?></span></a>                        
+					<a href="<?php echo get_admin_filename(); ?>.php?refresh-feed=true"><span style="float: right;"><?php echo $admlang['livefeed']['refresh'] ?></span></a>
 				</td>
 			</tr>
 			<tr>
 				<td class="row1">
 					<div style="height: 13.5em; overflow: auto;">
 						<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1">
-							
+
 							<?php foreach( array_reverse($live_news_feed_cache) as $key => $value ): ?>
 							<tr>
 								<dt style="border-bottom: 1px dashed #cccccc; padding-bottom: 1px;"><?php echo '<span'.(($value['color']) ? ' style="color:'.$value['color'].'"' : '').'>'.$value['title'].'</span>'; ?></span>&nbsp;<?php echo $value['timestamp']; ?></dt>
@@ -432,7 +428,7 @@ function GraphicAdmin($pos=1)
 						</table>
 					</div>
 				</td>
-			</tr>            
+			</tr>
 		</table>
 	</td>
 
@@ -493,7 +489,7 @@ function GraphicAdmin($pos=1)
 		echo '  <tr>'."\n";
 		$linksdir = opendir(NUKE_ADMIN_DIR.'links');
 		$menulist = '';
-		while(false !== ($func = readdir($linksdir))) 
+		while(false !== ($func = readdir($linksdir)))
 		{
 			if(substr($func, 0, 6) == 'links.')
 				$menulist .= $func.' ';
@@ -501,7 +497,7 @@ function GraphicAdmin($pos=1)
 		closedir($linksdir);
 		$menulist = explode(' ', $menulist);
 		sort($menulist);
-		for ($i=0, $maxi = count($menulist); $i < $maxi; $i++) 
+		for ($i=0, $maxi = count($menulist); $i < $maxi; $i++)
 		{
 			if(!empty($menulist[$i]))
 				include(NUKE_ADMIN_DIR.'links/'.$menulist[$i]);
@@ -522,11 +518,11 @@ function GraphicAdmin($pos=1)
 	update_modules();
 	$result = $db->sql_query("SELECT `title` FROM `".$prefix."_modules` ORDER BY `title` ASC");
 	$count = 0;
-	while($row = $db->sql_fetchrow($result)) 
+	while($row = $db->sql_fetchrow($result))
 	{
-		if (is_mod_admin($row['title'])) 
+		if (is_mod_admin($row['title']))
 		{
-			if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php")) 
+			if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php"))
 			{
 				global $module_folder_name;
 				$module_folder_name = $row['title'];
@@ -546,7 +542,7 @@ function GraphicAdmin($pos=1)
 		echo '      </table>';
 		echo '    </td>'."\n";
 	}
-	echo '  </tr>'."\n"; 
+	echo '  </tr>'."\n";
 
 	/**
 	 * Load up the new theme admin panels
@@ -567,17 +563,17 @@ function GraphicAdmin($pos=1)
 		echo '    </td>';
 		echo '  </tr>';
 		echo '  <tr>'."\n";
-		
+
 		foreach( $themes_row as $theme ):
 
 			if (file_exists(NUKE_THEMES_DIR.$theme['theme_name']."/admin/index.php") AND file_exists(NUKE_THEMES_DIR.$theme['theme_name']."/admin/links.php") AND file_exists(NUKE_THEMES_DIR.$theme['theme_name']."/admin/case.php")):
-			
+
 				include(NUKE_THEMES_DIR.$theme['theme_name'].'/admin/links.php');
 
 			endif;
 
 		endforeach;
-		
+
 		echo '  </tr>'."\n";
 
 	endif;
@@ -649,14 +645,14 @@ function track_sql_errors_bs()
 	return $errorlog;
 }
 
-function track_evo_version_bs() 
+function track_evo_version_bs()
 {
 	global $admin_file, $admlang;
 	/**
 	 * Version checker json
 	 */
 	$version_refresh = get_query_var( 'check-version', 'get', 'string', false );
-	$version_check_cache = cache_json_data('https://evolution-xtreme.co.uk/versions/evo-version.json', dirname(__FILE__).'/version.cache', $version_refresh); 
+	$version_check_cache = cache_json_data('https://evolution-xtreme.co.uk/versions/evo-version.json', dirname(__FILE__).'/version.cache', $version_refresh);
 
 	if ( $version_check_cache['version'] == NUKE_EVO ):
 
@@ -685,7 +681,7 @@ function track_evo_version_bs()
 
 function administration_panel( $pos = 1 )
 {
-	global $aid, $admingraphic, $cache, $language, $admin, $prefix, $user_prefix, $db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;   
+	global $aid, $admingraphic, $cache, $language, $admin, $prefix, $user_prefix, $db, $counter, $admin_file, $admin_pos, $radminsuper, $admlang;
 
 	$radminsuper = is_mod_admin();
 
@@ -713,16 +709,16 @@ function administration_panel( $pos = 1 )
 	<div class="container-fluid">
 
 		<div class="row">
-					
+
 			<div class="col-12 live-feed-panel">
 				<h3 class="live-feed widget-title">
 					<?php echo $admlang['livefeed']['header'] ?>
 					<a href="<?php echo get_admin_filename(); ?>.php?refresh-feed=true"><span class="sr-only"><?php echo $admlang['livefeed']['refresh'] ?></span></a>
 				</h3>
 				<div class="feed-Bx">
-						
+
 					<?php $live_news_feed_cache = cache_json_data('https://evolution-xtreme.co.uk/versions/evolution-xtreme-live-feed.json', dirname(__FILE__).'/live-feed.cache', $refresh_feed); ?>
-					<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1">                                             
+					<table style="width: 100%;" border="0" cellpadding="3" cellspacing="1">
 						<?php foreach( array_reverse($live_news_feed_cache) as $key => $value ): $color_title = ($value['color']) ? ' style="color:'.$value['color'].'"' : ''; ?>
 
 						<tr>
@@ -733,7 +729,7 @@ function administration_panel( $pos = 1 )
 							<dd class="news-feed-message"><?php echo $value['message']; ?></dd>
 						</tr>
 						<?php endforeach; ?>
-					</table>                  
+					</table>
 				</div>
 			</div>
 
@@ -879,7 +875,7 @@ function administration_panel( $pos = 1 )
 		<?php if ( is_mod_admin('super') ): ?>
 
 		<div class="row">
-			<h3 class="col-12 important-info widget-title mb-2 mt-4"><?php echo $admlang['admin']['administration_header'] ?></h3> 
+			<h3 class="col-12 important-info widget-title mb-2 mt-4"><?php echo $admlang['admin']['administration_header'] ?></h3>
 		</div>
 
 		<div class="row">
@@ -887,7 +883,7 @@ function administration_panel( $pos = 1 )
 			<?php
 			$linksdir = opendir(NUKE_ADMIN_DIR.'links');
 			$menulist = '';
-			while(false !== ($func = readdir($linksdir))) 
+			while(false !== ($func = readdir($linksdir)))
 			{
 				if(substr($func, 0, 6) == 'links.')
 					$menulist .= $func.' ';
@@ -895,7 +891,7 @@ function administration_panel( $pos = 1 )
 			closedir($linksdir);
 			$menulist = explode(' ', $menulist);
 			sort($menulist);
-			for ($i=0, $maxi = count($menulist); $i < $maxi; $i++) 
+			for ($i=0, $maxi = count($menulist); $i < $maxi; $i++)
 			{
 				if( !empty( $menulist[$i] ) ):
 			?>
@@ -909,7 +905,7 @@ function administration_panel( $pos = 1 )
 
 				</div>
 			<?php
-				endif; 
+				endif;
 			}
 			$counter = "";
 			?>
@@ -920,7 +916,7 @@ function administration_panel( $pos = 1 )
 		<?php if ( is_mod_admin('super') ): ?>
 
 		<div class="row">
-			<h3 class="col-12 important-info widget-title mb-2 mt-4"><?php echo $admlang['admin']['modules_header'] ?></h3> 
+			<h3 class="col-12 important-info widget-title mb-2 mt-4"><?php echo $admlang['admin']['modules_header'] ?></h3>
 		</div>
 
 		<div class="row">
@@ -930,11 +926,11 @@ function administration_panel( $pos = 1 )
 			update_modules();
 			$result = $db->sql_query("SELECT `title` FROM `".$prefix."_modules` ORDER BY `title` ASC");
 			$count = 0;
-			while($row = $db->sql_fetchrow($result)) 
+			while($row = $db->sql_fetchrow($result))
 			{
-				if (is_mod_admin($row['title'])) 
+				if (is_mod_admin($row['title']))
 				{
-					if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php")) 
+					if (file_exists(NUKE_MODULES_DIR.$row['title']."/admin/index.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/links.php") AND file_exists(NUKE_MODULES_DIR.$row['title']."/admin/case.php"))
 					{
 						// global $module_folder_name;
 						// $module_folder_name = $row['title'];
@@ -955,12 +951,12 @@ function administration_panel( $pos = 1 )
 
 		<?php endif; ?>
 
-		<?php 
+		<?php
 
 		/**
 		 * Theme Administration
 		 */
-		if ( is_mod_admin('super') ): 
+		if ( is_mod_admin('super') ):
 
 			$result2 = $db->sql_query("SELECT `theme_name` FROM `".$prefix."_themes` ORDER BY `theme_name` ASC");
 			$themes_row = $db->sql_fetchrowset( $result2 );
@@ -969,7 +965,7 @@ function administration_panel( $pos = 1 )
 			if ( count( $themes_row ) > 0 ): ?>
 
 				<div class="row">
-					<h3 class="col-12 important-info widget-title mb-2 mt-4"><?php echo $admlang['admin']['themes_header'] ?></h3> 
+					<h3 class="col-12 important-info widget-title mb-2 mt-4"><?php echo $admlang['admin']['themes_header'] ?></h3>
 				</div>
 
 				<div class="row">
@@ -981,14 +977,14 @@ function administration_panel( $pos = 1 )
 							<?php include(NUKE_THEMES_DIR.$theme['theme_name'].'/admin/links.php'); ?>
 							</div>
 						</div>
-					<?php endif; ?> 
+					<?php endif; ?>
 
 				<?php endforeach; ?>
 				</div>
 
-			<?php endif; ?>  
+			<?php endif; ?>
 
-		<?php endif; ?>  
+		<?php endif; ?>
 
 
 	</div>
@@ -1006,7 +1002,7 @@ function administration_panel( $pos = 1 )
 	}
 /*****[END]********************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
- ******************************************************/    
+ ******************************************************/
 }
 
 ?>

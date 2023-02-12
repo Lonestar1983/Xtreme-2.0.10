@@ -25,6 +25,8 @@ if (!defined('IN_PHPBB'))
     die('Hacking attempt');
 }
 
+$mode = get_query_var( 'mode', 'get', 'string' );
+
 $submit = $refresh = FALSE;
 $hidden_form_fields = '<input type="hidden" name="mode" value="reply" />';
 $hidden_form_fields .= '<input type="hidden" name="' . POST_TOPIC_URL . '" value="' . $topic_id . '" />';
@@ -144,6 +146,7 @@ if ( (($userdata['user_quickreply_mode']==1) && ($userdata['user_id'] != ANONYMO
     //
     if ( $userdata['session_logged_in'] && $is_auth['auth_read'] )
     {
+
         if ( $mode != 'editpost' || ( $mode == 'editpost' && $post_info['poster_id'] != ANONYMOUS ) )
         {
             $template->assign_block_vars('switch_advanced_qr.switch_notify_checkbox', array());

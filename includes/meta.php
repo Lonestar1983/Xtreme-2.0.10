@@ -42,7 +42,7 @@ if(($metatags = $cache->load('metatags', 'config')) === false) {
   $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta';
   $result = $db->sql_query($sql, true);
   $i=0;
-  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result, SQL_NUM)) {
+  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result)) {
       $metatags[$i] = array();
       $metatags[$i]['meta_name'] = $meta_name;
       $metatags[$i]['meta_content'] = $meta_content;

@@ -1,17 +1,9 @@
 General purpose self-explanatory file with news headlines
 %%
-efewfewf
-/modules.php?name=News&file=article&sid=4
-Monday, January 07
-Lonestar
-
-0
-
-%%
-trhtrhtrh
+vdgsf
 /modules.php?name=News&file=article&sid=2
-Sunday, January 06
+Sunday, February 12
 Lonestar
-
+Nuke-Evolution
 0
 

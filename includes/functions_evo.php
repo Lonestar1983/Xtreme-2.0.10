@@ -210,10 +210,10 @@ function load_nukeconfig() {
     // static $nukeconfig;
     // if(isset($nukeconfig) && is_array($nukeconfig)) { return $nukeconfig; }
     if ((($nukeconfig = $cache->load('nukeconfig', 'config')) === false) || empty($nukeconfig)) {
-        $nukeconfig = $db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
+        $nukeconfig = $db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE);
         if (!$nukeconfig) {
             if ($prefix != 'nuke') {
-                $nukeconfig = $db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE, SQL_ASSOC);
+                $nukeconfig = $db->sql_ufetchrow('SELECT * FROM '._NUKE_CONFIG_TABLE);
                 if(is_array($nukeconfig)) {
                     die('Please change your $prefix in config.php to \'nuke\'.  You might have to do the same for the $user_prefix');
                 }
@@ -292,7 +292,7 @@ function load_evoconfig() {
         if( !($resultcnbya = $db->sql_query($sql))) {
             $debugger->handle_error("Could not query cnbya config information", 'Error');
         }
-        $row = $db->sql_fetchrow($resultcnbya, SQL_NUM);
+        $row = $db->sql_fetchrow($resultcnbya);
         $evoconfig['allowusertheme'] = $row['config_value'];
         $sql = 'SELECT `word`, `replacement` FROM `'.WORDS_TABLE.'`';
         if( !($resultwords = $db->sql_query($sql))) {
@@ -321,7 +321,7 @@ function main_module() {
   static $main_module;
   if (isset($main_module)) { return $main_module; }
     if((($main_module = $cache->load('main_module', 'config')) === false) || empty($main_module)) {
-        list($main_module) = $db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE, SQL_NUM);
+        list($main_module) = $db->sql_ufetchrow('SELECT main_module FROM '._MAIN_TABLE);
       $cache->save('main_module', 'config', $main_module);
   }
   return $main_module;
@@ -335,7 +335,7 @@ function update_modules() {
     if(isset($updated)) { return $updated; }
     //Here we will pull all currently installed modules from the database
     $result = $db->sql_query("SELECT title FROM "._MODULES_TABLE, true);
-    while(list($mtitle) = $db->sql_fetchrow($result, SQL_NUM)) {
+    while(list($mtitle) = $db->sql_fetchrow($result)) {
         if(substr($mtitle,0,3) != '~l~') {
             $modules[] = $mtitle;
         }
@@ -409,7 +409,7 @@ function UpdateCookie()
         [ Base:    Caching System                     v3.0.0 ]
         ******************************************************/
         $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config", true);
-        while (list($config_name, $config_value) = $db->sql_fetchrow($configresult, SQL_NUM)) 
+        while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) 
         {
             // if (!get_magic_quotes_gpc()) { $config_value = stripslashes($config_value); }
             $ya_config[$config_name] = $config_value;
@@ -1025,8 +1025,8 @@ function GetRank($user_id) {
     static $rankData = array();
     if(is_array($rankData[$user_id])) { return $rankData[$user_id]; }
 
-    list($user_rank, $user_posts) = $db->sql_ufetchrow("SELECT user_rank, user_posts FROM " . $user_prefix . "_users WHERE user_id = '" . $user_id . "'", SQL_NUM);
-    $ranks = $db->sql_ufetchrowset("SELECT * FROM " . $prefix . "_bbranks ORDER BY rank_special, rank_min", SQL_ASSOC);
+    list($user_rank, $user_posts) = $db->sql_ufetchrow("SELECT user_rank, user_posts FROM " . $user_prefix . "_users WHERE user_id = '" . $user_id . "'");
+    $ranks = $db->sql_ufetchrowset("SELECT * FROM " . $prefix . "_bbranks ORDER BY rank_special, rank_min");
 
     $rankData[$user_id] = array();
     for($i=0, $maxi=count($ranks);$i<$maxi;$i++) {
@@ -1053,11 +1053,11 @@ function redirect($url, $refresh = 0) {
     if(is_object($db)) $db->sql_close();
     $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: '.$refresh.'; URL=' : 'Location: ';
 	$url = str_replace('&amp;', "&", $url);
-    header($type . $url);
+    header( $type . $url );
     exit;
 }
 
-include_once(NUKE_INCLUDE_DIR.'functions_deprecated.php');
+include_once NUKE_INCLUDE_DIR . 'deprecated.php';
 
 function evo_img_tag_to_resize($text) {
     global $img_resize;

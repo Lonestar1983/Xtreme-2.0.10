@@ -64,7 +64,7 @@ function modadmin_usergroup_whoview($module)
       {
          if (!empty($group)) 
          {
-            $row = $db->sql_ufetchrow("SELECT group_name FROM ".$prefix.'_bbgroups WHERE group_id='.$group, SQL_NUM);
+            $row = $db->sql_ufetchrow("SELECT group_name FROM ".$prefix.'_bbgroups WHERE group_id='.$group);
             if (!empty($row['group_name'])) 
             {
                $who_view .= $row['group_name'].', ';

@@ -1016,7 +1016,9 @@ function append_sid($url, $non_html_amp = false)
             }
     }
     global $agent;
-    if ($agent['engine'] == 'bot') return $url;
+    if ( isset( $agent['engine'] ) && $agent['engine'] == 'bot') {
+        return $url;
+    }
 
     if (isset($userdata['user_level']) && $userdata['user_level'] > 1) {
         if ( !empty($SID) && !preg_match('/sid=/i', $url) )

@@ -30,7 +30,7 @@ function query_ranks()
 	{
 		message_die(GENERAL_ERROR, "Could not obtain banned users information.", '', __LINE__, __FILE__, $sql);
 	}
-	
+
 	$ranks_sql = array();
 	$ranks_sql['bannedrow'][] = $db->sql_fetchrowset($result);
 	$db->sql_freeresult($result);
@@ -67,7 +67,7 @@ function generate_ranks($user_row, $ranks_sql)
 		'rank_05', 'rank_05_img',
 	);
 	$user_ranks = array();
-	
+
 	$is_banned = false;
 	$is_guest = false;
 	$rank_sw = false;
@@ -86,7 +86,7 @@ function generate_ranks($user_row, $ranks_sql)
 	{
 		for($j = 0; $j < count($ranks_sql['bannedrow']); $j++)
 		{
-			if ( $ranks_sql['bannedrow'][$j]['ban_userid'] == $user_row['user_id'] )
+			if ( isset( $ranks_sql['bannedrow'][$j]['ban_userid'] ) && $ranks_sql['bannedrow'][$j]['ban_userid'] == $user_row['user_id'] )
 			{
 				$is_banned = true;
 			}

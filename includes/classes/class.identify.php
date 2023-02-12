@@ -140,7 +140,7 @@ class identify {
             # PlayStation
             '#^Mozilla/4.0 \(PSP \(PlayStation Portable\); 2.00\)#'
         );
-        
+
         $replacement = array(
             # Netscape
             array('Netscape', '$1', 'Gecko', ''),
@@ -278,3 +278,8 @@ class identify {
         return ($bot === false) ? false : array('ua' => 'bot', 'bot' => $bot, 'engine' => 'bot');
     }
 }
+
+global $agent;
+
+$identify = new identify();
+$agent = $identify->identify_agent();

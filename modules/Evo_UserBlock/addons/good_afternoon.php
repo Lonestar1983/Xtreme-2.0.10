@@ -22,12 +22,11 @@ if(!defined('NUKE_EVO')) {
 
 global $evouserinfo_addons, $evouserinfo_good_afternoon, $lang_evo_userblock;
 
-
 function evouserinfo_create_date($format, $gmepoch, $tz)
 {
-    global $board_config, $lang, $userdata, $pc_dateTime;
+    global $board_config, $lang, $userinfo, $pc_dateTime;
     static $translate;
-    
+
     if (!defined('ANONYMOUS')) {
         define('ANONYMOUS', 1);
         define('MANUAL', 0);
@@ -41,23 +40,22 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
     if ( empty($translate) && $board_config['default_lang'] != 'english' && is_array($lang['datetime']))
     {
         @reset($lang['datetime']);
-        while ( list($match, $replace) = @each($lang['datetime']) )
-        {
-            $translate[$match] = $replace;
+        foreach ( $lang['datetime'] as $match => $replace ) {
+            $translate[ $match ] = $replace;
         }
     }
 
 
-    if ( $userdata['user_id'] != ANONYMOUS )
+    if ( $userinfo['user_id'] != ANONYMOUS )
     {
-        switch ( $userdata['user_time_mode'] )
+        switch ( $userinfo['user_time_mode'] )
         {
             case MANUAL_DST:
-                $dst_sec = $userdata['user_dst_time_lag'] * 60;
+                $dst_sec = $userinfo['user_dst_time_lag'] * 60;
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
                 break;
             case SERVER_SWITCH:
-                $dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
+                $dst_sec = date('I', $gmepoch) * $userinfo['user_dst_time_lag'] * 60;
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
                 break;
             case FULL_SERVER:
@@ -69,7 +67,7 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
                     $tzo_sec = $pc_dateTime['pc_timezoneOffset'];
                 } else
                 {
-                    $user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+                    $user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
                     $tzo_sec = $user_pc_timeOffsets[0];
                 }
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
@@ -80,7 +78,7 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
                     $tzo_sec = $pc_dateTime['pc_timeOffset'];
                 } else
                 {
-                    $user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+                    $user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
                     $tzo_sec = (isset($user_pc_timeOffsets[1])) ? $user_pc_timeOffsets[1] : '';
                 }
                 return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
@@ -131,19 +129,19 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
     }
 }
 
-if (is_user()) {
+if ( is_user() ) {
     global $userinfo;
-    $uname = UsernameColor($userinfo['username']);
+    $uname = UsernameColor( $userinfo['username'] );
 } else {
     $uname = $lang_evo_userblock['BLOCK']['ANON'];
 }
 
 global $userinfo;
-if(is_user() && isset($userinfo) && is_array($userinfo)) {
-    $evouserinfo_time = evouserinfo_create_date('G', time(), $userinfo['user_timezone']);
+if ( is_user() && isset( $userinfo ) && is_array( $userinfo ) ) {
+    $evouserinfo_time = evouserinfo_create_date( 'G', time(), $userinfo['user_timezone'] );
 } else {
     global $board_config;
-    $evouserinfo_time = evouserinfo_create_date('G', time(), $board_config['board_timezone']);
+    $evouserinfo_time = evouserinfo_create_date( 'G', time(), $board_config['board_timezone'] );
 }
 
 $evouserinfo_good_afternoon = "<div align=\"center\">";
@@ -160,4 +158,3 @@ if ($evouserinfo_time >= 0 && $evouserinfo_time <= 11) {
 //Username
 $evouserinfo_good_afternoon .= "<br />".$uname."</div>";
 $evouserinfo_good_afternoon .= "<br />\n";
-?>

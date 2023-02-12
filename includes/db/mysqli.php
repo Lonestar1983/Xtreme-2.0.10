@@ -23,9 +23,9 @@ if(!defined("SQL_LAYER"))
 {
 
 define("SQL_LAYER","mysqli");
-define('SQL_NUM', MYSQL_NUM);
-define('SQL_BOTH', MYSQL_BOTH);
-define('SQL_ASSOC', MYSQL_ASSOC);
+// define('SQL_NUM', MYSQL_NUM);
+// define('SQL_BOTH', MYSQL_BOTH);
+// define('SQL_ASSOC', MYSQL_ASSOC);
 define('END_TRANSACTION', 2);
 
 class sql_db
@@ -77,7 +77,7 @@ class sql_db
 	 * Storage for MySQL query debugging
 	 */
     var $saved = '';
-    
+
     var $connect_id;
 
     /*!
@@ -106,25 +106,27 @@ class sql_db
 	 *
 	 * An array that stores the total time it took for each MySQL query to
 	 * complete
-	 */	
+	 */
 	var $qtime;
 
-	function _backtrace_log($query, $failed=false, $queryid=0)
-	{
+	function _backtrace_log( $query, $failed = false, $queryid = 0 ) {
 		global $debug;
-		if (!is_bool($debug) && $debug == 'full') {
+
+		if ( ! is_bool( $debug ) && $debug == 'full' ) {
 			$this->_backtrace();
-			if ($failed) {
-				$this->querylist[$this->file][] = '<span style="color: #FF0000; font-weight: bold;">FAILED LINE '.$this->line.':</span> '.htmlspecialchars($query);
+			if ( $failed ) {
+				$this->querylist[ $this->file ][] = '<span style="color: #FF0000; font-weight: bold;">FAILED LINE ' . $this->line . ':</span> ' . htmlspecialchars( $query );
 			} else {
-    			$this->querylist[$this->file][(int)$this->num_queries] = '<span style="font-weight: bold;">LINE '.$this->line.':</span> '.htmlspecialchars($query);
-    			if (isset($this->qtime[(int)$this->num_queries])) {
-        			$time = (isset($this->qtime[(int)$this->num_queries])) ? ' QTIME:'.substr($this->qtime[(int)$this->num_queries],0,5) : '';
-        			$this->querylist[$this->file][(int)$this->num_queries] .= $time;
+    			$this->querylist[ $this->file ][ (int) $this->num_queries ] = '<span style="font-weight: bold;">LINE ' . $this->line . ':</span> ' . htmlspecialchars( $query );
+
+    			if ( isset( $this->qtime[ (int) $this->num_queries ] ) ) {
+        			$time = ( isset( $this->qtime[ (int) $this->num_queries ] ) ) ? ' QTIME:' . substr( $this->qtime[ (int) $this->num_queries ], 0, 5 ) : '';
+        			$this->querylist[ $this->file ][ (int) $this->num_queries ] .= $time;
     			}
 			}
 		}
 	}
+
 	function _backtrace()
 	{
 		$this->file = 'unknown';
@@ -151,7 +153,7 @@ class sql_db
 		$this->password = $sqlpassword;
 		$this->server = $sqlserver;
 		$this->dbname = $database;
-		
+
 		if ($this->dbname != '') {
 			$this->db_connect_id = @mysqli_connect($this->server, $this->user, $this->password, $this->dbname);
 
@@ -245,7 +247,7 @@ class sql_db
 
 		// Remove any pre-existing queries
 		if (isset($this->query_result)) unset($this->query_result);
-		
+
 		if ($query != '')
 		{
             if(SQL_LAYER == 'mysqli') {
@@ -257,7 +259,7 @@ class sql_db
             $this->num_queries++;
 			$this->query_result = @mysqli_query($this->db_connect_id, $query);
 		}
-		
+
 		if ($this->query_result)
 		{
 		    //Check query to clear cache?
@@ -297,105 +299,11 @@ class sql_db
 			return ( $transaction == END_TRANSACTION ) ? true : false;
 		}
 	}
-	
+
     function sql_uquery($query)
     {
         return $this->sql_query($query, true);
     }
-
-    /**
-	 * Performs a simple select query.
-	 *
-	 * @param string $table The table name to be queried.
-	 * @param string $fields Comma delimetered list of fields to be selected.
-	 * @param string $conditions SQL formatted list of conditions to be matched.
-	 * @param array $options List of options: group by, order by, order direction, limit, limit start.
-	 * @return mysqli_result The query data.
-	 */
-    function sql_simple_select($table, $fields="*", $conditions="", $options=array())
-	{
-		$query = "SELECT ".$fields." FROM ".$table;
-
-		if($conditions != "")
-		{
-			$query .= " WHERE ".$conditions;
-		}
-
-		if(isset($options['group_by']))
-		{
-			$query .= " GROUP BY ".$options['group_by'];
-		}
-
-		if(isset($options['order_by']))
-		{
-			$query .= " ORDER BY ".$options['order_by'];
-			if(isset($options['order_dir']))
-			{
-				$query .= " ".strtoupper($options['order_dir']);
-			}
-		}
-
-		if(isset($options['limit_start']) && isset($options['limit']))
-		{
-			$query .= " LIMIT ".$options['limit_start'].", ".$options['limit'];
-		}
-		else if(isset($options['limit']))
-		{
-			$query .= " LIMIT ".$options['limit'];
-		}
-
-		return $this->sql_query($query);
-	}
-
-	function sql_usimple_select($table, $fields="*", $conditions="", $options=array(), $type=SQL_BOTH)
-	{
-		$query = "SELECT ".$fields." FROM ".$table;
-
-		if($conditions != "")
-		{
-			$query .= " WHERE ".$conditions;
-		}
-
-		if(isset($options['group_by']))
-		{
-			$query .= " GROUP BY ".$options['group_by'];
-		}
-
-		if(isset($options['order_by']))
-		{
-			$query .= " ORDER BY ".$options['order_by'];
-			if(isset($options['order_dir']))
-			{
-				$query .= " ".strtoupper($options['order_dir']);
-			}
-		}
-
-		if(isset($options['limit_start']) && isset($options['limit']))
-		{
-			$query .= " LIMIT ".$options['limit_start'].", ".$options['limit'];
-		}
-		else if(isset($options['limit']))
-		{
-			$query .= " LIMIT ".$options['limit'];
-		}
-
-		// return $this->sql_query($query);
-		// $this->sql_fetchrow();
-		$query_id = $this->sql_query($query, true);
-        $result = $this->sql_fetchrow($query_id, $type);
-        $this->sql_freeresult($query_id);
-        return $result;
-	}
-
-	/*
-	function sql_ufetchrow($query = "", $type=SQL_BOTH)
-    {
-        $query_id = $this->sql_query($query, true);
-        $result = $this->sql_fetchrow($query_id, $type);
-        $this->sql_freeresult($query_id);
-        return $result;
-    }
-	*/
 
 	//
 	// Other query methods
@@ -589,7 +497,7 @@ class sql_db
     {
         return array('message' => @mysqli_error($this->db_connect_id), 'code' => @mysqli_errno($this->db_connect_id));
     }
-    function sql_ufetchrow($query = "", $type=SQL_BOTH)
+    function sql_ufetchrow( $query = '', $type = '')
     {
         $query_id = $this->sql_query($query, true);
         $result = $this->sql_fetchrow($query_id, $type);
@@ -644,7 +552,7 @@ class sql_db
         $this->sql_freeresult($result);
         return $databases;
     }
-    function sql_ufetchrowset($query = '', $type=SQL_BOTH)
+    function sql_ufetchrowset( $query = '', $type = '')
     {
         $query_id = $this->sql_query($query, true);
         return $this->sql_fetchrowset($query_id, $type);

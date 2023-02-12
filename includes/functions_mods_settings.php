@@ -110,7 +110,8 @@ function init_board_config($mod_name, $config_fields, $sub_name='', $sub_sort=0,
 {
 	global $mods;
 
-	@reset($config_fields);
+	reset( $config_fields );
+
 	// while ( list($config_key, $config_data) = each($config_fields) )
 	foreach( $config_fields as $config_key => $config_data )
 	{
@@ -129,8 +130,7 @@ function init_board_config($mod_name, $config_fields, $sub_name='', $sub_sort=0,
 		}
 
 		// deliever it for input only if not hidden
-		if (!$config_data['hide'])
-		{
+		if ( isset( $config_data['hide'] ) ) {
 			$mods[$menu_name]['data'][$mod_name]['data'][$sub_name]['data'][$config_key] = $config_data;
 
 			// sort values : overwrite only if not yet provided

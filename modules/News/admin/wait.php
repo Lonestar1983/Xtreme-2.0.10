@@ -25,7 +25,7 @@ global $admin_file, $db, $prefix, $cache;
 if(is_active('Submit_News')) {
     $content .= "<div align=\"left\"><strong><u><span class=\"content\">"._STORIES."</span>:</u></strong></div>";
     if(($numwaits = $cache->load('numwaits', 'submissions')) === false) {
-        list($numwaits) = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM ".$prefix."_queue"), SQL_NUM);
+        list($numwaits) = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM ".$prefix."_queue"));
         $cache->save('numwaits', 'submissions', $numwaits);
     }
     if (is_array($numwaits)) {

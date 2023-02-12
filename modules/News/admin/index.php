@@ -52,13 +52,9 @@ include_once(NUKE_INCLUDE_DIR.'nsnne_func.php');
 
 $ne_config = ne_get_configs();
 
-/*********************************************************/
-/* Story/News Functions                                  */
-/*********************************************************/
+$ok = get_query_var( 'ok', 'get', 'int', 0 );
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
+
 function topicicon($topic_icon) {
     echo "<br /><strong>"._DISPLAY_T_ICON."</strong>&nbsp;&nbsp;";
     if (($topic_icon == 0) OR (empty($topic_icon))) {
@@ -72,13 +68,7 @@ function topicicon($topic_icon) {
     echo "<input type=\"radio\" name=\"topic_icon\" value=\"0\" $sel1>"._YES."&nbsp;"
         ."<input type=\"radio\" name=\"topic_icon\" value=\"1\" $sel2>"._NO;
 }
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
 function writes($writes) {
     echo "<br /><strong>"._DISPLAY_WRITES."</strong>&nbsp;&nbsp;";
     if (($writes == 1) || (!is_int($writes))) {
@@ -91,9 +81,6 @@ function writes($writes) {
     echo "<input type=\"radio\" name=\"writes\" value=\"0\" $sel1>"._YES."&nbsp;"
         ."<input type=\"radio\" name=\"writes\" value=\"1\" $sel2>"._NO;
 }
-/*****[END]********************************************
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
 
 function puthome($ihome, $acomm) {
     echo "<br /><strong>"._PUBLISHINHOME."</strong>&nbsp;&nbsp;";
@@ -130,13 +117,7 @@ function deleteStory($qid) {
     if (!$result) {
         return;
     }
-/*****[BEGIN]******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
     $cache->delete('numwaits', 'submissions');
-/*****[END]********************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
     redirect($admin_file.".php?op=submissions");
 }
 
@@ -445,36 +426,23 @@ function autoEdit($anid) {
     global $aid, $bgcolor1, $bgcolor2, $prefix, $db, $multilingual, $admin_file, $module_name;
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
-    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'");
     $aaid = substr($aaid, 0,25);
     if (is_mod_admin($module_name)) {
     include(NUKE_BASE_DIR.'header.php');
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     $result = $db->sql_query("select catid, aid, title, time, hometext, bodytext, topic, informant, notes, ihome, alanguage, acomm, ticon, writes FROM ".$prefix."_autonews where anid='$anid'");
 
     list($catid, $aid, $title, $time, $hometext, $bodytext, $topic, $informant, $notes, $ihome, $alanguage, $acomm, $topic_icon, $writes) = $db->sql_fetchrow($result);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     $catid = intval($catid);
     $aid = substr($aid, 0,25);
     $informant = substr($informant, 0,25);
     $ihome = intval($ihome);
     $acomm = intval($acomm);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     $topic_icon = intval($topic_icon);
     $writes = intval($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $time, $datetime);
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
@@ -507,14 +475,8 @@ function autoEdit($anid) {
         $tsec = "0$tsec";
     }
     $date = "$tmonth $tday, $tyear @ $thour:$tmin:$tsec";
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
     echo "<center><span class=\"option\"><strong>"._AUTOSTORYEDIT."</strong></span></center><br /><br />"
         ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
     $title = stripslashes($title);
     $hometext = stripslashes($hometext);
     $bodytext = stripslashes($bodytext);
@@ -523,26 +485,17 @@ function autoEdit($anid) {
     list($topicimage) = $db->sql_fetchrow($result);
     echo "<table border=\"0\" width=\"75%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
         ."<table border=\"0\" width=\"100%\" cellpadding=\"8\" cellspacing=\"1\" bgcolor=\"$bgcolor1\"><tr><td>";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
+
         if ($topic_icon == 0) {
             echo "<img src=\"images/topics/$topicimage\" border=\"0\" align=\"right\" alt=\"\">";
         }
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     $hometext_bb = decode_bbcode(set_smilies(stripslashes($hometext)), 1, true);
     $bodytext_bb = decode_bbcode(set_smilies(stripslashes($bodytext)), 1, true);
     $hometext_bb = evo_img_tag_to_resize($hometext_bb);
     $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
     themepreview($subject, $hometext_bb, $bodytext_bb);
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     echo "</td></tr></table></td></tr></table>"
         ."<br /><br /><strong>"._TITLE."</strong><br />"
         ."<input type=\"text\" name=\"title\" size=\"50\" value=\"$title\"><br /><br />"
@@ -558,18 +511,12 @@ function autoEdit($anid) {
     echo "</select><br /><br />";
     $cat = $catid;
     SelectCategory($cat);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
     writes($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     echo "<br />";
     puthome($ihome, $acomm);
     if ($multilingual == 1) {
@@ -587,18 +534,14 @@ function autoEdit($anid) {
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"\">";
     }
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
-/*****[BEGIN]******************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
     Make_TextArea('hometext', $hometext, 'postnews');
     echo "<strong>"._EXTENDEDTEXT."</strong>";
     Make_TextArea('bodytext', $bodytext, 'postnews');
     echo "<span class=\"content\">"._ARESUREURL."</span><br /><br />";
-/*****[END]********************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     if ($aid != $informant) {
             echo "<strong>"._NOTES."</strong><br />
         <textarea style=\"wrap:virtual\" cols=\"50\" rows=\"4\" name=\"notes\">$notes</textarea><br /><br />";
@@ -691,19 +634,12 @@ function autoEdit($anid) {
     }
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
 function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) {
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     global $aid, $ultramode, $prefix, $db, $admin_file, $module_name;
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
-    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'");
     $aaid = substr($aaid, 0,25);
     if (is_mod_admin($module_name)) {
     if ($day < 10) {
@@ -718,15 +654,9 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
     $hometext = Fix_Quotes($hometext);
     $bodytext = Fix_Quotes($bodytext);
     $notes = Fix_Quotes($notes);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     $result = $db->sql_query("update ".$prefix."_autonews set catid='$catid', title='$title', time='$date', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', alanguage='$alanguage', acomm='$acomm', ticon='$topic_icon', writes='$writes' where anid='$anid'");
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     if (!$result) {
         exit();
     }
@@ -801,28 +731,17 @@ function displayStory($qid) {
     $story = stripslashes($story);
     $storyext = stripslashes($storyext);
 
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
     $storyext_bb = decode_bbcode(set_smilies(stripslashes($storyext)), 1, true);
     $story_bb = decode_bbcode(set_smilies(stripslashes($story)), 1, true);
     $storyext_bb = evo_img_tag_to_resize($storyext_bb);
     $story_bb = evo_img_tag_to_resize($story_bb);
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
 
     OpenTable();
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
     echo "<font class=\"content\">"
         ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
         ."<strong>"._NAME."</strong><br />"
         ."<input type=\"text\" NAME=\"author\" size=\"25\" value=\"$uname\">";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     if ($uname != $anonymous) {
         $res = $db->sql_query("select user_email from ".$user_prefix."_users where username='$uname'");
         list($email) = $db->sql_fetchrow($res);
@@ -837,22 +756,13 @@ function displayStory($qid) {
     list($topicimage) = $db->sql_fetchrow($result);
     echo "<table border=\"0\" width=\"70%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
         ."<table border=\"0\" width=\"100%\" cellpadding=\"8\" cellspacing=\"1\" bgcolor=\"$bgcolor1\"><tr><td>";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
+
         if ($topic_icon == 0) {
              echo "<img src=\"images/topics/$topicimage\" border=\"0\" align=\"right\" alt=\"\">";
         }
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     $storypre = "$story_bb<br /><br />$storyext_bb";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     themepreview($subject, $storypre);
     echo "</td></tr></table></td></tr></table>"
         ."<br /><strong>"._TOPIC."</strong> <select name=\"topic\">";
@@ -883,18 +793,12 @@ function displayStory($qid) {
     }
     echo "</tr></table></td></tr></table><br /><br />";
     SelectCategory($cat);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
     writes($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     echo "<br />";
     puthome($ihome, $acomm);
     if ($multilingual == 1) {
@@ -912,18 +816,14 @@ function displayStory($qid) {
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"\">";
     }
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
-/*****[BEGIN]******************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
     Make_TextArea('hometext', $story, 'postnews');
     echo "<strong>"._EXTENDEDTEXT."</strong>";
     Make_TextArea('bodytext', $storyext, 'postnews');
     echo "<span class=\"content\">"._ARESUREURL."</span><br /><br />";
-/*****[END]********************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     echo "<span class=\"content\">"._AREYOUSURE."</span><br /><br />"
         ."<strong>"._NOTES."</strong><br />"
         ."<textarea style=\"wrap:virtual\" cols=\"50\" rows=\"4\" name=\"notes\"></textarea><br />"
@@ -997,15 +897,9 @@ function displayStory($qid) {
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
 function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     global $user, $admin_file, $boxstuff, $anonymous, $bgcolor1, $bgcolor2, $user_prefix, $prefix, $db, $multilingual, $Version_Num;
     include(NUKE_BASE_DIR.'header.php');
     OpenTable();
@@ -1043,16 +937,12 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
     $bodytext = stripslashes($bodytext);
     $notes = stripslashes($notes);
     OpenTable();
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     echo "<font class=\"content\">"
         ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
         ."<strong>"._NAME."</strong><br />"
         ."<input type=\"text\" name=\"author\" size=\"25\" value=\"$author\">";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     if ($author != $anonymous) {
         $res = $db->sql_query("select user_id, user_email from ".$user_prefix."_users where username='$author'");
         list($pm_userid, $email) = $db->sql_fetchrow($res);
@@ -1065,26 +955,18 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
     list($topicimage) = $db->sql_fetchrow($result);
     echo "<table width=\"70%\" bgcolor=\"$bgcolor2\" cellpadding=\"0\" cellspacing=\"1\" border=\"0\"align=\"center\"><tr><td>"
         ."<table width=\"100%\" bgcolor=\"$bgcolor1\" cellpadding=\"8\" cellspacing=\"1\" border=\"0\"><tr><td>";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
+
         if ($topic_icon == 0) {
             echo "<img src=\"images/topics/$topicimage\" border=\"0\" align=\"right\" alt=\"\">";
         }
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
+
     $bodytext_bb = decode_bbcode(set_smilies(stripslashes($bodytext)), 1, true);
     $hometext_bb = decode_bbcode(set_smilies(stripslashes($hometext)), 1, true);
     $hometext_bb = evo_img_tag_to_resize($hometext_bb);
     $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
     themepreview($subject, $hometext_bb, $bodytext_bb, $notes);
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     echo "</td></tr></table></td></tr></table>"
         ."<br /><strong>"._TOPIC."</strong> <select name=\"topic\">";
     $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
@@ -1128,18 +1010,10 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
     // Copyright (c) 2000-2005 by NukeScripts Network
     $cat = $catid;
     SelectCategory($cat);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
     writes($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     echo "<br />";
     puthome($ihome, $acomm);
     if ($multilingual == 1) {
@@ -1156,29 +1030,19 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
     } else {
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
     }
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
-/*****[BEGIN]******************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
     Make_TextArea('hometext', $hometext, 'postnews');
     echo "<strong>"._EXTENDEDTEXT."</strong>";
     Make_TextArea('bodytext', $bodytext, 'postnews');
     echo "<span class=\"content\">"._ARESUREURL."</span><br /><br />";
-/*****[END]********************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     echo "<strong>"._NOTES."</strong><br />"
         ."<textarea style=\"wrap:virtual\" cols=\"50\" rows=\"4\" name=\"notes\">$notes</textarea><br /><br />"
         ."<input type=\"hidden\" NAME=\"qid\" size=\"50\" value=\"$qid\">"
         ."<input type=\"hidden\" NAME=\"uid\" size=\"50\" value=\"$uid\">";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     if ($automated == 1) {
         $sel1 = "checked";
         $sel2 = "";
@@ -1262,15 +1126,8 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
 function postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
     global $aid, $admin_file, $ultramode, $prefix, $db, $user_prefix, $Version_Num, $ne_config, $adminmail, $sitename, $nukeurl, $cache;
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) { for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; }  }
@@ -1291,16 +1148,8 @@ function postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $au
         $hometext = Fix_Quotes($hometext);
         $bodytext = Fix_Quotes($bodytext);
         $notes = Fix_Quotes($notes);
-        // Copyright (c) 2000-2005 by NukeScripts Network
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $new_sql  = "insert into ".$prefix."_autonews values (NULL, '$catid', '$aid', '$subject', '$date', '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome', '$alanguage', '$acomm', '$topic_icon', '$writes'";
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
         $new_sql .= ", '$associated'";
         $new_sql .= ")";
         $result = $db->sql_query($new_sql);
@@ -1334,13 +1183,9 @@ function postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $au
         if ($ultramode) { ultramode(); }
         $qid = intval($qid);
         $db->sql_query("delete from ".$prefix."_queue where qid='$qid'");
-/*****[BEGIN]******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
+
         $cache->delete('numwaits', 'submissions');
-/*****[END]********************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
+
         redirect($admin_file.".php?op=submissions");
     } else {
         if ($uid == 1) $author = "";
@@ -1414,7 +1259,7 @@ function editStory($sid) {
     global $user, $admin_file, $bgcolor1, $bgcolor2, $aid, $prefix, $db, $multilingual, $Version_Num, $module_name;
     $aid = substr($aid, 0,25);
     $sid = intval($sid);
-    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'");
     $aaid = substr($aaid, 0,25);
     if (is_mod_admin($module_name)) {
         include(NUKE_BASE_DIR.'header.php');
@@ -1428,16 +1273,10 @@ function editStory($sid) {
         echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
         CloseTable();
         echo "<br />";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
         $result = $db->sql_query("SELECT catid, title, hometext, bodytext, topic, notes, ihome, alanguage, acomm, ticon, writes, aid, informant, time, sid FROM ".$prefix."_stories where sid='$sid'");
         list($catid, $subject, $hometext, $bodytext, $topic, $notes, $ihome, $alanguage, $acomm, $topic_icon, $writes, $aid, $informant, $time, $sid) = $db->sql_fetchrow($result);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
         $catid = intval($catid);
         $subject = stripslashes($subject);
         $hometext = stripslashes($hometext);
@@ -1446,23 +1285,13 @@ function editStory($sid) {
         $ihome = intval($ihome);
         $acomm = intval($acomm);
         $aid = $aid;
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $topic_icon = intval($topic_icon);
         $writes = intval($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $result2=$db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
         list($topicimage) = $db->sql_fetchrow($result2);
         OpenTable();
         echo "<center><span class=\"option\"><strong>"._EDITARTICLE."</strong></span></center><br />";
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
         $hometext_bb = decode_bbcode(set_smilies(stripslashes(nl2br($hometext))), 1, true);
         $bodytext_bb = decode_bbcode(set_smilies(stripslashes(nl2br($bodytext))), 1, true);
         $hometext_bb = evo_img_tag_to_resize($hometext_bb);
@@ -1482,9 +1311,7 @@ function editStory($sid) {
             ."<strong>"._TITLE."</strong><br />"
             ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />"
             ."<strong>"._TOPIC."</strong> <select name=\"topic\">";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
         $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
         echo "<option value=\"\">"._ALLTOPICS."</option>\n";
         while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) {
@@ -1527,18 +1354,12 @@ function editStory($sid) {
         // Copyright (c) 2000-2005 by NukeScripts Network
         $cat = $catid;
         SelectCategory($cat);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
        echo '<br />';
        topicicon($topic_icon);
        echo '<br />';
        writes($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
         echo "<br />";
         puthome($ihome, $acomm);
         if ($multilingual == 1) {
@@ -1556,17 +1377,13 @@ function editStory($sid) {
             echo "<input type=\"hidden\" name=\"alanguage\" value=\"\">";
         }
         echo "<br /><br /><strong>"._STORYTEXT."</strong>";
-/*****[BEGIN]******************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
     Make_TextArea('hometext', $hometext, 'postnews');
     echo "<strong>"._EXTENDEDTEXT."</strong>";
     Make_TextArea('bodytext', $bodytext, 'postnews');
-/*****[END]********************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
         echo "<span class=\"content\">"._AREYOUSURE."</span><br /><br />"
             ."<strong>"._NOTES."</strong><br />"
             ."<textarea style=\"wrap:virtual\" cols=\"50\" rows=\"4\" name=\"notes\">$notes</textarea><br /><br />"
@@ -1597,11 +1414,11 @@ function editStory($sid) {
     }
 }
 
-function removeStory($sid, $ok=0) {
+function removeStory($sid, $ok = 0) {
     global $ultramode, $aid, $prefix, $db, $admin_file, $module_name;
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
-    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'");
     $aaid = substr($aaid, 0,25);
     if (is_mod_admin($module_name)) {
         if($ok) {
@@ -1653,22 +1470,15 @@ function removeStory($sid, $ok=0) {
     }
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
 function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) {
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     global $aid, $ultramode, $prefix, $db, $Version_Num, $admin_file, $module_name;
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($version_Num >= 6.6) { for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; } }
     // Copyright (c) 2000-2005 by NukeScripts Network
     $sid = intval($sid);
     $aid = substr($aid, 0,25);
-    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
+    list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'");
     $aaid = substr($aaid, 0,25);
     if (is_mod_admin($module_name)) {
         $subject = Fix_Quotes($subject);
@@ -1677,15 +1487,9 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
         $notes = Fix_Quotes($notes);
         $topic = (empty($topic)) ? '1' : $topic;
         // Copyright (c) 2000-2005 by NukeScripts Network
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
         $db->sql_query("update ".$prefix."_stories set catid='$catid', title='$subject', hometext='$hometext', bodytext='$bodytext', topic='$topic', notes='$notes', ihome='$ihome', alanguage='$alanguage', acomm='$acomm', ticon='$topic_icon', writes='$writes' where sid='$sid'");
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
+
         $db->sql_query("update ".$prefix."_stories set associated='$associated' where sid='$sid'");
         // Copyright (c) 2000-2005 by NukeScripts Network
         if ($ultramode) { ultramode(); }
@@ -1719,10 +1523,8 @@ function adminStory() {
     CloseTable();
 
     echo "<br />";
-/*****[BEGIN]******************************************
- [ Other:    News Fix                          v1.0.0 ]
- ******************************************************/
-    OpenTable();    
+
+    OpenTable();
     echo "<center><strong>"._LAST." 20 "._ARTICLES."</strong></center><br />";
     $result6 = $db->sql_query("SELECT sid, aid, title, time, topic, informant, alanguage FROM ".$prefix."_stories ORDER BY time DESC LIMIT 0,20");
     echo "<center><table border=\"1\" width=\"100%\">";
@@ -1779,7 +1581,7 @@ function adminStory() {
         $queryalang = "";
     }
 
-    if (is_active("News")) 
+    if (is_active("News"))
     {
         OpenTable();
         echo "<center><strong>"._AUTOMATEDARTICLES."</strong></center><br />";
@@ -1818,9 +1620,7 @@ function adminStory() {
         CloseTable();
         echo "<br />";
     }
-/*****[END]********************************************
- [ Other:    News Fix                          v1.0.0 ]
- ******************************************************/
+
     $today = getdate();
     $tday = $today['mday'];
     if ($tday < 10){ $tday = "0$tday"; }
@@ -1836,17 +1636,13 @@ function adminStory() {
     if ($tsec < 10){ $tsec = "0$tsec"; }
     $date = "$tmonth $tday, $tyear @ $thour:$tmin:$tsec";
     OpenTable();
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     echo "<center><span class=\"option\"><strong>"._ADDARTICLE."</strong></span></center><br /><br />"
             ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
         ."<strong>"._TITLE."</strong><br />"
         ."<input type=\"text\" name=\"subject\" size=\"50\"><br /><br />"
         ."<strong>"._TOPIC."</strong> ";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
     echo "<select name=\"topic\">";
     echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
@@ -1881,18 +1677,10 @@ function adminStory() {
     $cat = 0;
     SelectCategory($cat);
     echo "<br />";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     topicicon('');
     echo '<br />';
     writes('');
     echo '<br />';
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     puthome('', '');
     if ($multilingual == 1) {
         echo "<br /><strong>"._LANGUAGE.": </strong>"
@@ -1909,17 +1697,11 @@ function adminStory() {
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
     }
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
-/*****[BEGIN]******************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
     Make_TextArea('hometext', '', 'postnews');
     echo "<strong>"._EXTENDEDTEXT."</strong>";
     Make_TextArea('bodytext', '', 'postnews');
-/*****[END]********************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
     echo "<span class=\"content\">"._ARESUREURL."</span>"
         ."<br /><br /><strong>"._PROGRAMSTORY."</strong>&nbsp;&nbsp;"
         ."<input type=radio name=automated value=1>"._YES." &nbsp;&nbsp;"
@@ -1988,15 +1770,7 @@ function adminStory() {
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
 function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     global $user, $admin_file, $bgcolor1, $bgcolor2, $prefix, $db, $alanguage, $multilingual, $Version_Num;
     include(NUKE_BASE_DIR.'header.php');
     if ($topic<1) {
@@ -2025,24 +1799,18 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
     if ($tsec < 10){ $tsec = "0$tsec"; }
     $date = "$tmonth $tday, $tyear @ $thour:$tmin:$tsec";
     OpenTable();
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     echo "<center><span class=\"option\"><strong>"._PREVIEWSTORY."</strong></span></center><br /><br />"
         ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
         ."<input type=\"hidden\" name=\"catid\" value=\"$catid\">";
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     $subject = stripslashes($subject);
     $subject = str_replace("\"", "''", $subject);
     $hometext = stripslashes($hometext);
     $bodytext = stripslashes($bodytext);
     $result=$db->sql_query("select topicimage, topicname, topictext  from ".$prefix."_topics where topicid='$topic'");
     list($topicimage, $topicname, $topictext) = $db->sql_fetchrow($result);
-/*****[BEGIN]******************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     $hometext_bb = decode_bbcode(set_smilies(stripslashes($hometext)), 1, true);
     $bodytext_bb = decode_bbcode(set_smilies(stripslashes($bodytext)), 1, true);
     $hometext_bb = evo_img_tag_to_resize($hometext_bb);
@@ -2056,9 +1824,7 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
     }
     $informant = UsernameColor($informant);
     themearticle($aid, $informant, $time, $subject, $hometext_bb, $topic, $topicname, $topicimage, $topictext);
-/*****[END]********************************************
- [ Mod:     News BBCodes                       v1.0.0 ]
- ******************************************************/
+
     echo "<br /><br /><strong>"._TITLE."</strong><br />"
         ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />"
         ."<strong>"._TOPIC."</strong><select name=\"topic\">";
@@ -2101,18 +1867,10 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
     // Copyright (c) 2000-2005 by NukeScripts Network
     $cat = $catid;
     SelectCategory($cat);
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     echo '<br />';
     topicicon($topic_icon);
     echo '<br />';
     writes($writes);
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     echo "<br />";
     puthome($ihome, $acomm);
     if ($multilingual == 1) {
@@ -2130,17 +1888,13 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
     }
     echo "<br /><br /><strong>"._STORYTEXT."</strong>";
-/*****[BEGIN]******************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
     Make_TextArea('hometext', $hometext, 'postnews');
     echo "<strong>"._EXTENDEDTEXT."</strong>";
     Make_TextArea('bodytext', $bodytext, 'postnews');
-/*****[END]********************************************
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+
     if ($automated == 1) {
         $sel1 = "checked";
         $sel2 = "";
@@ -2223,15 +1977,7 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
     include(NUKE_BASE_DIR.'footer.php');
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
 function postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
     global $ultramode, $aid, $prefix, $db, $Version_Num, $admin_file;
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) { for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; } }
@@ -2255,15 +2001,7 @@ function postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, 
         // Copyright (c) 2000-2005 by NukeScripts Network
         $new_sql  = "insert into ".$prefix."_autonews values (NULL, '$catid', '$aid', '$subject', '$date', '$hometext', '$bodytext', '$topic', '$author', '$notes', '$ihome', '$alanguage', '$acomm'";
         $new_sql .= ", '$associated'";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $new_sql .= ", '$topic_icon', '$writes')";
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $result = $db->sql_query($new_sql);
         // Copyright (c) 2000-2005 by NukeScripts Network
         if (!$result) { exit(); }
@@ -2302,15 +2040,7 @@ function postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, 
         // Copyright (c) 2000-2005 by NukeScripts Network
         $new_sql  = "insert into ".$prefix."_stories values (NULL, '$catid', '$aid', '$subject', now(), '$hometext', '$bodytext', '0', '0', '$topic', '$aid', '$notes', '$ihome', '$alanguage', '$acomm', '$haspoll', '$id', '0', '0'";
         $new_sql .= ", '$associated'";
-/*****[BEGIN]******************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $new_sql .= ", '$topic_icon', '$writes')";
-/*****[END]********************************************
- [ Mod:    Display Topic Icon                  v1.0.0 ]
- [ Mod:    Display Writes                      v1.0.0 ]
- ******************************************************/
         $result = $db->sql_query($new_sql);
         // Copyright (c) 2000-2005 by NukeScripts Network
         $result = $db->sql_query("select sid from ".$prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
@@ -2355,12 +2085,7 @@ function submissions() {
             while (list($qid, $uid, $uname, $subject, $timestamp, $alanguage) = $db->sql_fetchrow($result)) {
                 $qid = intval($qid);
                 $uid = intval($uid);
-                /*
-                $hour = "AM";
-                preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $timestamp, $datetime);
-                if ($datetime[4] > 12) { $datetime[4] = $datetime[4]-12; $hour = "PM"; }
-                $datetime = date(""._DATESTRING."", mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
-                */
+
                 echo "<tr>\n";
                 echo "<td width=\"100%\"><span class=\"content\">\n";
                 if (empty($subject)) {
@@ -2375,14 +2100,8 @@ function submissions() {
                         echo "</td><td align=\"center\"><font size=\"2\">&nbsp;$alanguage&nbsp;</font>\n";
                 }
                 if ($uname != $anonymous) {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
                         $uname_color = UsernameColor($uname);
                         echo "</td><td align=\"center\" nowrap><font size=\"2\">&nbsp;<a href='modules.php?name=Your_Account&op=userinfo&username=$uname'>$uname_color</a>&nbsp;</font>\n";
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
                 } else {
                         echo "</td><td align=\"center\" nowrap><font size=\"2\">&nbsp;$uname&nbsp;</font>\n";
                 }
@@ -2408,13 +2127,7 @@ function submissions() {
 function subdelete() {
     global $prefix, $db, $admin_file, $cache;
     $db->sql_query("delete from ".$prefix."_queue");
-/*****[BEGIN]******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
     $cache->delete('numwaits', 'submissions');
-/*****[END]********************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
     redirect($admin_file.".php?op=adminStory");
 }
 
@@ -2489,7 +2202,7 @@ switch($op) {
     break;
 
     case "RemoveStory":
-    removeStory($sid, $ok);
+    removeStory( $sid, $ok );
     break;
 
     case "ChangeStory":
@@ -2509,7 +2222,7 @@ switch($op) {
     break;
 
     case "adminStory":
-    adminStory($sid);
+    adminStory();
     break;
 
     case "PreviewAdminStory":

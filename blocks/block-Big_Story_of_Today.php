@@ -41,7 +41,7 @@ if ($month < 10) {
 }
 $year = $today['year'];
 $tdate = "$year-$month-$day";
-list($sid, $title) = $db->sql_ufetchrow("SELECT sid, title FROM ".$prefix."_stories WHERE (time LIKE '%$tdate%') $querylang ORDER BY counter DESC LIMIT 0,1", SQL_NUM);
+list($sid, $title) = $db->sql_ufetchrow("SELECT sid, title FROM ".$prefix."_stories WHERE (time LIKE '%$tdate%') $querylang ORDER BY counter DESC LIMIT 0,1");
 $fsid = intval($sid);
 $ftitle = stripslashes($title);
 $content = "<span class=\"content\">";

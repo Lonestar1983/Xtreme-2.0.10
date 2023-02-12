@@ -51,6 +51,8 @@ require_once(NUKE_ADMIN_DIR.'functions.php');
 
 global $sitename, $currentlang, $domain, $admin_file, $identify;
 
+$op = get_query_var( 'op', 'request', 'string' );
+
 // if(isset($aid) && ($aid) && (!isset($admin) || empty($admin)) && $op != 'login'){
 if( $op!='login' && ((isset($aid) && ($aid)) && (!isset($admin) || empty($admin))) ) {
     unset($aid, $admin);
@@ -67,7 +69,7 @@ include(NUKE_BASE_DIR.'ips.php');
 
 if (isset($ips) && is_array($ips)){
     $ip_check = implode('|^',$ips);
-	
+
     if (!preg_match("/^".$ip_check."/",$identify->get_ip())){
         unset($aid);
         unset($admin);
@@ -109,7 +111,7 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
  ******************************************************/
         redirect($admin_file.".php");
     }
-	
+
     if (!empty($aid) AND !empty($pwd)){
         $txt_pwd = $pwd;
 /*****[BEGIN]******************************************
@@ -122,22 +124,22 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
  ******************************************************/
         $admlanguage = addslashes(get_admin_field('admlanguage', $aid));
         $rpwd = get_admin_field('pwd', $aid);
-		
+
         // Un-evocrypt
         if ($evo_crypt == $rpwd){
             $db->sql_query("UPDATE `".$prefix."_authors` SET `pwd`='".$pwd."' WHERE `aid`='".$aid."'");
             $rpwd = get_admin_field('pwd', $aid);
         }
-		
+
         if($rpwd == $pwd && !empty($rpwd)){
 /*****[BEGIN]******************************************
  [ Mod:    Persistent Admin Login              v2.0.0 ]
  ******************************************************/
             $persistent = intval($persistent);
-			
+
 			$superadmin = get_admin_field('radminsuper', $aid);
 			// $layouttype = ($superadmin == 0) ? 'old' : 'new';
-			
+
             // $admin = base64_encode("$aid:$pwd:$admlanguage:$persistent:$layouttype");
             $admin = base64_encode("$aid:$pwd:$admlanguage:$persistent");
             $time = (intval($admin1[3])) ? 43200 : 60;
@@ -151,8 +153,8 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
  ******************************************************/
             unset($txt_pwd);
             redirect($_SERVER['REQUEST_URI']);
-        } 
-        else 
+        }
+        else
         {
             log_write('admin', 'Attempted to login with "' . $aid . '"/"' . $txt_pwd . '" but failed', 'Security Breach');
             unset($txt_pwd);
@@ -199,7 +201,7 @@ if (isset($admin) && !empty($admin) && (!isset($admin1) || !is_array($admin1))){
     $aid = addslashes($admin1[0]);
     $pwd = $admin1[1];
     $admlanguage = (isset($admin1[2])) ? $admin1[2] : 'english';
-	
+
     if (empty($aid) OR empty($pwd)){
         $admintest = false;
 /*****[BEGIN]******************************************
@@ -211,9 +213,9 @@ if (isset($admin) && !empty($admin) && (!isset($admin1) || !is_array($admin1))){
  ******************************************************/
         die('Illegal Operation');
     }
-	
+
     $aid = substr($aid, 0,25);
-	
+
     if (!($admdata = get_admin_field('*', $aid))){
         die('Selection from database failed!');
     } else {
@@ -240,7 +242,7 @@ if (isset($admin) && !empty($admin) && (!isset($admin1) || !is_array($admin1))){
  ******************************************************/
         }
     }
-	
+
     unset($admin1);
 }
 
@@ -254,13 +256,13 @@ if ($admintest){
 // Force Cookie Reset
 if (!isset($admincookie[4]) && $admintest){
 	$cookieData = base64_encode("$admincookie[0]:$admincookie[1]:$admincookie[2]:$admincookie[3]:old");
-	
+
 	if (defined('SSL_MODE')){
 		setcookie('admin', $cookieData, time()+2592000, "", "", 1);
 	} else {
 		setcookie('admin', $cookieData, time()+2592000);
 	}
-	
+
 	redirect($admin_file.'.php');
 	exit;
 }
@@ -328,7 +330,7 @@ if ($admintest){
             closedir($casedir);
 
             $result = $db->sql_query("SELECT title FROM ".$prefix."_modules ORDER BY title ASC");
-            while(list($mod_title) = $db->sql_fetchrow($result,SQL_BOTH)){
+            while(list($mod_title) = $db->sql_fetchrow($result)){
                 if (is_mod_admin($mod_title) && (file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/index.php') AND file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/links.php') AND file_exists(NUKE_MODULES_DIR.$mod_title.'/admin/case.php'))){
                      include(NUKE_MODULES_DIR.$mod_title.'/admin/case.php');
                 }
@@ -339,13 +341,13 @@ if ($admintest){
              * Themes administration
              */
             $result = $db->sql_query("SELECT theme_name FROM ".$prefix."_themes ORDER BY theme_name ASC");
-            while(list($themes_name) = $db->sql_fetchrow($result,SQL_BOTH)){
+            while(list($themes_name) = $db->sql_fetchrow($result)){
                 if (is_mod_admin($themes_name) && (file_exists(NUKE_THEMES_DIR.$themes_name.'/admin/index.php') AND file_exists(NUKE_THEMES_DIR.$themes_name.'/admin/links.php') AND file_exists(NUKE_THEMES_DIR.$themes_name.'/admin/case.php'))){
                      include(NUKE_THEMES_DIR.$themes_name.'/admin/case.php');
                 }
             }
             $db->sql_freeresult($result);
-            
+
         break;
     }
 } else {

@@ -25,46 +25,46 @@
 
 /*****[CHANGES]**********************************************************
 -=[Mod]=-
-      Recent Topics                            v1.2.4       06/11/2005
-      Global Announcements                     v1.2.8       06/13/2005
-      Select Expand BBcodes                    v1.3.0       06/14/2005
-      Force Word Wrapping - Configurator       v1.0.16      06/15/2005
-      Topic Cement                             v1.0.3       06/15/2005
-      Cache phpBB version in ACP               v1.0.0       06/15/2005
-      Search Only Subject                      v0.9.1       06/15/2005
-      Resize Posted Images                     v2.4.5       06/15/2005
-      View/Disable Avatars/Signatures          v1.1.2       06/16/2005
-      Signature Editor/Preview Deluxe          v1.0.0       06/22/2005
-      Separate Announcements & Sticky          v2.0.0a      06/24/2005
-      Staff Site                               v2.0.3       06/24/2005
-      Better Session Handling                  v1.0.0       06/25/2005
-      Forum Statistics                         v1.2.2       06/25/2005
-      Disable Board Admin Override             v0.1.1       07/06/2005
-      Memberlist Find User                     v1.0.0       07/06/2005
-      PHP Syntax Highlighter BBCode            v3.0.7       07/10/2005
-      Theme Simplifications                    v1.0.0       07/19/2005
-      Limit smilies per post                   v1.0.2       07/24/2005
-      YA Merge                                 v1.0.0       07/28/2005
-      User Administration Link on Profile      v1.0.0       07/29/2005
-      Move Message - Merge AddOn               v1.0.0       07/30/2005
-      Must first vote to see results           v1.0.0       08/03/2005
-      Log Moderator Actions                    v1.1.6       08/06/2005
-      XData                                    v1.0.3       02/08/2007
-      At a Glance Options                      v1.0.0       08/17/2005
-      Extended Quote Tag                       v1.0.0       08/17/2005
-      At a Glance Cement                       v1.0.0       08/17/2005
-      Online Time                              v1.0.0       08/21/2005
-      Quick Search                             v3.0.1       08/23/2005
-      Hide Images and Links                    v1.0.0       08/30/2005
-      Report Posts                             v1.2.3       08/30/2005
-      Show Groups                              v1.0.1       09/02/2005
-      Hide Images                              v1.0.0       09/02/2005
-      Super Quick Reply                        v1.3.2       09/08/2005
-      Log Actions Mod - Topic View             v2.0.0       09/18/2005
-      Advanced BBCode Box                      v5.0.0a      11/16/2005
-      Remote Avatar Resize                     v1.1.4       11/19/2005
-      Online/Offline/Hidden                    v2.2.7       01/24/2006
-      Auto Group                               v1.2.2       11/06/2006
+	  Recent Topics                            v1.2.4       06/11/2005
+	  Global Announcements                     v1.2.8       06/13/2005
+	  Select Expand BBcodes                    v1.3.0       06/14/2005
+	  Force Word Wrapping - Configurator       v1.0.16      06/15/2005
+	  Topic Cement                             v1.0.3       06/15/2005
+	  Cache phpBB version in ACP               v1.0.0       06/15/2005
+	  Search Only Subject                      v0.9.1       06/15/2005
+	  Resize Posted Images                     v2.4.5       06/15/2005
+	  View/Disable Avatars/Signatures          v1.1.2       06/16/2005
+	  Signature Editor/Preview Deluxe          v1.0.0       06/22/2005
+	  Separate Announcements & Sticky          v2.0.0a      06/24/2005
+	  Staff Site                               v2.0.3       06/24/2005
+	  Better Session Handling                  v1.0.0       06/25/2005
+	  Forum Statistics                         v1.2.2       06/25/2005
+	  Disable Board Admin Override             v0.1.1       07/06/2005
+	  Memberlist Find User                     v1.0.0       07/06/2005
+	  PHP Syntax Highlighter BBCode            v3.0.7       07/10/2005
+	  Theme Simplifications                    v1.0.0       07/19/2005
+	  Limit smilies per post                   v1.0.2       07/24/2005
+	  YA Merge                                 v1.0.0       07/28/2005
+	  User Administration Link on Profile      v1.0.0       07/29/2005
+	  Move Message - Merge AddOn               v1.0.0       07/30/2005
+	  Must first vote to see results           v1.0.0       08/03/2005
+	  Log Moderator Actions                    v1.1.6       08/06/2005
+	  XData                                    v1.0.3       02/08/2007
+	  At a Glance Options                      v1.0.0       08/17/2005
+	  Extended Quote Tag                       v1.0.0       08/17/2005
+	  At a Glance Cement                       v1.0.0       08/17/2005
+	  Online Time                              v1.0.0       08/21/2005
+	  Quick Search                             v3.0.1       08/23/2005
+	  Hide Images and Links                    v1.0.0       08/30/2005
+	  Report Posts                             v1.2.3       08/30/2005
+	  Show Groups                              v1.0.1       09/02/2005
+	  Hide Images                              v1.0.0       09/02/2005
+	  Super Quick Reply                        v1.3.2       09/08/2005
+	  Log Actions Mod - Topic View             v2.0.0       09/18/2005
+	  Advanced BBCode Box                      v5.0.0a      11/16/2005
+	  Remote Avatar Resize                     v1.1.4       11/19/2005
+	  Online/Offline/Hidden                    v2.2.7       01/24/2006
+	  Auto Group                               v1.2.2       11/06/2006
 	  Member Country Flags                     v2.0.7
 	  Multiple Ranks And Staff View            v2.0.3
 	  Forumtitle as Weblink                    v1.2.2
@@ -78,7 +78,7 @@
 	  Admin User Notes                         v1.0.0       05/28/2009
 	  Related Topics                           v0.1.2       05/28/2009
 	  Arcade                                   v3.0.2       05/29/2009
-        Who viewed a topic                       v1.0.3
+		Who viewed a topic                       v1.0.3
  ************************************************************************/
 
 //
@@ -191,7 +191,7 @@ $lang['FACEBOOK_PROFILE'] = 'Facebook';
 $lang['Visit_facebook'] = 'Visit user\'s Facebook';
 /*****[END]********************************************
  [ Mod:     Facebook Profile Mod               v1.0.0 ]
- ******************************************************/ 
+ ******************************************************/
 
 /**
  * @since 2.0.9e
@@ -1368,7 +1368,7 @@ $lang['Board_Currently_Disabled'] = 'Board is currently disabled';
  ******************************************************/
 $lang['Look_up_User'] = 'Look up User';
 /*****[END]********************************************
- [ Mod:    Memberlist Find User                v1.0.0 ] 
+ [ Mod:    Memberlist Find User                v1.0.0 ]
  ******************************************************/
 
 /*****[BEGIN]******************************************
@@ -1672,7 +1672,7 @@ $lang['Rank5_title'] = 'Rank 5 Title';
 
 /*****[BEGIN]******************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
- ******************************************************/ 
+ ******************************************************/
 $lang['Forum_link_count'] = 'Link was visited %s times.';
 /*****[END]********************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
@@ -1681,10 +1681,10 @@ $lang['Forum_link_count'] = 'Link was visited %s times.';
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
-$lang['Gender'] = 'Gender';//used in users profile to display witch gender he/she is 
-$lang['Male'] = 'Male'; 
-$lang['Female']='Female'; 
-$lang['No_gender_specify'] = 'None Specified'; 
+$lang['Gender'] = 'Gender';//used in users profile to display witch gender he/she is
+$lang['Male'] = 'Male';
+$lang['Female']='Female';
+$lang['No_gender_specify'] = 'None Specified';
 /*****[END]********************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/
@@ -1813,35 +1813,31 @@ $lang['Message_too_long'] = 'The message you entered is too long.';
 /*****[END]********************************************
  [ Mod:     Email topic to friend              v1.0.0 ]
  ******************************************************/
- 
+
 /*****[BEGIN]******************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
 $lang['Admin_notes'] = 'Admin User Notes';
 /*****[END]********************************************
  [ Mod:    Admin User Notes                    v1.0.0 ]
- ******************************************************/ 
- 
+ ******************************************************/
+
 /*****[BEGIN]******************************************
  [ Mod:     Related Topics                      v0.12 ]
 ******************************************************/
 $lang['Related_topics'] = 'Related topics';
 /*****[END]********************************************
  [ Mod:     Related Topics                      v0.12 ]
- ******************************************************/ 
-
-/*****[START]******************************************
- [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
+
+
 $lang['Topic_view_users'] = 'List users that have viewed this topic';
 $lang['Topic_time'] = 'Last viewed';
 $lang['Topic_count'] = 'View count';
 $lang['Topic_view_count'] = 'Topic view count';
-/*****[END]********************************************
- [ Base:    Who viewed a topic                 v1.0.3 ]
- ******************************************************/
 
-//
-// That's all, Folks!
-// -------------------------------------------------
-?>
+$lang['By'] = "By";
+$lang['In'] = "in";
+$lang['On'] = "on";
+
+$lang['Zero_reputation'] = 'No Reputation';

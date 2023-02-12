@@ -1616,7 +1616,15 @@ function word_wrap_pass($message)
         }
         else
         {
-            addWrap($curChar,$message[$num+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
+            addWrap(
+                $curChar,
+                isset( $message[ $num + 1 ] ) ? $message[ $num + 1 ] : $message,
+                $userdata['user_wordwrap'],
+                $finalText,
+                $tempText,
+                $curCount,
+                $tempCount
+            );
         }
     }
 

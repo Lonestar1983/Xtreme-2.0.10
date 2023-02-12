@@ -45,7 +45,7 @@ if (is_mod_admin()) {
             global $db, $prefix, $admlang;
             $groups = array(0=>$admlang['global']['all_members'], 1=>$admlang['newsletter']['subscribed'], 2=>$admlang['global']['administrators']);
             $groupsResult = $db->sql_query("SELECT group_id, group_name FROM ".$prefix."_bbgroups WHERE group_single_user=0");
-            while (list($groupID, $groupName) = $db->sql_fetchrow($groupsResult, SQL_NUM)) {
+            while (list($groupID, $groupName) = $db->sql_fetchrow($groupsResult)) {
                 $groups[($groupID+2)] = $groupName;
             }
         }
@@ -96,7 +96,7 @@ if (is_mod_admin()) {
         $recipients = array();
         $result = $db->sql_query($query, true);
         set_time_limit(0);
-        while (list($u_name, $u_email) = $db->sql_fetchrow($result, SQL_NUM)) {
+        while (list($u_name, $u_email) = $db->sql_fetchrow($result)) {
             $recipients[$u_name] = $u_email;
         }
         if (empty($recipients) || count($recipients) < 1) {
@@ -121,7 +121,7 @@ if (is_mod_admin()) {
         } elseif ($group > 2) {
             $group_id = $group-2;
             list($num_users) = $db->sql_fetchrow($db->sql_query('SELECT COUNT(*) FROM '.$prefix.'_bbuser_group WHERE group_id="'.$group_id.'" AND user_pending="0"'));
-            list($group_name) = $db->sql_ufetchrow("SELECT group_name FROM ".$prefix."_bbgroups WHERE group_id=$group_id", SQL_NUM);
+            list($group_name) = $db->sql_ufetchrow("SELECT group_name FROM ".$prefix."_bbgroups WHERE group_id=$group_id");
         } else {
             list($num_users) = $db->sql_fetchrow($db->sql_query('SELECT COUNT(*) FROM '.$user_prefix.'_users WHERE user_level > 0 AND newsletter="1"'));
             $group_name = strtolower($admlang['newsletter']['subscribed']);

@@ -3,8 +3,8 @@
  Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-    exit('Access Denied');
+if ( realpath( __FILE__ ) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
+    exit( 'Access Denied' );
 }
 
 class error_handler {
@@ -14,55 +14,54 @@ class error_handler {
     var $file;
     var $line;
 
-    function error_handler($debug=false) {
-        if (!is_bool($debug) && $debug == 'full') {
-            if(is_admin()) {
-                error_reporting(E_ALL); # report all errors
-                ini_set("display_errors", "1");
+    function __construct( $debug = false ) {
+        if ( ! is_bool( $debug ) && $debug == 'full' ) {
+            if ( is_admin() ) {
+                error_reporting( E_ALL ); # report all errors
+                ini_set( "display_errors", "1" );
             } else {
-                error_reporting(E_ALL ^ E_NOTICE);
+                error_reporting( E_ALL ^ E_NOTICE );
             }
             $this->debug = true;
-        } else if ($debug) {
+        } elseif ( $debug ) {
             $this->debug = $debug;
-            error_reporting(E_ALL ^ E_NOTICE);
+            error_reporting( E_ALL ^ E_NOTICE );
         } else {
-            if(!is_admin()) {
+            if ( ! is_admin() ) {
                 error_reporting(0);
             }
         }
     }
 
-    function _backtrace()
-    {
+    function _backtrace() {
         $this->file = 'unknown';
         $this->line = 0;
-        if (version_compare(PHPVERS, '4.3', '>=')) {
+        if ( version_compare( PHPVERS, '4.3', '>=' ) ) {
             $tmp = debug_backtrace();
-            $j = count($tmp);
-            for ($i=0; $i<$j; ++$i) {
-                if(basename($tmp[$i]['file']) != 'class.debugger.php') {
-                    $this->file = $tmp[$i]['file'];
-                    $this->line = $tmp[$i]['line'];
+            $j   = count( $tmp );
+            for ( $i = 0; $i < $j; ++$i ) {
+                if ( basename( $tmp[ $i ]['file'] ) != 'class.debugger.php' ) {
+                    $this->file = $tmp[ $i ]['file'];
+                    $this->line = $tmp[ $i ]['line'];
                     break;
                 }
             }
         }
     }
 
-    function handle_error($message, $type='Notice') {
-        if ($this->debug) {
+    function handle_error( $message, $type = 'Notice' ) {
+        if ( $this->debug ) {
             $this->_backtrace();
-            $error['message'] = $type.": ".$message." in ".$this->file." on line ".$this->line."<br />";
-            $this->errors[] = $error;
+            $error['message'] = $type . ": " . $message . " in " . $this->file . " on line " . $this->line . "<br />";
+            $this->errors[]   = $error;
         }
     }
 
     function return_errors() {
-        if($this->debug) {
-            if(is_array($this->errors)) {
-                foreach ($this->errors as $key => $value) {
-                    $content .= "<tr><td align='center'>".$value['message']."</td></tr>";
+        if ( $this->debug ) {
+            if ( is_array( $this->errors ) ) {
+                foreach ( $this->errors as $key => $value ) {
+                    $content .= "<tr><td align='center'>" . $value['message'] . "</td></tr>";
                 }
             }
         }
@@ -71,6 +70,4 @@ class error_handler {
 
 }
 
-$debugger = new error_handler($debug);
-
-?>
+$debugger = new error_handler( $debug );

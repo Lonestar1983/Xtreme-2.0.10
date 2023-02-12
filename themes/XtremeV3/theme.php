@@ -194,10 +194,10 @@ global $anonymous, $tipath, $theme_name, $sid, $ThemeSel, $nukeurl, $customlang;
 
     endif;
 
-$posted = sprintf($customlang['global']['posted_by'], get_author($aid), $time);
-$datetime = substr($morelink, 0, strpos($morelink, '|')-strlen($morelink));
-$morelink = substr($morelink, strlen($datetime)+2);
-$reads = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</span>: <span style="color: red;">'.$counter.'</span> )';
+$posted   = sprintf( $customlang['global']['posted_by'], get_author( $aid ), $time );
+$datetime = substr( $morelink, 0, strpos( $morelink, '|' ) - strlen( $morelink ) );
+$morelink = substr( $morelink, strlen( $datetime ) + 2 );
+$reads    = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</span>: <span style="color: red;">'.$counter.'</span> )';
 
 // echo ( get_query_var('name', 'get') ) ? '' : '<br />';
 echo '<article class="news-article">'

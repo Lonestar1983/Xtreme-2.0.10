@@ -43,15 +43,15 @@ if ($name == 'Forums') {
     $newpagetitle = "$item_delim $name";
     if (isset($p) && is_numeric($p)) {
         $p = (int)$p;
-        list($title, $post) = $db->sql_ufetchrow("SELECT `post_subject`, `post_id` FROM `".$prefix."_bbposts_text` WHERE `post_id`='$p'", SQL_NUM);
+        list($title, $post) = $db->sql_ufetchrow("SELECT `post_subject`, `post_id` FROM `".$prefix."_bbposts_text` WHERE `post_id`='$p'");
         $newpagetitle = "$name $item_delim Post $post $item_delim $title";
     } else if (isset($t) && is_numeric($t)) {
-        list($title, $forum) = $db->sql_ufetchrow("SELECT `topic_title`, `forum_id` FROM `".$prefix."_bbtopics` WHERE `topic_id`='$t'", SQL_NUM);
-        list($forum) = $db->sql_ufetchrow("SELECT `forum_name` FROM `".$prefix."_bbforums` WHERE `forum_id`='$forum'", SQL_NUM);
+        list($title, $forum) = $db->sql_ufetchrow("SELECT `topic_title`, `forum_id` FROM `".$prefix."_bbtopics` WHERE `topic_id`='$t'");
+        list($forum) = $db->sql_ufetchrow("SELECT `forum_name` FROM `".$prefix."_bbforums` WHERE `forum_id`='$forum'");
         $newpagetitle = "$item_delim $name $item_delim $forum $item_delim $title";
     }
     else if (isset($f) && is_numeric($f)) {
-        list($forum) = $db->sql_ufetchrow("SELECT `forum_name` FROM `".$prefix."_bbforums` WHERE `forum_id`='$f'", SQL_NUM);
+        list($forum) = $db->sql_ufetchrow("SELECT `forum_name` FROM `".$prefix."_bbforums` WHERE `forum_id`='$f'");
         $newpagetitle = "$item_delim $name $item_delim $forum";
     }
 } else
@@ -60,12 +60,12 @@ if ($name == 'News') {
     global $file, $sid, $new_topic;
     $newpagetitle= "$item_delim $name";
     if (isset($new_topic) && is_numeric($new_topic)) {
-        list($top) = $db->sql_ufetchrow("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$new_topic'", SQL_NUM);
+        list($top) = $db->sql_ufetchrow("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$new_topic'");
         $newpagetitle= "$item_delim $top";
     } else if ($file == 'article' && isset($sid) && is_numeric($sid)){
-        list($art, $top) = $db->sql_ufetchrow("SELECT `title`, `topic` FROM `".$prefix."_stories` WHERE `sid`='$sid'", SQL_NUM);
+        list($art, $top) = $db->sql_ufetchrow("SELECT `title`, `topic` FROM `".$prefix."_stories` WHERE `sid`='$sid'");
         if ($top) {
-            list($top) = $db->sql_ufetchrow("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$top'", SQL_NUM);
+            list($top) = $db->sql_ufetchrow("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$top'");
             $newpagetitle= "$item_delim $top $item_delim $art";
         } else {
             $newpagetitle= "$item_delim $art";
@@ -82,11 +82,11 @@ if ($name == 'Web_Links') {
     $name = $module_title;
     $newpagetitle = "$item_delim $name";
     if($l_op == 'viewlink' && is_numeric($cid)) {
-        list($cat, $parent) = $db->sql_ufetchrow("SELECT `title`, `parentid` FROM `".$prefix."_links_categories` WHERE `cid`='$cid'", SQL_NUM);
+        list($cat, $parent) = $db->sql_ufetchrow("SELECT `title`, `parentid` FROM `".$prefix."_links_categories` WHERE `cid`='$cid'");
         if ($parent == 0) {
             $newpagetitle = "$item_delim $name $item_delim $cat";
         } else {
-            list($parent) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_links_categories` WHERE `cid`='$parent'", SQL_NUM);
+            list($parent) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_links_categories` WHERE `cid`='$parent'");
             $newpagetitle = "$item_delim $name $item_delim $parent $item_delim $cat";
         }
     }
@@ -97,11 +97,11 @@ if ($name == 'Downloads') {
     $name = $module_title;
     $newpagetitle = "$item_delim $name";
     if(isset($cid) && is_numeric($cid)) {
-        list($cat, $parent) = $db->sql_ufetchrow("SELECT `title`, `parentid` FROM `".$prefix."_downloads_categories` WHERE `cid`='$cid'", SQL_NUM);
+        list($cat, $parent) = $db->sql_ufetchrow("SELECT `title`, `parentid` FROM `".$prefix."_downloads_categories` WHERE `cid`='$cid'");
         if ($parent == 0) {
             $newpagetitle = "$item_delim $name $item_delim $cat";
         } else {
-            list($parent) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_downloads_categories` WHERE `cid`='$parent'", SQL_NUM);
+            list($parent) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_downloads_categories` WHERE `cid`='$parent'");
             $newpagetitle = "$item_delim $name $item_delim $parent $item_delim $cat";
         }
     }
@@ -111,11 +111,11 @@ if ($name == 'Content') {
     global $pa, $cid, $pid;
     $newpagetitle = "$item_delim $name";
     if ($pa == 'list_pages_categories' && is_numeric($cid)) {
-        list($cat) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_pages_categories` WHERE `cid`='$cid'", SQL_NUM);
+        list($cat) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_pages_categories` WHERE `cid`='$cid'");
         $newpagetitle = "$item_delim $name $item_delim $cat";
     } else if ($pa == 'showpage' && is_numeric($pid)) {
-        list($page, $cid) = $db->sql_ufetchrow("SELECT `title`, `cid` FROM `".$prefix."_pages` WHERE `pid`='$pid'", SQL_NUM);
-        list($cat) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_pages_categories` WHERE `cid`='$cid'", SQL_NUM);
+        list($page, $cid) = $db->sql_ufetchrow("SELECT `title`, `cid` FROM `".$prefix."_pages` WHERE `pid`='$pid'");
+        list($cat) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_pages_categories` WHERE `cid`='$cid'");
         $newpagetitle = "$item_delim $name $item_delim $cat $item_delim $page";
     }
 } else
@@ -124,7 +124,7 @@ if ($name == 'Reviews') {
     global $rop, $id;
     $newpagetitle = "$item_delim $name";
     if ($rop == "showcontent" && is_numeric($id)) {
-        list($rev) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_reviews` WHERE `id`='$id'", SQL_NUM);
+        list($rev) = $db->sql_ufetchrow("SELECT `title` FROM `".$prefix."_reviews` WHERE `id`='$id'");
         $newpagetitle = "$item_delim $name $item_delim $rev";
     }
 } else

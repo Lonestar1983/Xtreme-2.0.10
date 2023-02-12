@@ -81,7 +81,7 @@ global $prefix, $db, $admin_file, $httpref, $httprefmax;
 if (isset($_GET['op'])) {
     if($_GET['op'] == 'ad_click' && isset($_GET['bid'])) {
         $bid = intval($_GET['bid']);
-        list($clickurl) = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+        list($clickurl) = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'");
         if(!is_admin()) {
            $db->sql_query("UPDATE `".$prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
         }

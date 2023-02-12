@@ -486,7 +486,7 @@ if ($ya_config['allowuserreg']==0) {
 /*****[BEGIN]******************************************
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
-        list($uid) = $db->sql_ufetchrow('SELECT user_id FROM '.$user_prefix.'_users WHERE username="'.$username.'"', SQL_NUM);
+        list($uid) = $db->sql_ufetchrow('SELECT user_id FROM '.$user_prefix.'_users WHERE username="'.$username.'"');
         redirect("modules.php?name=Profile&mode=viewprofile&u=".$uid);
         exit;
 /*****[END]********************************************

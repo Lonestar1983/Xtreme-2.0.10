@@ -25,16 +25,16 @@
 
 /*****[CHANGES]**********************************************************
 -=[Mod]=-
-      Recent Topics                            v1.2.4       06/11/2005
-      Global Announcements                     v1.2.8       06/13/2005
-      Quick Search                             v3.0.1       08/23/2005
-      Staff Site                               v2.0.3       06/24/2005
-      Forum ACP Administration Links           v1.0.0       06/26/2005
-      Advanced Time Management                 v2.1.2       07/26/2005
-      XData                                    v1.0.3       02/08/2007
-      At a Glance Options                      v1.0.0       08/17/2005
-      Initial Usergroup                        v1.0.1       08/25/2005
-      Report Posts                             v1.2.3       08/30/2005
+	  Recent Topics                            v1.2.4       06/11/2005
+	  Global Announcements                     v1.2.8       06/13/2005
+	  Quick Search                             v3.0.1       08/23/2005
+	  Staff Site                               v2.0.3       06/24/2005
+	  Forum ACP Administration Links           v1.0.0       06/26/2005
+	  Advanced Time Management                 v2.1.2       07/26/2005
+	  XData                                    v1.0.3       02/08/2007
+	  At a Glance Options                      v1.0.0       08/17/2005
+	  Initial Usergroup                        v1.0.1       08/25/2005
+	  Report Posts                             v1.2.3       08/30/2005
 	  Member Country Flags                     v2.0.7
 	  Birthdays                                v3.0.0
 	  Thank You Mod                            v1.1.8
@@ -42,12 +42,12 @@
 	  Inline Banner Ad                         v1.2.3       05/26/2009
 	  Email topic to friend                    v1.0.0       05/26/2009
 	  Arcade                                   v3.0.2       05/29/2009
-        Who viewed a topic                       v1.0.3
+		Who viewed a topic                       v1.0.3
  ************************************************************************/
 
 if (!defined('IN_PHPBB') && !defined('NUKE_EVO'))
 {
-    die('Hacking attempt');
+	die('Hacking attempt');
 }
 
 // Debug Level
@@ -357,7 +357,7 @@ define('VOTE_USERS_TABLE', $prefix.'_bbvote_voters');
 /*****[START]******************************************
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
-define('TOPIC_VIEW_TABLE', $prefix.'_bbtopic_view'); 
+define('TOPIC_VIEW_TABLE', $prefix.'_bbtopic_view');
 /*****[END]********************************************
  [ Base:    Who viewed a topic                 v1.0.3 ]
  ******************************************************/
@@ -369,7 +369,7 @@ define('REPUTATION_CONFIG_TABLE', $prefix.'_bbreputation_config');
 /*****[END]********************************************
  [ Mod:     Users Reputations System           v1.0.0 ]
  ******************************************************/
- 
+
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -464,7 +464,7 @@ define('GLANCE_FORUMS_AND_TOPICS', 7);
 /*****[END]********************************************
  [ Mod:     At a Glance Options                v1.0.0 ]
  ******************************************************/
- 
+
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
@@ -489,7 +489,7 @@ define('HACKGAME_TABLE', $prefix.'_bbhackgame');
 define('ARCADE_CATEGORIES_TABLE', $prefix.'_bbarcade_categories');
 define('ARCADE_TABLE', $prefix.'_bbarcade');
 define('AUTH_ARCADE_ACCESS_TABLE', $prefix.'_bbauth_arcade_access');
-define('COMMENTS_TABLE', $prefix.'_bbarcade_comments'); 
+define('COMMENTS_TABLE', $prefix.'_bbarcade_comments');
 define('ARCADE_FAV_TABLE', $prefix.'_bbarcade_fav');
 /*****[END]********************************************
  [ Mod:     Arcade                             v3.0.2 ]
@@ -529,7 +529,6 @@ define('_FILE_REPOSITORY_SCREENSHOTS',  $prefix.'_file_repository_screenshots');
 define('_FILE_REPOSITORY_SETTINGS',   $prefix.'_file_repository_settings');
 define('_FILE_REPOSITORY_THEMES',   $prefix.'_file_repository_themes');
 
-define('AUTHORS_TABLE', $prefix.'_authors');
 define('EVOLUTION_CONFIG_TABLE', $prefix.'_evolution');
 define('META_TABLE', $prefix.'_meta');
 // define('MODULES_TABLE', $prefix.'_modules');

@@ -31,7 +31,7 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 	if ( isset( $to ) ) {
 		$to = $to;
 	}
- 
+
 	if ( !is_array( $to ) ) {
 		$to = explode( ',', $to );
 	}
@@ -81,7 +81,7 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 	endif;
 
 	/* sort the headers */
-	if ( empty( $headers ) ) 
+	if ( empty( $headers ) )
 	{
 		$headers = array();
 	}
@@ -91,8 +91,8 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 			// Explode the headers out, so this function can take both
 			// string headers and an array of headers.
 			$tempheaders = explode( "\n", str_replace( "\r\n", "\n", $headers ) );
-		} 
-		else 
+		}
+		else
 		{
 			$tempheaders = $headers;
 		}
@@ -110,12 +110,12 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 				}
 				// Explode them out
 				list( $name, $content ) = explode( ':', trim( $header ), 2 );
- 
+
 				// Cleanup crew
 				$name    = trim( $name    );
 				$content = trim( $content );
- 
-				switch ( strtolower( $name ) ) 
+
+				switch ( strtolower( $name ) )
 				{
 					case 'from':
 						$bracket_pos = strpos( $content, '<' );
@@ -126,11 +126,11 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 								$from_name = str_replace( '"', '', $from_name );
 								$from_name = trim( $from_name );
 							}
- 
+
 							$from_email = substr( $content, $bracket_pos + 1 );
 							$from_email = str_replace( '>', '', $from_email );
 							$from_email = trim( $from_email );
- 
+
 						// Avoid setting an empty $from_email.
 						} elseif ( '' !== trim( $content ) ) {
 							$from_email = trim( $content );
@@ -146,7 +146,7 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 								$boundary = trim( str_replace( array( 'BOUNDARY=', 'boundary=', '"' ), '', $charset_content ) );
 								$charset = '';
 							}
- 
+
 						// Avoid setting an empty $content_type.
 						} elseif ( '' !== trim( $content ) ) {
 							$content_type = trim( $content );
@@ -171,24 +171,24 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 	}
 
 	$address_headers = compact( 'to', 'cc', 'bcc', 'reply_to' );
-	foreach ( $address_headers as $address_header => $addresses ) 
+	foreach ( $address_headers as $address_header => $addresses )
 	{
 		if ( empty( $addresses ) ) {
 			continue;
 		}
- 
+
 		foreach ( (array) $addresses as $address ) {
 			try {
 				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 				$recipient_name = '';
- 
+
 				if ( preg_match( '/(.*)<(.+)>/', $address, $matches ) ) {
 					if ( count( $matches ) == 3 ) {
 						$recipient_name = $matches[1];
 						$address        = $matches[2];
 					}
 				}
- 
+
 				switch ( $address_header ) {
 					case 'to':
 						$mail->addAddress( $address, $recipient_name );
@@ -212,7 +212,7 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 	if ( !isset( $from_name ) )
 		$from_name = $board_config['sitename'];
 
-	if ( !isset( $from_email ) ) 
+	if ( !isset( $from_email ) )
 		$from_email = $nukeconfig['adminmail'];
 
 	$mail->ContentType = ( !isset($content_type) ) ? 'text/plain' : $content_type;
@@ -237,9 +237,9 @@ function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = ar
 		include_once(NUKE_BASE_DIR.'footer.php');
 		exit;
 		// return FALSE;
-	} else { 
+	} else {
 		$mail->clearAllRecipients();
-		$mail->clearReplyTos();      
+		$mail->clearReplyTos();
 		return TRUE;
 	}
 }
@@ -265,7 +265,7 @@ function get_query_var($var, $loc, $type='string', $default=null, $minlen='', $m
 	return $_GETVAR->get($var, $loc, $type, $default, $minlen, $maxlen, $regex);
 }
 
-function get_user_IP() 
+function get_user_IP()
 {
 	global $identify;
 	return $identify->get_ip();
@@ -293,8 +293,7 @@ function get_admin_filename()
  *
  * @since 2.0.9e
  */
-function the_module()
-{
+function the_module() {
 	global $module_name;
 	return $module_name;
 }
@@ -304,8 +303,7 @@ function the_module()
  *
  * @since 2.0.9e
  */
-function check_is_ajax() 
-{
+function check_is_ajax() {
 	return isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 }
 
@@ -319,8 +317,7 @@ function check_is_ajax()
  * @param bool   $onclick  An onlclick javascript can be provided.
  * @return string Displays a CSS sprite icon.
  */
-function get_evo_icon( $class, $title = '', $onclick = false )
-{
+function get_evo_icon( $class, $title = '', $onclick = false ) {
 	$spriteIcon = '<span'.(($onclick != false) ? ' onclick="'.$onclick.'"' : '').' class="'.$class.'"'.(($title) ? ' title="'.$title.'"' : '').'></span>';
 	return $spriteIcon;
 }
@@ -333,8 +330,7 @@ function get_evo_icon( $class, $title = '', $onclick = false )
  * @param string $file The file you wish to retrieve the comment block header from.
  * @return array Display block comment copyright headers.
  */
-function get_copyright_comments( $file ) 
-{
+function get_copyright_comments( $file ) {
 	$file_headers = array(
 		'Author'            => 'Author',
 		'AuthorEmail'       => 'Author Email',
@@ -367,7 +363,7 @@ function get_copyright_comments( $file )
 	$all_headers = $file_headers;
 
 	foreach ( $all_headers as $field => $regex ) {
-		if (preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match ) 
+		if (preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match )
 			&& $match[1])
 			 $all_headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
 		else
@@ -379,7 +375,7 @@ function get_copyright_comments( $file )
 
 /**
  * Customize function: Trims text to a certain number of words.
- * 
+ *
  * @since 2.0.9e
  *
  * @param string $input         Text to trim.
@@ -388,7 +384,7 @@ function get_copyright_comments( $file )
  * @param bool   $strip_html    Optional. Strip any HTML the $input may have. Default: true.
  * @return string Trimmed text.
  */
-function trim_words( $input, $length = 55, $ellipses = '&hellip;', $strip_html = true ) 
+function trim_words( $input, $length = 55, $ellipses = '&hellip;', $strip_html = true )
 {
 	//strip tags, if desired
 	if ($strip_html):
@@ -424,7 +420,7 @@ function trim_words( $input, $length = 55, $ellipses = '&hellip;', $strip_html =
 function get_header()
 {
 	if ( !check_is_ajax() ):
-		include_once NUKE_BASE_DIR.'header.php';    
+		include_once NUKE_BASE_DIR.'header.php';
 	endif;
 }
 
@@ -437,7 +433,7 @@ function get_header()
 function get_footer()
 {
 	if ( !check_is_ajax() ):
-		include_once NUKE_BASE_DIR.'footer.php';    
+		include_once NUKE_BASE_DIR.'footer.php';
 	endif;
 }
 
@@ -498,7 +494,7 @@ function get_image_viewer( $slideshow = '', $caption = '' )
 			 * @license https://raw.githubusercontent.com/lokesh/lightbox2/master/LICENSE  MIT
 			 * @link    https://lokeshdhakar.com/projects/lightbox2/
 			 *
-			 * This lightbox script require a slideshow name to be provided at all times, so i have used gallery as the default, 
+			 * This lightbox script require a slideshow name to be provided at all times, so i have used gallery as the default,
 			 * Can still be changes via the function call.
 			 */
 			$lightbox  = ' data-lightbox="'.(($slideshow) ? $slideshow : 'gallery').'"';
@@ -616,7 +612,7 @@ function the_pagetitle()
 	# if the user is visiting a module, change the page title to the module name.
 	else:
 		$newpagetitle = ($module_name) ? $item_delim .' '.$module_name_str : '';
-	endif;    
+	endif;
 	echo '<title>'.$sitename.' '.$newpagetitle.'</title>';
 }
 
@@ -668,7 +664,7 @@ function get_theme_option($name, $type='string')
 }
 
 /**
- * This will be used quite alot throughout the site, For such things as CMS, Block, Module & Theme version chekcing. 
+ * This will be used quite alot throughout the site, For such things as CMS, Block, Module & Theme version chekcing.
  *
  * @since 2.0.9e
  *
@@ -677,7 +673,7 @@ function get_theme_option($name, $type='string')
  * @param bool    $force_refresh         Choose whether to force an update, Default: false.
  * @return array  Return a json object with all the version information.
  */
-function cache_json_data( $version_check_url, $local_cache_location, $force_refresh = false, $headers = [], $cache_time = 86400 ) 
+function cache_json_data( $version_check_url, $local_cache_location, $force_refresh = false, $headers = [], $cache_time = 86400 )
 {
 	$url 	= $version_check_url;
 	$cache 	= $local_cache_location;
@@ -700,6 +696,7 @@ function cache_json_data( $version_check_url, $local_cache_location, $force_refr
 		curl_setopt( $ch, CURLOPT_FAILONERROR, true );
 		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
 		curl_setopt( $ch, CURLOPT_TIMEOUT, 7 );
 
 		if ( !empty( $headers ) || $headers == null ):
@@ -720,7 +717,7 @@ function cache_json_data( $version_check_url, $local_cache_location, $force_refr
 		endif;
 
 		# Insert json information into a locally stored file, This will prevent slow page load time from slow hosts.
-		$handle = fopen( $cache, 'wb' ) or die( 'no fopen' );   
+		$handle = fopen( $cache, 'wb' ) or die( 'no fopen' );
 		fwrite( $handle, $jsoncache );
 		fclose( $handle );
 
@@ -734,7 +731,7 @@ function cache_json_data( $version_check_url, $local_cache_location, $force_refr
 }
 
 /**
- * Custom function: Changes a timestamp from a date string to exactly how many "seconds, minutes, hours, days, months or years" the user posted or visited. 
+ * Custom function: Changes a timestamp from a date string to exactly how many "seconds, minutes, hours, days, months or years" the user posted or visited.
  *
  * @since 2.0.9e
  *
@@ -748,7 +745,7 @@ function get_timeago( $ptime )
 	if( $estimate_time < 1 )
 		return 'secs ago';
 
-	$condition = array( 
+	$condition = array(
 				12 * 30 * 24 * 60 * 60  =>  'year',
 				30 * 24 * 60 * 60       =>  'month',
 				24 * 60 * 60            =>  'day',
@@ -858,18 +855,32 @@ function url_shorten( $url, $length = 35 ) {
  * @global board_config $board_config Forum configuration variable.
  * @global userinfo $userinfo Get the logged in users account information.
  */
-function get_user_avatar($user_id) {
-	global $db, $board_config, $userinfo;
+function get_user_avatar( $user_id, $data = null ) {
+	global $db, $board_config, $userinfo, $ThemeSel;
 	static $avatarData;
 
-	if(is_array($avatarData[$user_id]) && !empty($avatarData[$user_id])) { return $avatarData[$user_id]; }
+	// if ( isset( $avatarData ) && is_array( $avatarData[ $user_id ] ) && ! empty( $avatarData[ $user_id ] ) ) {
+	// 	return $avatarData[ $user_id ];
+	// }
+
 	if ( $user_id == $userinfo['user_id'] ) {
-		 $user_avatar       = $userinfo['user_avatar'];
-		 $user_avatar_type  = $userinfo['user_avatar_type'];
-		 $user_avatar_allow = $userinfo['user_allowavatar'];
-		 $user_avatar_show  = $userinfo['user_showavatars'];
+		$user_avatar       = $userinfo['user_avatar'];
+		$user_avatar_type  = $userinfo['user_avatar_type'];
+		$user_avatar_allow = $userinfo['user_allowavatar'];
+		$user_avatar_show  = $userinfo['user_showavatars'];
 	} else {
-		list($user_avatar, $user_avatar_type, $user_avatar_allow, $user_avatar_show) = $db->sql_ufetchrow("SELECT user_avatar, user_avatar_type, user_allowavatar, user_showavatars FROM ".USERS_TABLE." WHERE user_id = '" . $user_id . "' LIMIT 1");
+		/**
+		 * Check to see if there is any data been passed to the function, If a database object is passed,
+		 * We can get the relevant avatar info from the object, Will save mulitple database queries.
+		 */
+		if ( $data != null ) {
+			$user_avatar       = $data['user_avatar'];
+			$user_avatar_type  = $data['user_avatar_type'];
+			$user_avatar_allow = $data['user_allowavatar'];
+			$user_avatar_show  = $data['user_showavatars'];
+		} else {
+			list($user_avatar, $user_avatar_type, $user_avatar_allow, $user_avatar_show) = dburow("SELECT user_avatar, user_avatar_type, user_allowavatar, user_showavatars FROM ".USERS_TABLE." WHERE user_id = '" . $user_id . "' LIMIT 1");
+		}
 	}
 	$poster_avatar = '';
 	if ( $user_avatar_type && $user_id != ANONYMOUS && $user_avatar_allow && $user_avatar_show && !empty($user_avatar)) {
@@ -885,16 +896,18 @@ function get_user_avatar($user_id) {
 				break;
 		}
 	}
-	$default_member_avatar = evo_image('avatar_member.png', 'Forums');
-	$default_guest_avatar  = evo_image('avatar_guest.png', 'Forums');
-	if ( empty($poster_avatar) && $user_id != ANONYMOUS) {
-		$poster_avatar = '<img src="'.  $default_member_avatar .'" alt="" border="0" />';
+
+	if ( empty($poster_avatar) && $user_id != ANONYMOUS)
+	{
+		$poster_avatar = str_replace('{THEME_NAME}', $ThemeSel, $board_config['default_avatar_users_url']);
 	}
-	if ( $user_id == ANONYMOUS ) {
-		$poster_avatar = '<img src="'.  $default_guest_avatar .'" alt="" border="0" />';
+
+	if ( $user_id == ANONYMOUS )
+	{
+		$poster_avatar = str_replace('{THEME_NAME}', $ThemeSel, $board_config['default_avatar_guests_url']);
 	}
-	$avatarData[$user_id] = $poser_avatar;
-	return ($poster_avatar);
+	$avatarData[$user_id] = $poster_avatar;
+	return $avatarData[$user_id];
 }
 
 // evo_image function by ReOrGaNiSaTiOn
@@ -960,7 +973,7 @@ function get_mod_admin_uri()
  */
 if( !function_exists('__') ):
 
-	function __( $lang, $var = 'customlang', $module_name = '' ) 
+	function __( $lang, $var = 'customlang', $module_name = '' )
 	{
 		global $$var;
 		if ( empty($module_name) ):
@@ -1014,24 +1027,24 @@ function get_userinfo( $field )
  * @return string The de-slashed content.
  */
 if ( !function_exists( 'deslash' ) ):
-	
-	function deslash( $content ) 
-	{ 
+
+	function deslash( $content )
+	{
 		/**
 		 * Replace one or more backslashes followed by a single quote with
 		 * a single quote.
 		 */
 		$content = preg_replace( "/\\\+'/", "'", $content );
-	 
+
 		/**
 		 * Replace one or more backslashes followed by a double quote with
 		 * a double quote.
 		 */
 		$content = preg_replace( '/\\\+"/', '"', $content );
-	 
+
 		// Replace one or more backslashes with one backslash.
 		$content = preg_replace( '/\\\+/', '\\', $content );
-	 
+
 		return $content;
 	}
 
@@ -1079,7 +1092,7 @@ function add_js_to_head( $filename, $type = 'file', $version = null )
  * @param string $type
  * @param bool $mtime
  * @return void
- */	
+ */
 function add_js_to_body( $filename, $type = 'file', $version = null )
 {
 	if ( $version != null && $type == 'file' ):
@@ -1093,7 +1106,7 @@ function add_js_to_body( $filename, $type = 'file', $version = null )
  * Get the file extension.
  *
  * @param mixed $file
- * 
+ *
  * @return string[]|string
  */
 function get_file_extension( $file )
@@ -1106,7 +1119,7 @@ function get_file_extension( $file )
  * Get the file basename.
  *
  * @param mixed $file
- * 
+ *
  * @return string[]|string
  */
 function get_file_basename( $file )
@@ -1119,7 +1132,7 @@ function get_file_basename( $file )
  * Get the file directory name.
  *
  * @param mixed $file
- * 
+ *
  * @return string[]|string
  */
 function get_file_directory( $file )
@@ -1132,7 +1145,7 @@ function get_file_directory( $file )
  * Get the filename.
  *
  * @param mixed $file
- * 
+ *
  * @return string[]|string
  */
 function get_file_name( $file )
@@ -1148,7 +1161,7 @@ function get_bootstrap_pagination()
     $page      = get_query_var('page', 'get', 'int', 1);
 
     /*
-    'url' => append_sid('privmsg'.$phpEx.'?folder='.$folder), 
+    'url' => append_sid('privmsg'.$phpEx.'?folder='.$folder),
     'total' => $pm_total,
     'per-page' => $board_config['topics_per_page']
     */
@@ -1162,25 +1175,25 @@ function get_bootstrap_pagination()
         $next_previous = $a['next-previous'];
         $first_last = $a['first-last'];
         $adjacents = $a['adjacents'];
-    
+
     endforeach;
 
     if($total > $a['per-page']):
 
         $total_pages = ceil($total / $a['per-page']);
 
-        if($total_pages <= (1+($adjacents * 2))) 
+        if($total_pages <= (1+($adjacents * 2)))
         {
             $start = 1;
             $end   = $total_pages;
-        } 
-        else 
+        }
+        else
         {
-            if(($page - $adjacents) > 1) 
-            {                 
+            if(($page - $adjacents) > 1)
+            {
                 //Checking if the current page minus adjacent is greateer than one.
                 if(($page + $adjacents) < $total_pages) {  //Checking if current page plus adjacents is less than total pages.
-                    $start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number  
+                    $start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number
                     $end   = ($page + $adjacents);         //to get the range of the page numbers which will be display in the pagination.
                 } else {                                   //If current page plus adjacents is greater than total pages.
                     $start = ($total_pages - (1+($adjacents*2)));  //then the page range will start from total pages minus 1+($adjacents*2)
@@ -1251,7 +1264,7 @@ function bootstrap_pagination() {
         $next_previous = $a['next-previous'];
         $first_last = $a['first-last'];
         $adjacents = $a['adjacents'];
-    
+
     endforeach;
 
     $result = _db()->sql_ufetchrow("SELECT COUNT(*) AS total FROM $table WHERE $where");
@@ -1262,18 +1275,18 @@ function bootstrap_pagination() {
 
         $total_pages = ceil($result['total'] / $board_config['topics_per_page']);
 
-        if($total_pages <= (1+($adjacents * 2))) 
+        if($total_pages <= (1+($adjacents * 2)))
         {
             $start = 1;
             $end   = $total_pages;
-        } 
-        else 
+        }
+        else
         {
-            if(($page - $adjacents) > 1) 
-            {                 
+            if(($page - $adjacents) > 1)
+            {
                 //Checking if the current page minus adjacent is greateer than one.
                 if(($page + $adjacents) < $total_pages) {  //Checking if current page plus adjacents is less than total pages.
-                    $start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number  
+                    $start = ($page - $adjacents);         //If true, then we will substract and add adjacent from and to the current page number
                     $end   = ($page + $adjacents);         //to get the range of the page numbers which will be display in the pagination.
                 } else {                                   //If current page plus adjacents is greater than total pages.
                     $start = ($total_pages - (1+($adjacents*2)));  //then the page range will start from total pages minus 1+($adjacents*2)

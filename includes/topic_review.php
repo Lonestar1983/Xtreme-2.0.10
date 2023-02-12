@@ -160,7 +160,7 @@ function topic_review($topic_id, $is_inline_review)
         // and it goes like this ...
         //
         
-        $row = $db->sql_fetchrow($result,SQL_BOTH);
+        $row = $db->sql_fetchrow($result);
         if ( $row )
         {
 /*****[BEGIN]******************************************
