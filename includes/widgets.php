@@ -52,7 +52,6 @@ function render_blocks( $side, $block ) {
 
 	define_once( 'BLOCK_FILE', true );
 
-	//Include the block lang files
 	if ( file_exists( NUKE_LANGUAGE_DIR . 'blocks/lang-' . $currentlang . '.php' ) ) {
 		include_once NUKE_LANGUAGE_DIR . 'blocks/lang-' . $currentlang . '.php';
 	} else {
@@ -142,62 +141,69 @@ function blocks( $side, $count = false ) {
 	$querylang = ( $multilingual ) ? 'AND (blanguage = "' . $currentlang . '" OR blanguage = "")' : '';
 	$side      = strtolower( $side[0] );
 
-	if ( ( ( $blocks = $cache->load( 'blocks', 'config' ) ) === false ) || ! isset( $blocks ) ) {
-		$sql = "SELECT * FROM " . _BLOCKS_TABLE . " WHERE active = '1' " . $querylang . " ORDER BY weight ASC";
-		$result = $db->sql_query($sql);
-		while($row = $db->sql_fetchrow($result)) {
-			$blocks[$row['bposition']][] = $row;
+	if ( ( ( $blocks = cache_load( 'blocks', 'config' ) ) === false ) || ! isset( $blocks ) ) {
+		$result = dbquery( "SELECT * FROM " . _BLOCKS_TABLE . " WHERE active = '1' " . $querylang . " ORDER BY weight ASC" );
+		while( $row = dbrow( $result ) ) {
+			$blocks[ $row['bposition'] ][] = $row;
 		}
-		$db->sql_freeresult($result);
-		$cache->save('blocks', 'config', $blocks);
+		dbfree( $result );
+		cache_set( 'blocks', 'config', $blocks );
 	}
-	if ($count) {
-		return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
+
+	if ( $count ) {
+		return isset($blocks[ $side ] ) ? count( $blocks[ $side ] ) : 0;
 	}
-	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-	for($i=0,$j = count($blockrow); $i < $j; $i++) {
-		$bid = intval($blockrow[$i]['bid']);
-		$view = $blockrow[$i]['view'];
-		if(isset($blockrow[$i]['expire'])) {
-			$expire = intval($blockrow[$i]['expire']);
+
+	$blockrow = ( isset( $blocks[ $side ] ) ) ? $blocks[ $side ] : array();
+	for( $i = 0, $j = count( $blockrow ); $i < $j; ++$i ) {
+		$bid  = (int) $blockrow[ $i ]['bid'];
+		$view = (int) $blockrow[ $i ]['view'];
+
+		if ( isset( $blockrow[ $i ]['expire'] ) ) {
+			$expire = (int) $blockrow[ $i ]['expire'];
 		} else {
 			$expire = '';
 		}
-		if(isset($blockrow[$i]['action'])) {
-			$action = $blockrow[$i]['action'];
-			$action = substr($action, 0,1);
+
+		if ( isset( $blockrow[ $i ]['action'] ) ) {
+			$action = $blockrow[ $i ]['action'];
+			$action = substr( $action, 0, 1 );
 		} else {
 			$action = '';
 		}
+
 		$now = time();
-		if ($expire != 0 AND $expire <= $now) {
-			if ($action == 'd') {
-				$db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
-				$cache->delete('blocks', 'config');
+		if ( $expire != 0 AND $expire <= $now ) {
+			if ( $action == 'd' ) {
+				dbquery( "UPDATE " . _BLOCKS_TABLE . " SET active = '0', expire = '0' WHERE bid = '" . $bid . "'" );
+				cache_delete( 'blocks', 'config' );
 				return;
 			} elseif ($action == 'r') {
-				$db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
-				$cache->delete('blocks', 'config');
+				dbquery( "DELETE FROM " . _BLOCKS_TABLE . " WHERE bid = '" . $bid . "'" );
+				cache_delete( 'blocks', 'config' );
 				return;
 			}
-		}if (empty($blockrow[$i]['bkey'])) {
-			if ( ($view == '0' || $view == '1') ||
-			   ( ($view == '3' AND is_user()) ) ||
+		}
+
+		if ( empty( $blockrow[ $i ]['bkey'] ) ) {
+			if ( ( $view == '0' || $view == '1') ||
+			   ( ( $view == '3' AND is_user()) ) ||
 			   ( $view == '4' AND is_admin()) ||
-			   ( ($view == '2' AND !is_user())) ) {
-				render_blocks($side, $blockrow[$i]);
+			   ( ( $view == '2' AND !is_user() ) ) ) {
+				render_blocks( $side, $blockrow[ $i ] );
 			} else {
-				if (substr($view, strlen($view)-1) == '-') {
-					$ingroups = explode('-', $view);
-					if (is_array($ingroups)) {
+				if ( substr( $view, strlen( $view ) -1 ) == '-' ) {
+					$ingroups = explode( '-', $view );
+					if ( is_array( $ingroups ) ) {
 						$cnt = 0;
-						foreach ($ingroups as $group) {
-							if (isset($userinfo['groups'][($group)])) {
-								$cnt++;
-							  }
-						  }
-					if ($cnt != 0){
-					render_blocks($side, $blockrow[$i]);
+						foreach ( $ingroups as $group ) {
+							if ( isset( $userinfo['groups'][ $group ] ) ) {
+								++$cnt;
+							}
+						}
+
+						if ( $cnt != 0 ) {
+							render_blocks( $side, $blockrow[ $i ] );
 						}
 					}
 				}
@@ -207,30 +213,23 @@ function blocks( $side, $count = false ) {
 	return;
 }
 
-function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid) {
+function blockfileinc( $blockfiletitle, $blockfile, $side = 1, $bid ) {
 	global $collapse;
 
-	if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) {
+	if ( ! file_exists( NUKE_BLOCKS_DIR . $blockfile ) ) {
 		$content = _BLOCKPROBLEM;
 	} else {
-		include(NUKE_BLOCKS_DIR.$blockfile);
+		include NUKE_BLOCKS_DIR . $blockfile;
 	}
-	if (empty($content)) {
+
+	if ( empty( $content ) ) {
 		$content = _BLOCKPROBLEM2;
 	}
-/*****[BEGIN]******************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
-	if($collapse) {
-		$content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
-	}
-/*****[END]********************************************
- [ Mod:     Switch Content Script              v2.0.0 ]
- ******************************************************/
-	if ($side == 'r' || $side == 'l') {
-		themesidebox($blockfiletitle, $content, $bid);
+
+	if ( $side == 'r' || $side == 'l' ) {
+		themesidebox( $blockfiletitle, $content, $bid );
 	} else {
-		themecenterbox($blockfiletitle, $content);
+		themecenterbox( $blockfiletitle, $content );
 	}
 }
 
