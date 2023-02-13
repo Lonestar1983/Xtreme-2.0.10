@@ -151,7 +151,7 @@ function blocks( $side, $count = false ) {
 	}
 
 	if ( $count ) {
-		return isset($blocks[ $side ] ) ? count( $blocks[ $side ] ) : 0;
+		return isset( $blocks[ $side ] ) ? count( $blocks[ $side ] ) : 0;
 	}
 
 	$blockrow = ( isset( $blocks[ $side ] ) ) ? $blocks[ $side ] : array();
