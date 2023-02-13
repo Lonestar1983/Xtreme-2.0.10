@@ -245,7 +245,7 @@ function blockfileinc( $blockfiletitle, $blockfile, $side = 1, $bid ) {
 }
 
 /**
- * Include the activated block.
+ * RSS Feed Headlines.
  *
  * @since 1.0.5
  *
