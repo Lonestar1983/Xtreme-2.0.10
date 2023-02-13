@@ -213,6 +213,17 @@ function blocks( $side, $count = false ) {
 	return;
 }
 
+/**
+ * Include the activated block.
+ *
+ * @since 1.0.5
+ *
+ * @param string  $blockfiletitle   Block Title.
+ * @param string  $blockfile        Block Filename.
+ * @param string  $side             Block Location.
+ * @param int     $bid              Block ID.
+ * @return void
+ */
 function blockfileinc( $blockfiletitle, $blockfile, $side = 1, $bid ) {
 	global $collapse;
 
@@ -233,6 +244,16 @@ function blockfileinc( $blockfiletitle, $blockfile, $side = 1, $bid ) {
 	}
 }
 
+/**
+ * Include the activated block.
+ *
+ * @since 1.0.5
+ *
+ * @param string  $bid   Block ID.
+ * @param string  $side  Block Location.
+ * @param string  $row   Block Data
+ * @return void
+ */
 function headlines( $bid, $side = 0, $row = '' ) {
 	global $prefix, $db, $my_headlines, $cache;
 
