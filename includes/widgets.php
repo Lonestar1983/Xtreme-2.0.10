@@ -187,9 +187,9 @@ function blocks( $side, $count = false ) {
 
 		if ( empty( $blockrow[ $i ]['bkey'] ) ) {
 			if ( ( $view == '0' || $view == '1') ||
-			   ( ( $view == '3' AND is_user()) ) ||
-			   ( $view == '4' AND is_admin()) ||
-			   ( ( $view == '2' AND !is_user() ) ) ) {
+			   ( ( $view == '3' AND is_user() ) ) ||
+			   ( $view == '4' AND is_admin() ) ||
+			   ( ( $view == '2' AND ! is_user() ) ) ) {
 				render_blocks( $side, $blockrow[ $i ] );
 			} else {
 				if ( substr( $view, strlen( $view ) -1 ) == '-' ) {
