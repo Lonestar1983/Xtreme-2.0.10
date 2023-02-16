@@ -38,7 +38,7 @@ add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery.fn.extend.js','file');
 add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery.core.js','file');
 
 add_css_to_head(NUKE_CSS_DIR.'cookieconsent.min.css','file');
-add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'cookieconsent.min.js','file');
+add_js_to_body(NUKE_JQUERY_SCRIPTS_DIR.'cookieconsent.min.js','file');
 $cookieconsent_inline  = '<script>';
 $cookieconsent_inline .= 'window.addEventListener("load", function(){';
 $cookieconsent_inline .= 'window.cookieconsent.initialise({';
@@ -54,7 +54,7 @@ $cookieconsent_inline .= '  },';
 $cookieconsent_inline .= '  "theme": "classic"';
 $cookieconsent_inline .= '})});';
 $cookieconsent_inline .= '</script>';
-add_js_to_head($cookieconsent_inline,'inline');
+add_js_to_body($cookieconsent_inline,'inline');
 
 $progress_bar_loading  = '<script type="text/javascript">'.PHP_EOL;
 $progress_bar_loading .= 'nuke_jq(function($)';
@@ -64,12 +64,10 @@ $progress_bar_loading .= '});';
 $progress_bar_loading .= '</script>'.PHP_EOL;
 add_js_to_body($progress_bar_loading,'inline');
 
-add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery.marquee.js','file');
+add_js_to_body(NUKE_JQUERY_SCRIPTS_DIR.'jquery.marquee.js','file');
 $jquery_marquee  = '<script type="text/javascript">'.PHP_EOL;
 $jquery_marquee .= 'nuke_jq("[data-marquee]").marquee({
     direction: "up",
 });';
 $jquery_marquee .= '</script>'.PHP_EOL;
 add_js_to_body($jquery_marquee,'inline');
-
-?>

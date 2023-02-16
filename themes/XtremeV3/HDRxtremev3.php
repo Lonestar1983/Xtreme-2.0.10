@@ -20,14 +20,9 @@ if ($username === _ANONYMOUS):
    $theuser .= '<div style="float: right; padding-right: 26px;">Please <a href="modules.php?name=Your_Account">Login</a> or <a href="modules.php?name=Your_Account&amp;op=new_user">Register</a>&nbsp;&nbsp;</div>';
 else:
     $theuser  = sprintf(_YOUHAVE_X_MSGS,'(<a href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a>)');
-    $theuser .= '<br /><a href="modules.php?name=Profile&amp;mode=editprofile">'._EDIT_PROFILE.'</a> | ';
+    $theuser .= '<br /><a href="' . $admin_file . '.php">Dashboard</a> | ';
     $theuser .= '<a href="modules.php?name=Your_Account&amp;op=logout">'._LOGOUT.'</a>';
 endif;
-
-/*-----------------*/
-/* RD Scripts v1.0 */
-/*-----------------*/
-addJSToBody(xtremev3_js_dir.'menu.min.js');
 
 $ads = ads(0);
 

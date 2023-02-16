@@ -46,6 +46,7 @@ $bgcolor4   = $ThemeInfo['bgcolor4'];
 $textcolor1 = $ThemeInfo['textcolor1'];
 $textcolor2 = $ThemeInfo['textcolor2'];
 
+define( 'THEME_VERISON', '3.0.0' );
 define('xtremev3_theme_dir', 'themes/'.$theme_name.'/');
 define('xtremev3_images_dir', xtremev3_theme_dir.'images/');
 define('xtremev3_style_dir', xtremev3_theme_dir.'style/');
@@ -60,6 +61,8 @@ define('xtremev3_copyright_click', 'Click the Link to Display Copyrights');
 
 addCSSToHead(xtremev3_style_dir.'style.css','file');
 addCSSToHead(xtremev3_style_dir.'menu.css','file');
+// evo_include_style( 'xtreme-main-stylesheet', xtremev3_style_dir . 'style.css', THEME_VERISON );
+// evo_include_style( 'xtreme-menu-stylesheet', xtremev3_style_dir . 'menu.css', THEME_VERISON );
 
 /*-------------------*/
 /* OpenTable Section */

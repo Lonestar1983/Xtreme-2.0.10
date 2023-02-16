@@ -5,8 +5,17 @@
         <td colspan="4" align="center">{POLL_QUESTION}</td>
       </tr>
       <!-- BEGIN poll_option -->
-      <tr>
+      <!-- <tr>
         <td>[ {poll_option.POLL_OPTION_RESULT} ]&nbsp;[ {poll_option.POLL_OPTION_PERCENT_VALUE} ]&nbsp;{poll_option.POLL_OPTION_CAPTION} <br />{poll_option.POLL_PROGRESS_BAR}</td>
+      </tr> -->
+      <tr>
+        <td>
+          [ {poll_option.POLL_OPTION_RESULT} ]&nbsp;[ {poll_option.POLL_OPTION_PERCENT_VALUE} ]&nbsp;{poll_option.POLL_OPTION_CAPTION} <br />
+          <progress class="poll-progress-bar"
+            data-percentage="{poll_option.POLL_OPTION_PERCENT_INT}"
+            value="{poll_option.POLL_OPTION_PERCENT_INT}"
+            max="100"></progress>
+        </td>
       </tr>
       <!-- END poll_option -->
       <tr> 

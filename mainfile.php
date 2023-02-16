@@ -27,6 +27,7 @@ if ( realpath( __FILE__ ) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
 define_once( 'NUKE_EVO', '2.0.9f' );
 define_once( 'EVO_EDITION', 'xtreme' );
 define_once( 'EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION );
+define_once( 'EVO_BUILD', '20102023' );
 define( 'PHPVERS', phpversion() );
 define( 'PHP_5', version_compare( PHPVERS, '5.0.0', '>=' ) );
 
@@ -55,7 +56,7 @@ define( 'PHP_5', version_compare( PHPVERS, '5.0.0', '>=' ) );
 // }
 
 $methods = array( "_GET", "_POST", "_REQUEST", "_FILES" );
-foreach($methods as $method) {
+foreach( $methods as $method ) {
 	if ( isset( $$method ) ) {
 		extract( $$method );
 	}
@@ -95,14 +96,6 @@ if ( PHP_5 && ( ! ini_get( 'register_long_arrays' ) || ini_get( 'register_long_a
 	}
 }
 
-
-if (isset($_COOKIE['DONATION'])) {
-    setcookie('DONATION', null, time()-3600);
-    $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: 0; URL=' : 'Location: ';
-	$url = str_replace('&amp;', "&", $url);
-    header($type . 'modules.php?name=Donations&op=thankyou');
-}
-
 //Inspired by phoenix-cms at website-portals.net
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
@@ -128,6 +121,7 @@ define( 'NUKE_CACHE_DIR', NUKE_INCLUDE_DIR . 'cache/' );
 define( 'NUKE_CLASSES_DIR', NUKE_INCLUDE_DIR . 'classes/' );
 define( 'NUKE_ZEND_DIR', NUKE_INCLUDE_DIR . 'Zend/' );
 define( 'NUKE_CLASS_EXCEPTION_DIR',  NUKE_CLASSES_DIR . 'exceptions/' );
+define( 'VENDOR_DIRECTORY', NUKE_INCLUDE_DIR . 'vendor' );
 
 // User Profile URL, URL was defined here for future use with new account module.
 define( 'ACCOUNT_PROFILE_URL', 'modules.php?name=Profile&amp;mode=viewprofile&amp;u=' );
@@ -136,8 +130,10 @@ define( 'GZIPSUPPORT', extension_loaded( 'zlib' ) );
 define( 'GDSUPPORT', extension_loaded( 'gd' ) );
 define( 'CAN_MOD_INI', ! stristr( ini_get( 'disable_functions' ), 'ini_set' ) );
 
-// If a class hasn't been loaded yet find the required file on the server and load
-// it in using the special autoloader detection built into PHP5+
+/**
+ * If a class hasn't been loaded yet find the required file on the server and load
+ * it in using the special autoloader detection built into PHP5+
+ */
 if ( ! function_exists( 'classAutoloader' ) ) {
     function classAutoloader( $class ) {
         // Set the class file path
@@ -151,6 +147,7 @@ if ( ! function_exists( 'classAutoloader' ) ) {
             require_once $file;
         }
     }
+
     spl_autoload_register( 'classAutoloader' );
 }
 
@@ -164,10 +161,6 @@ require_once NUKE_BASE_DIR . 'config.php';
 
 $directory_mode = ( ! $directory_mode ) ? 0777 : 0755;
 $file_mode      = ( ! $file_mode ) ? 0666 : 0644;
-
-// Core exceptions handler
-// include_once(NUKE_INCLUDE_DIR . 'exception.php');
-// include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
 // Include the required files
 require_once NUKE_DB_DIR . 'db.php';
@@ -195,19 +188,22 @@ if ( GZIPSUPPORT && ! ini_get( 'zlib.output_compression' ) && isset( $_SERVER['H
 	ob_implicit_flush( 0 );
 }
 
-require_once NUKE_INCLUDE_DIR . 'constants.php';
-require_once NUKE_CLASSES_DIR . 'class.cache.php';
-require_once NUKE_CLASSES_DIR . 'class.zip.php';
-require_once NUKE_INCLUDE_DIR . 'functions_database.php';
-require_once NUKE_INCLUDE_DIR . 'functions_cache.php';
-require_once NUKE_INCLUDE_DIR . 'user.php';
-require_once NUKE_CLASSES_DIR . 'class.debugger.php';
-require_once NUKE_INCLUDE_DIR . 'functions_evo.php';
-require_once NUKE_INCLUDE_DIR . 'functions_evo_custom.php';
-require_once NUKE_INCLUDE_DIR . 'validation.php';
+require NUKE_INCLUDE_DIR . 'constants.php';
+require NUKE_INCLUDE_DIR . 'vars.php';
+require NUKE_CLASSES_DIR . 'class.cache.php';
+require NUKE_CLASSES_DIR . 'class.zip.php';
+require NUKE_INCLUDE_DIR . 'functions_database.php';
+require NUKE_INCLUDE_DIR . 'functions_cache.php';
+require NUKE_INCLUDE_DIR . 'user.php';
+require NUKE_CLASSES_DIR . 'class.debugger.php';
+require NUKE_INCLUDE_DIR . 'formatting.php';
+require NUKE_INCLUDE_DIR . 'functions_evo.php';
+require NUKE_INCLUDE_DIR . 'functions_evo_custom.php';
+require NUKE_INCLUDE_DIR . 'options.php';
+require NUKE_INCLUDE_DIR . 'validation.php';
 
-include_once NUKE_INCLUDE_DIR . 'nsn_center_block_functions.php';
-include_once NUKE_INCLUDE_DIR . 'widgets.php';
+require NUKE_INCLUDE_DIR . 'nsn_center_block_functions.php';
+require NUKE_INCLUDE_DIR . 'widgets.php';
 
 
 /**
@@ -241,12 +237,9 @@ if ( isset( $_POST['clear_cache'] ) ) {
 }
 
 define( 'NUKE_FILE', true );
-// $dbi        = $db->db_connect_id;
-// $badreasons = 4;
-$sitekey    = md5( $_SERVER['HTTP_HOST'] );
-// $gfx_chk    = 0;
-$tipath     = 'modules/News/images/topics/';
-$reasons    = array(
+$sitekey      = md5( $_SERVER['HTTP_HOST'] );
+$tipath       = 'modules/News/images/topics/';
+$reasons      = array(
 	'As Is',
 	'Offtopic',
 	'Flamebait',
@@ -314,7 +307,7 @@ if ( CAN_MOD_INI ) {
 }
 
 $evoconfig       = load_evoconfig();
-$board_config    = load_board_config();
+$board_config    = evo_load_all_board_options();
 
 $lock_modules    = (int) $evoconfig['lock_modules'];
 $queries_count   = (int) $evoconfig['queries_count'];
@@ -348,16 +341,14 @@ if ( ! defined( 'NO_SENTINEL' ) ) {
 require_once NUKE_CLASSES_DIR . 'class.variables.php';
 require_once NUKE_CLASSES_DIR . 'class.wysiwyg.php';
 
-// include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
-
 if ( file_exists( NUKE_INCLUDE_DIR . 'custom_files/custom_mainfile.php' ) ) {
     require_once NUKE_INCLUDE_DIR . 'custom_files/custom_mainfile.php';
 }
 
-if ( ! defined( 'FORUM_ADMIN' ) && ! isset( $ThemeSel ) && ! defined( 'RSS_FEED' ) ) {
-    $ThemeSel = get_theme();
-    include_once NUKE_THEMES_DIR . $ThemeSel . '/theme.php';
-}
+// if ( ! defined( 'FORUM_ADMIN' ) && ! isset( $ThemeSel ) && ! defined( 'RSS_FEED' ) ) {
+//     $ThemeSel = get_theme();
+//     include_once NUKE_THEMES_DIR . $ThemeSel . '/theme.php';
+// }
 
 if ( ! defined( 'FORUM_ADMIN' ) ) {
     global $admin_file;
@@ -648,90 +639,174 @@ function ads($position) {
     return $ads;
 }
 
-/*
- * functions added to support dynamic and ordered loading of CSS and JS in <HEAD> and before </BODY>
- * Code origin Raven Nuke CMS (http://www.ravenphpscripts.com)
+/**
+ * Enqueue a script.
+ *
+ * @since 2.0.10
+ *
+ * @param string           $handle    Name of the script. Should be unique.
+ * @param string           $src       Full URL of the script, or path of the script relative to the WordPress root directory.
+ *                                    Default empty.
+ * @param string|bool|null $ver       Optional. String specifying script version number, if it has one, which is added to the URL
+ *                                    as a query string for cache busting purposes. If version is set to false, a version
+ *                                    number is automatically added equal to current installed WordPress version.
+ *                                    If set to null, no version is added.
+ * @param bool             $in_footer Optional. Whether to enqueue the script before `</body>` instead of in the `<head>`.
+ *                                    Default 'false'.
  */
-function addCSSToHead($content, $type='file') 
-{
-    global $headCSS;
-    // Duplicate external file?
-    if (($type == 'file') && (is_array($headCSS) && count($headCSS) > 0) && (in_array(array($type, $content), $headCSS))) return;
-    $headCSS[] = array($type, $content);
-    return;
+function evo_include_script( $handle, $src = '', $ver = false, $in_footer = false ) {
+	global $_headJS, $_bodyJS;
+	if ( $src || $in_footer ) {
+
+		$_handle = explode( '?', $handle );
+		$script  = array( $_handle[0], $src, $ver );
+
+		if ( ( is_array( $_bodyJS ) && count( $_bodyJS ) > 0) && ( in_array( $script, $_bodyJS ) ) ) :
+			return;
+		endif;
+
+		if ( $src && $in_footer === false ) {
+			$_headJS[] = $script;
+		}
+
+		if ( $src && $in_footer === true ) {
+			$_bodyJS[] = $script;
+		}
+	}
 }
 
-function addJSToHead($content, $type='file') 
-{
-    global $headJS;
-    // Duplicate external file?
-    if (($type == 'file') && (is_array($headJS) && count($headJS) > 0) && (in_array(array($type, $content), $headJS))) return;
-    $headJS[] = array($type, $content);
-    return;
+/**
+ * Adds extra code to a script.
+ *
+ * @since 2.0.10
+ *
+ * @param string $handle   Name of the script to add the inline script to.
+ * @param string $data     String containing the JavaScript to be added.
+ * @param string $position Optional. Whether to add the inline script before the handle
+ *                         or after. Default 'after'.
+ * @return array
+ */
+function evo_add_inline_script( $handle, $data, $in_footer = false ) {
+	global $_headJS, $_bodyJS;
+
+	if ( ! $data ) {
+		return false;
+	}
+
+	$data = trim( preg_replace( '#<script[^>]*>(.*)</script>#is', '$1', $data ) );
+
+	if ( $in_footer === false ) {
+		$_headJS[] = array( $handle, $data, 'inline' );
+	}
+
+	if ( $in_footer === true ) {
+		$_bodyJS[] = array( $handle, $data, 'inline' );
+	}
 }
 
-function addJSToBody($content, $type='file') 
-{
-    global $bodyJS;
-    // Duplicate external file?
-    if (($type == 'file') && (is_array($bodyJS) && count($bodyJS) > 0) && (in_array(array($type, $content), $bodyJS))) return;
-    $bodyJS[] = array($type, $content);
-    return;
+/**
+ * Enqueue a CSS stylesheet.
+ *
+ * @since 2.0.10
+ *
+ * @param string           $handle Name of the stylesheet. Should be unique.
+ * @param string           $src    Full URL of the stylesheet, or path of the stylesheet relative to the WordPress root directory.
+ *                                 Default empty.
+ * @param string[]         $deps   Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
+ * @param string|bool|null $ver    Optional. String specifying stylesheet version number, if it has one, which is added to the URL
+ *                                 as a query string for cache busting purposes. If version is set to false, a version
+ *                                 number is automatically added equal to current installed WordPress version.
+ *                                 If set to null, no version is added.
+ * @param string           $media  Optional. The media for which this stylesheet has been defined.
+ *                                 Default 'all'. Accepts media types like 'all', 'print' and 'screen', or media queries like
+ *                                 '(orientation: portrait)' and '(max-width: 640px)'.
+ */
+function evo_include_style( $handle, $src = '', $ver = false, $media = 'all' ) {
+	global $_headCSS;
+
+	if ( $src ) {
+		$_handle = explode( '?', $handle );
+		$script  = array( $_handle[0], $src, $ver, $media );
+
+		if ( ( is_array( $_headCSS ) && count( $_headCSS ) > 0 ) && ( in_array( $script, $_headCSS ) ) ) :
+			return;
+		endif;
+
+		$_headCSS[] = $script;
+	}
 }
 
-function writeHEAD() 
-{
-    global $headCSS, $headJS;
-    if (is_array($headCSS) && count($headCSS) > 0) 
-    {
-        foreach($headCSS AS $css) 
-        {
-            if ($css[0]=='file') 
-            {
-                echo '<link rel="stylesheet" href="' . $css[1] . '" type="text/css" />' . "\n";
-            } else {
-                echo $css[1];
-            }
-        }
-    }
+/**
+ * Add extra CSS styles to a stylesheet.
+ *
+ * @since 2.0.10
+ *
+ * @param string $handle Name of the stylesheet to add the extra styles to.
+ * @param string $data   String containing the CSS styles to be added.
+ * @return array
+ */
+function evo_add_inline_style( $handle, $data ) {
+	global $_headCSS;
 
-    if (is_array($headJS) && count($headJS) > 0) 
-    {
-        foreach($headJS AS $js) 
-        {
-            if ($js[0] == 'file') 
-            {
-                echo '<script type="text/javascript" src="' . $js[1] . '"></script>' . "\n";
-            } else {
-                echo $js[1];
-            }
-        }
-    }
-    return;
+	if ( $data ) {
+		$data       = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
+		$_headCSS[] = array( $handle, $data, 'inline' );
+	}
 }
 
-function writeBODYJS() 
-{
-    global $bodyJS;
-    if (is_array($bodyJS) && count($bodyJS) > 0) 
-    {
-        foreach($bodyJS AS $js) 
-        {
-            if ($js[0] == 'file') 
-            {
-                echo '<script type="text/javascript" language="JavaScript" src="' . $js[1] . '"></script>' . "\n";
-            } else {
-                echo $js[1];
-            }
-        }
-    }
-    return;
+function writeHEAD() {
+	global $_headCSS, $_headJS;
+	if ( is_array( $_headCSS ) && count( $_headCSS ) > 0)  {
+		foreach( $_headCSS as $i => $css ) {
+			if ( $css[ 2 ] !== 'inline' ) {
+				if ( $css[ 2 ] === false ) :
+					echo "<link id='" . $css[ 0 ] . "-css' rel='stylesheet' href='" . $css[ 1 ] . "' media='" . $css[ 3 ] . "'>\n";
+				else:
+					echo "<link id='" . $css[ 0 ] . "-css' rel='stylesheet' href='" . $css[ 1 ] . "?ver=" . $css[ 2 ] . "' media='" . $css[ 3 ] . "'>\n";
+				endif;
+			} else {
+				echo '<style id="' . $css[ 0 ] . '">';
+				echo $css[ 1 ];
+				echo '</style>';
+			}
+		}
+	}
+
+	if ( is_array( $_headJS ) && count( $_headJS ) > 0)  {
+		foreach( $_headJS as $i => $js ) {
+			if ( $js[ 2 ] !== 'inline' ) {
+				if ( $js[ 2 ] === false ) :
+					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "'></script>\n";
+				else:
+					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "?ver=" . $js[ 2 ] . "'></script>\n";
+				endif;
+			} else {
+				echo "<script id='" . $js[ 0 ] . "-js'>\n";
+				echo $js[ 1 ];
+				echo "</script>\n";
+			}
+		}
+	}
 }
 
-
-/*****[END]********************************************
- [ Module:    Advertising                    v7.8.3.1 ]
- ******************************************************/
+function writeBODYJS() {
+	global $_bodyJS;
+	if ( is_array( $_bodyJS ) && count( $_bodyJS ) > 0)  {
+		foreach( $_bodyJS as $i => $js ) {
+			if ( $js[ 2 ] !== 'inline' ) {
+				if ( $js[ 2 ] === false ) :
+					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "'></script>\n";
+				else:
+					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "?ver=" . $js[ 2 ] . "'></script>\n";
+				endif;
+			} else {
+				echo "<script id='" . $js[ 0 ] . "-js'>\n";
+				echo $js[ 1 ];
+				echo "</script>\n";
+			}
+		}
+	}
+}
 
 /*****[BEGIN]******************************************
  [ Base:    Theme Management                   v1.0.2 ]

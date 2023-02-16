@@ -1452,11 +1452,11 @@ if ( !empty($forum_topic_data['topic_vote']) )
 /*****[END]********************************************
  [ Mod:     Smilies in Topic Titles            v1.0.0 ]
  ******************************************************/
-										'POLL_PROGRESS_BAR' => display_progress_bar(false,'evo-progress-bar orange shine', ($vote_percent * 100)),
 										'POLL_OPTION_RESULT' => $vote_info[$i]['vote_result'],
 										// 'POLL_OPTION_PERCENT_VALUE' => sprintf("%.1d%%", ($vote_percent * 100)),
 
-										'POLL_OPTION_PERCENT_VALUE' => sprintf("%.1d%%", round(($vote_percent * 100),0,PHP_ROUND_HALF_UP)),
+										'POLL_OPTION_PERCENT_INT'   => ( $vote_percent * 100 ),
+										'POLL_OPTION_PERCENT_VALUE' => sprintf( "%.1d%%", round( ( $vote_percent * 100 ), 0, PHP_ROUND_HALF_UP ) ),
 
 										// 'POLL_OPTION_RESULT' => $vote_info[$i]['vote_result'],
 										// 'POLL_OPTION_PERCENT' => sprintf("%.1d%%", ($vote_percent * 100)),
