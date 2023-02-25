@@ -11,59 +11,39 @@
  */
 
 if ( ! defined( 'NUKE_EVO' ) ) {
-    die( "You can't access this file directly..." );
+	die( "You can't access this file directly..." );
 }
 
 global $db, $prefix, $cache;
 
 if ( ( $metatags = $cache->load( 'metatags', 'config' ) ) === false ) {
-
-  $metatags = array();
-  $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta';
-  $result = $db->sql_query($sql, true);
-  $i=0;
-  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result)) {
-      $metatags[$i] = array();
-      $metatags[$i]['meta_name'] = $meta_name;
-      $metatags[$i]['meta_content'] = $meta_content;
-      $i++;
-  }
-  unset($i);
-  $db->sql_freeresult($result);
-  $cache->save('metatags', 'config', $metatags);
+	$metatags = array();
+	$result   = dbquery( "SELECT meta_name, meta_content FROM " . $prefix . "_meta" );
+	$i        = 0;
+	while( list( $meta_name, $meta_content ) = dbrow( $result ) ) {
+		$metatags[ $i ]                 = array();
+		$metatags[ $i ]['meta_name']    = $meta_name;
+		$metatags[ $i ]['meta_content'] = $meta_content;
+		++$i;
+	}
+	unset( $i );
+	dbfree( $result );
+	cache_set( 'metatags', 'config', $metatags );
 }
-
-
-##################################################
-# Finally output the meta tags                   #
-##################################################
-
-$metastring  = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
-$metastring .= '<meta http-equiv="Content-Language" content="'._LANGCODE.'">';
-$metastring .= '<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->';
-// $metastring .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-/**
- * Only add the meta tag below if the theme is bootstrap made.
- */
-if ( defined('BOOTSTRAP') ):
-	$metastring .= '<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">';
-endif;
-
-
-for($i=0,$j=count($metatags);$i<$j;$i++) {
-	$metatag = $metatags[$i];
-    $metastring .= "<meta name=\"".$metatag['meta_name']."\" content=\"".$metatag['meta_content']."\">\n";
-}
-
-###############################################
-# DO NOT REMOVE THE FOLLOWING COPYRIGHT LINE! #
-# YOU'RE NOT ALLOWED TO REMOVE NOR EDIT THIS. #
-###############################################
-
-// IF YOU REALLY NEED TO REMOVE IT AND HAVE MY WRITTEN AUTHORIZATION CHECK: http://phpnuke.org/modules.php?name=Commercial_License
-// PLAY FAIR AND SUPPORT THE DEVELOPMENT, PLEASE!
-$metastring .= '<meta name="generator" content="PHP-Nuke Copyright (c) 2006 by Francisco Burzi. This is free software, and you may redistribute it under the GPL (http://phpnuke.org/files/gpl.txt). PHP-Nuke comes with absolutely no warranty, for details, see the license (http://phpnuke.org/files/gpl.txt). Powered by Nuke-Evolution (http://www.nuke-evolution.com).">';
-
-echo $metastring;
 
 ?>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="<?php echo _LANGCODE; ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<?php
+for( $i = 0, $j = count( $metatags ); $i < $j; ++$i ) {
+	$metatag = $metatags[ $i ];
+	?>
+	<meta name="<?php echo $metatag['meta_name']; ?>" content="<?php echo $metatag['meta_content']; ?>">
+	<?php
+}
+?>
+
+<meta name="generator" content="PHP-Nuke Copyright (c) 2006 by Francisco Burzi. This is free software, and you may redistribute it under the GPL (http://phpnuke.org/files/gpl.txt). PHP-Nuke comes with absolutely no warranty, for details, see the license (http://phpnuke.org/files/gpl.txt). Powered by Nuke-Evolution (http://www.nuke-evolution.com).">

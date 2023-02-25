@@ -80,9 +80,7 @@ function get_author( $aid ) {
 }
 
 /**
- * Determines whether the current request is for an administrative interface page.
- *
- * Does not check if the user is an administrator; use is_user()
+ * Color the username of specified user.
  *
  * @since 1.0.5
  *
@@ -120,6 +118,25 @@ function UsernameColor( $username, $old_name = false ) {
 		cache_set( 'UserColors', 'config', $cached_names );
 	}
 	return $cached_names[ $plain_username ];
+}
+
+/**
+ * Color the username of specified user.
+ *
+ * @since 1.0.5
+ *
+ * @param string  $username   User username
+ * @param string  $color      Aadvanced Username Color.
+ * @return string Colored Username
+ */
+function color_username( $username, $color = null ) {
+	if ( $color === null ) {
+		return $username;
+	}
+
+	$color    = preg_replace( '/#([\w-]+)/i', '', $color );
+	$username = '<span class="username-color" style="color: #' . $color . '">' . $username . '</span>';
+	return $username;
 }
 
 /**

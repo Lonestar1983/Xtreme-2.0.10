@@ -1,5 +1,7 @@
 <?php
 
+defined( 'NUKE_EVO' ) || exit;
+
 /**
  * Send mail, similar to PHP's mail
  *
@@ -19,7 +21,22 @@
  * @return bool Whether the email contents were sent successfully.
  */
 function evo_phpmailer( $to, $subject, $message, $headers = '', $attachments = array() ) {
-	global $sitename, $adminmail;
+	/**
+	 * Filters the evo_phpmailer() arguments.
+	 *
+	 * @since 2.0.10
+	 *
+	 * @param array $args {
+	 *     Array of the `evo_phpmailer()` arguments.
+	 *
+	 *     @type string|string[] $to          Array or comma-separated list of email addresses to send message.
+	 *     @type string          $subject     Email subject.
+	 *     @type string          $message     Message contents.
+	 *     @type string|string[] $headers     Additional headers.
+	 *     @type string|string[] $attachments Paths to files to attach.
+	 * }
+	 */
+	$atts = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 
 	if ( isset( $atts['to'] ) ) {
 		$to = $atts['to'];
@@ -160,12 +177,12 @@ function evo_phpmailer( $to, $subject, $message, $headers = '', $attachments = a
 
 	// If we don't have a name from the input headers.
 	if ( ! isset( $from_name ) ) {
-		$from_name = $sitename;
+		$from_name = $GLOBALS['sitename'];
 	}
 
 	if ( ! isset( $from_email ) ) {
-		$sitename   = $sitename;
-		$from_email = $adminmail;
+		$sitename   = $GLOBALS['sitename'];
+		$from_email = $GLOBALS['adminmail'];
 	}
 
 	try {
@@ -173,10 +190,7 @@ function evo_phpmailer( $to, $subject, $message, $headers = '', $attachments = a
 	} catch ( PHPMailer\PHPMailer\Exception $e ) {
 		$mail_error_data                             = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 		$mail_error_data['phpmailer_exception_code'] = $e->getCode();
-
-		/** This filter is documented in wp-includes/pluggable.php */
-		// do_action( 'wp_mail_failed', new WP_Error( 'wp_mail_failed', $e->getMessage(), $mail_error_data ) );
-		log_write( 'error', $mail_error_data, 'PHPMailer Error' );
+		log_write( 'error', $e->getMessage(), 'PHPMailer Error' );
 
 		return false;
 	}
@@ -226,24 +240,23 @@ function evo_phpmailer( $to, $subject, $message, $headers = '', $attachments = a
 	}
 
 	// Set to use PHP's mail().
-	// $phpmailer->isMail();
-	if ( true === get_board_option( 'smtp_delivery' ) ) {
-		$phpmailer->Host       = $board_config['smtp_host'];
-		$phpmailer->Port       = $board_config['smtp_port'];
-		$phpmailer->SMTPSecure = $board_config['smtp_encryption'];
+	if ( true == get_board_option( 'smtp_delivery' ) ) {
+		$phpmailer->Host       = get_board_option( 'smtp_host' );
+		$phpmailer->Port       = get_board_option( 'smtp_port' );
+		$phpmailer->SMTPSecure = get_board_option( 'smtp_encryption' );
 		$phpmailer->isSMTP();
 
-		if ( 'none' === get_board_option( 'smtp_encryption' )  ) {
+		if ( 'none' == get_board_option( 'smtp_encryption' )  ) {
 			$phpmailer->SMTPSecure  = '';
 			$phpmailer->SMTPAutoTLS = false;
 		}
 
-		if ( true === get_board_option( 'smtp_auth' ) ) {
-			$mail->SMTPAuth = true;
-			$mail->Username = $board_config['smtp_username'];
-			$mail->Password = $board_config['smtp_password'];
+		if ( true == get_board_option( 'smtp_auth' ) ) {
+			$phpmailer->SMTPAuth = true;
+			$phpmailer->Username = get_board_option( 'smtp_username' );
+			$phpmailer->Password = get_board_option( 'smtp_password' );
 		} else {
-			$mail->SMTPAuth = false;
+			$phpmailer->SMTPAuth = false;
 		}
 
 	} else {
@@ -287,6 +300,7 @@ function evo_phpmailer( $to, $subject, $message, $headers = '', $attachments = a
 			try {
 				$phpmailer->addAttachment( $attachment );
 			} catch ( PHPMailer\PHPMailer\Exception $e ) {
+				log_write( 'error', 'attachment error', 'PHPMailer Attachment Error' );
 				continue;
 			}
 		}
@@ -300,8 +314,7 @@ function evo_phpmailer( $to, $subject, $message, $headers = '', $attachments = a
 		return $send;
 	} catch ( PHPMailer\PHPMailer\Exception $e ) {
 		$mail_data['phpmailer_exception_code'] = $e->getCode();
-		log_write( 'error', $mail_data['phpmailer_exception_code'], 'PHPMailer Error' );
-
+		log_write( 'error', $e->getMessage(), 'PHPMailer Error' );
 		return false;
 	}
 }
@@ -1174,4 +1187,312 @@ function bootstrap_pagination() {
 
     endif;
 
+}
+
+/**
+ * Outputs the HTML selected attribute.
+ *
+ * Compares the first two arguments and if identical marks as selected.
+ *
+ * @since 2.0.10
+ *
+ * @param mixed $selected One of the values to compare.
+ * @param mixed $current  Optional. The other value to compare if not just true.
+ *                        Default true.
+ * @param bool  $echo     Optional. Whether to echo or just return the string.
+ *                        Default true.
+ * @return string HTML attribute or empty string.
+ */
+function selected( $selected, $current = true, $echo = true ) {
+	return __checked_selected_helper( $selected, $current, $echo, 'selected' );
+}
+
+/**
+ * Outputs the HTML checked attribute.
+ *
+ * Compares the first two arguments and if identical marks as checked.
+ *
+ * @since 2.0.10
+ *
+ * @param mixed $checked One of the values to compare.
+ * @param mixed $current Optional. The other value to compare if not just true.
+ *                       Default true.
+ * @param bool  $echo    Optional. Whether to echo or just return the string.
+ *                       Default true.
+ * @return string HTML attribute or empty string.
+ */
+function checked( $checked, $current = true, $echo = true ) {
+	return __checked_selected_helper( $checked, $current, $echo, 'checked' );
+}
+
+/**
+ * Outputs the HTML disabled attribute.
+ *
+ * Compares the first two arguments and if identical marks as disabled.
+ *
+ * @since 2.0.10
+ *
+ * @param mixed $disabled One of the values to compare.
+ * @param mixed $current  Optional. The other value to compare if not just true.
+ *                        Default true.
+ * @param bool  $echo     Optional. Whether to echo or just return the string.
+ *                        Default true.
+ * @return string HTML attribute or empty string.
+ */
+function disabled( $disabled, $current = true, $echo = true ) {
+	return __checked_selected_helper( $disabled, $current, $echo, 'disabled' );
+}
+
+/**
+ * Outputs the HTML readonly attribute.
+ *
+ * Compares the first two arguments and if identical marks as readonly.
+ *
+ * @since 2.0.10
+ *
+ * @param mixed $readonly One of the values to compare.
+ * @param mixed $current  Optional. The other value to compare if not just true.
+ *                        Default true.
+ * @param bool  $echo     Optional. Whether to echo or just return the string.
+ *                        Default true.
+ * @return string HTML attribute or empty string.
+ */
+function readonly( $readonly, $current = true, $echo = true ) {
+	return __checked_selected_helper( $readonly, $current, $echo, 'readonly' );
+}
+
+/**
+  * Private helper function for checked, selected, disabled and readonly.
+ *
+ * Compares the first two arguments and if identical marks as `$type`.
+ *
+ * @since 2.0.10
+ * @access private
+ *
+ * @param mixed  $helper  One of the values to compare.
+ * @param mixed  $current The other value to compare if not just true.
+ * @param bool   $echo    Whether to echo or just return the string.
+ * @param string $type    The type of checked|selected|disabled|readonly we are doing.
+ * @return string HTML attribute or empty string.
+ */
+function __checked_selected_helper( $helper, $current, $echo, $type ) {
+	if ( (string) $helper === (string) $current ) {
+		$result = " $type='$type'";
+	} else {
+		$result = '';
+	}
+
+	if ( $echo ) {
+		echo $result;
+	}
+
+	return $result;
+}
+
+/**
+ * Determines if SSL is used.
+ *
+ * @since 2.0.10
+ *
+ * @return bool True if SSL, otherwise false.
+ */
+function is_ssl() {
+	if ( isset( $_SERVER['HTTPS'] ) ) {
+		if ( 'on' === strtolower( $_SERVER['HTTPS'] ) ) {
+			return true;
+		}
+
+		if ( '1' == $_SERVER['HTTPS'] ) {
+			return true;
+		}
+	} elseif ( isset( $_SERVER['SERVER_PORT'] ) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Determines if current user is a group.
+ *
+ * @since 2.0.10
+ *
+ * @return bool
+ */
+function is_user_in_group( $groups, $allow_admin_bypass = true ) {
+	//If the user is an admin, bypass the check altogether.
+	if ( is_admin() && true === $allow_admin_bypass ) {
+		return true;
+	}
+
+	if ( ! is_array( $groups ) ) {
+		return false;
+	}
+
+	$total_user_count = 0;
+	$user_in_group    = false;
+
+	foreach ( $groups as $group ) {
+		if ( isset( $GLOBALS['userinfo']['groups'][ $group ] ) ) {
+			++$total_user_count;
+		}
+	}
+
+	if ( $total_user_count > 0 ) {
+		$user_in_group = true;
+	}
+
+	return $user_in_group;
+}
+
+/**
+ * Determines whether the current visitor is a logged in user.
+ *
+ * @since 2.0.10
+ *
+ * @return bool True if user is logged in, false if not logged in.
+ */
+function is_user_logged_in() {
+	$user = is_user() ?: false;
+	return $user;
+}
+
+/**
+ * Serialize data, if needed.
+ *
+ * @since 2.0.10
+ *
+ * @param string|array|object $data Data that might be serialized.
+ *
+ * @return mixed A scalar data.
+ */
+function maybe_serialize( $data ) {
+	if ( is_array( $data ) || is_object( $data ) ) {
+		return serialize( $data );
+	}
+
+	return $data;
+}
+
+/**
+ * Unserialize data only if it was serialized.
+ *
+ * @since 2.0.10
+ *
+ * @param string $data Data that might be unserialized.
+ *
+ * @return mixed Unserialized data can be any type.
+ */
+function maybe_unserialize( $data ) {
+	if ( is_serialized( $data ) ) { // Don't attempt to unserialize data that wasn't serialized going in.
+		return @unserialize( trim( $data ) );
+	}
+
+	return $data;
+}
+
+/**
+ * Check value to find if it was serialized.
+ *
+ * If $data is not an string, then returned value will always be false.
+ * Serialized data is always a string.
+ *
+ * @since 2.0.10
+ *
+ * @param string $data   Value to check to see if was serialized.
+ * @param bool   $strict Optional. Whether to be strict about the end of the string. Default true.
+ *
+ * @return bool False if not serialized and true if it was.
+ */
+function is_serialized( $data, $strict = true ) {
+	// If it isn't a string, it isn't serialized.
+	if ( ! is_string( $data ) ) {
+		return false;
+	}
+
+	$data = trim( $data );
+	if ( 'N;' === $data ) {
+		return true;
+	}
+
+	if ( strlen( $data ) < 4 ) {
+		return false;
+	}
+
+	if ( ':' !== $data[1] ) {
+		return false;
+	}
+
+	if ( $strict ) {
+		$lastc = substr( $data, -1 );
+		if ( ';' !== $lastc && '}' !== $lastc ) {
+			return false;
+		}
+	} else {
+		$semicolon = strpos( $data, ';' );
+		$brace     = strpos( $data, '}' );
+		// Either ; or } must exist.
+		if ( false === $semicolon && false === $brace ) {
+			return false;
+		}
+		// But neither must be in the first X characters.
+		if ( false !== $semicolon && $semicolon < 3 ) {
+			return false;
+		}
+		if ( false !== $brace && $brace < 4 ) {
+			return false;
+		}
+	}
+
+	$token = $data[0];
+	switch ( $token ) {
+		case 's':
+			if ( $strict ) {
+				if ( '"' !== substr( $data, -2, 1 ) ) {
+					return false;
+				}
+			} elseif ( false === strpos( $data, '"' ) ) {
+				return false;
+			}
+			// Or else fall through.
+		case 'a':
+		case 'O':
+			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
+		case 'b':
+		case 'i':
+		case 'd':
+			$end = $strict ? '$' : '';
+			return (bool) preg_match( "/^{$token}:[0-9.E+-]+;$end/", $data );
+	}
+	return false;
+}
+
+/**
+ * Check whether serialized data is of string type.
+ *
+ * @since 2.0.10
+ *
+ * @param string $data Serialized data.
+ *
+ * @return bool False if not a serialized string, true if it is.
+ */
+function is_serialized_string( $data ) {
+	// if it isn't a string, it isn't a serialized string.
+	if ( ! is_string( $data ) ) {
+		return false;
+	}
+
+	$data = trim( $data );
+	if ( strlen( $data ) < 4 ) {
+		return false;
+	} elseif ( ':' !== $data[1] ) {
+		return false;
+	} elseif ( ';' !== substr( $data, -1 ) ) {
+		return false;
+	} elseif ( 's' !== $data[0] ) {
+		return false;
+	} elseif ( '"' !== substr( $data, -2, 1 ) ) {
+		return false;
+	} else {
+		return true;
+	}
 }

@@ -16,7 +16,7 @@ if(blocks_visible('right') && !defined('ADMIN_FILE')):
 echo '</div>'
     .'  <div class="body-background" style="vertical-align: top;"><img src="'.xtremev3_images_dir.'spacer.gif" style="width:5px; height:1px" border="0" alt=""></div>'
     .'  <div class="body-background" style="vertical-align: top">';
-    blocks('right'); 
+    blocks('right');
 
 endif;
 
@@ -25,14 +25,14 @@ echo '  </div>'
     .'</section>'
 
     .'<footer>'
-    
-    .'<section id="flex-container">'
+
+    .'<section class="flex-container footer-messages-top">'
     .'  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbartop_01.png" style="width: 114px; height: 23px;"></div>'
     .'  <div class="flex-item" style="width: 100%; height: 23px; background-image: url('.xtremev3_ftr_images.'FTRbartop_Bg_Stretch.png)"></div>'
     .'  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbartop_03.png" style="width: 114px; height: 23px;"></div>'
     .'</section>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container footer-messages">'
     .'  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTR_01.png" style="width: 35px; height: 71px;"></div>'
     .'  <div class="flex-item" style="width: 100%; height: 71px; background-image: url('.xtremev3_ftr_images.'FTR_Bg_Stretch.png)">'
     .'    <div align="left" style="line-height: 28px; padding-top:8px; padding-left:20px;"><span style="color: #F1F1F1">'.$ThemeInfo['fms1'].'<br />'.$ThemeInfo['fms2'].'<br /></span></div>'
@@ -47,7 +47,7 @@ echo '  </div>'
     .'  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTR_04.png" style="width: 35px; height: 71px;"></div>'
     .'</section>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container footer-messages-bottom">'
     .'  <div class="flex-item"><img src="'.xtremev3_ftr_images.'FTRbarbtm_01.png" style="width: 114px; height: 15px;"></div>'
     .'  <div class="flex-item" style="width: 100%; height: 15px; background-image: url('.xtremev3_ftr_images.'FTRbarbtm_Bg_Stretch.png)">'
     .'    <div class="tooltip-html center" style="font-size: xx-small;" title="'.xtremev3_copyright.'"><span style="color: #141B05;">'.str_replace('<br />', '', xtremev3_copyright).'</span></div>'

@@ -1,19 +1,4 @@
 <?php
-
-/*
-	Author: phpbb.com
-	Author Email: support@phpbb.com
-	Copyright Header: Module Copyright © Information
-	Module Description: Display's all registered user's.
-	Module Name: Members List	
-	Module Version: 1.36.2.10
-	Modifications: Lonestar (http://lonestar-modules.com)	
-*/
-
-/*=======================================================================
- Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
- =======================================================================*/
-
 /***************************************************************************
  *                              memberlist.php
  *                            -------------------
@@ -34,346 +19,287 @@
  *
  ***************************************************************************/
 
-/*****[CHANGES]**********************************************************
--=[Base]=-
-      Nuke Patched                             v3.1.0       06/26/2005
--=[Mod]=-
-      Advanced Username Color                  v1.0.5       06/11/2005
-      Memberlist Find User                     v1.0.0       07/06/2005
-      Online/Offline/Hidden (Selection Order)  v1.0.0       08/21/2005
-      Online/Offline/Hidden                    v2.2.7       01/24/2006
-	  Member Country Flags                     v2.0.7
-	  Birthdays                                v3.0.0
- ************************************************************************/
+/**
+ * ! Modifications made by Lonestar of <https://lonestar-modules.com>
+ *
+ * ? Several modifications made to make the module more responsive friendly,
+ * ? until I rebuild the forums from scratch.
+ */
 
+defined( 'NUKE_EVO' ) || exit;
 
+require NUKE_FORUMS_DIR . '/nukebb.php';
 
-if (!defined('MODULE_FILE')) {
-   die('You can\'t access this file directly...');
-}
+define( 'IN_PHPBB', true );
+include $phpbb_root_path . 'extension.inc';
+include $phpbb_root_path . 'common.' . $phpEx;
 
-$module_name = basename(dirname(__FILE__));
-require(NUKE_FORUMS_DIR.'/nukebb.php');
+$userdata = session_pagestart( $user_ip, PAGE_VIEWMEMBERS );
+init_userprefs( $userdata );
 
-define('IN_PHPBB', true);
-include($phpbb_root_path.'extension.inc');
-include($phpbb_root_path.'common.'.$phpEx);
+global $board_config;
 
-# Start session management
-$userdata = session_pagestart($user_ip, PAGE_VIEWMEMBERS);
-init_userprefs($userdata);
-
-$pageroot       = (!empty($HTTP_GET_VARS['page'])) ? $HTTP_GET_VARS['page'] : 1;
-$page           = (isset($pageroot)) ? intval($pageroot) : 1;
-
-$calc           = $board_config['topics_per_page'] * $page;
-$start          = $calc - $board_config['topics_per_page'];
-
-// if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
-// 	$mode = ( isset($HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
-// else
-// 	$mode = 'joined';
-$mode           = get_query_var('mode', '_REQUEST', 'string', 'joined');
-$sort_order     = get_query_var('order', '_REQUEST', 'string');
-$sort_order     = ($sort_order == 'DESC') ? $sort_order : 'ASC';
-
+/**
+ * ? Set the page title.
+ */
 $page_title = $lang['Memberlist'];
-include(NUKE_INCLUDE_DIR.'page_header.php');
 
-$template->set_filenames(array(
-	'body' => 'memberlist_body.tpl')
+/**
+ * ? Pagination
+ */
+$page     = get_query_var('page', 'get', 'int', 1);
+$calc     = $board_config['topics_per_page'] * $page;
+$start    = $calc - $board_config['topics_per_page'];
+$alphanum = get_query_var( 'alphanum', 'get' );
+$query    = get_query_var( 'q', 'request' );
+$field    = get_query_var( 'f', 'request', 'string', 'id' );
+
+include NUKE_INCLUDE_DIR . 'page_header.php';
+
+$template->set_filenames(
+	array(
+		'body' => 'memberlist_body.tpl'
+	)
 );
 
-$template->assign_vars(array(
-	'L_PAGE_TITLE' 			=> $lang['Memberlist'],
-	'L_SELECT_SORT_METHOD' 	=> $lang['Select_sort_method'],
-	'L_EMAIL' 				=> $lang['Email'],
-	'L_WEBSITE' 			=> $lang['Website'],
-	'L_FROM' 				=> $lang['Location'],
-	'L_ORDER' 				=> $lang['Order'],
-	'L_LOOK_UP' 			=> $lang['Look_up_User'],
-	'L_FIND_USERNAME' 		=> $lang['Find_username'],
-	'U_SEARCH_USER' 		=> "modules.php?name=Forums&amp;file=search&amp;mode=searchuser&amp;popup=1", // modules.php?name=Forums&file=search&search_author=Lonestar
-	'U_SEARCH_EXPLAIN'		=> $lang['Search_author_explain'],
-	'L_GO'					=> $lang['Sort_Go'],
-	'L_JOINED' 				=> $lang['Joined'],
-	'L_AGE' 				=> $lang['Sort_Age'],
-	'L_POSTS' 				=> $lang['Posts'],
-	'L_ONLINE_STATUS' 		=> $lang['Online_status'],
-	'L_LAST_VISIT' 			=> $lang['User_last_visit'],
-/*****[BEGIN]******************************************
- [ Mod:    Selection Order                     v1.0.0 ]
- [ Mod:    Birthdays                           v3.0.0 ]
- ******************************************************/
-	'S_MODE_SELECT' 		=> select_box('mode',$mode,array('joined' => $lang['Sort_Joined'], 'username' => $lang['Sort_Username'], 'location' => $lang['Sort_Location'], 'posts' => $lang['Sort_Posts'], 'age' => $lang['Sort_Age'], 'email' => $lang['Sort_Email'], 'website' => $lang['Sort_Website'], 'topten' => $lang['Sort_Top_Ten'], 'online' => $lang['Current_status'])),
-/*****[END]********************************************
- [ Mod:    Birthdays                           v3.0.0 ]
- [ Mod:    Selection Order                     v1.0.0 ]
- ******************************************************/
-	'S_ORDER_SELECT' 		=> select_box('order',$sort_order,array('ASC' => $lang['Sort_Ascending'], 'DESC' => $lang['Sort_Descending'])),
-	'S_MODE_ACTION' 		=> append_sid("memberlist.$phpEx"))
-	// 'L_PM' 					=> $lang['Private_Message'])
+$where  = '';
+$where .= isset( $query ) ? " && username LIKE '%" . $query . "%'" : "";
+
+// ? Sort the users
+$sorting = array(
+	'id'        => ' ORDER BY user_id DESC',
+	'lastvisit' => ' ORDER BY user_lastvisit DESC',
+	'name'      => ' ORDER BY username ASC'
 );
 
-//---------------------------------------------------------------------
-//	SEARCH FOR USERS VIA THE ALPHABET LISTING
-//---------------------------------------------------------------------
-$alpha_range = array();
-$alpha_letters = array();
-$alpha_letters = range('A','Z');
-$alpha_start = array('All','#');
-$alpha_range = array_merge($alpha_start, $alpha_letters);
+$order_by  = '';
+$order_by .= isset( $field ) ? $sorting[ $field ] : '';
+
+// ? Page queries are for use with pagination links.
+$page_queries  = '';
+$page_queries .= isset( $query ) ? "&q=" . $query : "";
+$page_queries .= isset( $order_by ) ? "&f=" . $field : "";
+
+$template->assign_vars(
+	array(
+		'L_AGE'                => $lang['Sort_Age'],
+		'L_ABOUT_ME'           => $lang['Extra_Info'],
+		'L_AVATAR'             => $lang['Avatar'],
+		'L_BIRTHDAY'           => $lang['Birthday'],
+		'L_EMAIL'              => $lang['Email'],
+		'L_FIND_USERNAME'      => $lang['Find_username'],
+		'L_FOLLOW'             => $lang['Follow_Me'],
+		'L_GO'                 => $lang['Sort_Go'],
+		'L_INTRODUCTION'       => $lang['introduction'],
+		'L_JOINED'             => $lang['Joined'],
+		'L_LAST_ACTIVE'        => $lang['last_active'],
+		'L_LAST_VISIT'         => $lang['User_last_visit'],
+		'L_LOCATION'           => $lang['Location'],
+		'L_LOOK_UP'            => $lang['Look_up_User'],
+		'L_MEMBERINFO'         => $lang['member_info'],
+		'L_MEMBERLIST'         => $lang['Memberlist'],
+		'L_NEWEST_REGISTERED'  => $lang['newest_registered'],
+		'L_ORDER'              => $lang['Order'],
+		'L_PAGE_TITLE'         => $lang['Memberlist'],
+		'L_POSTS'              => $lang['Posts'],
+		'L_REGISTERED'         => $lang['registered'],
+		'L_RELATIONSHIP'       => $lang['relationship'],
+		'L_YEARS_OLD'          => $lang['years'],
+		'L_SORT_METHOD'        => $lang['Select_sort_method'],
+		'L_STATUS'             => $lang['Online_status'],
+		'L_WEBSITE'            => $lang['Website'],
+
+		'L_STEAM'              => $lang['steam'],
+		'L_FACEBOOK'           => $lang['facebook'],
+		'L_INSTAGRAM'          => $lang['instagram'],
+		'L_TWITTER'            => $lang['twitter'],
+		'L_TWITCH'             => $lang['twitch'],
+		'L_USERNAME'           => $lang['Username'],
+		'L_YOUTUBE'            => $lang['youtube'],
+
+		// ? Search queries
+		'ORDER_USER_ID'        => isset( $field ) && $field == 'id' ? 'selected' : '',
+		'ORDER_USER_LASTVISIT' => isset( $field ) && $field == 'lastvisit' ? 'selected' : '',
+		'ORDER_USERNAME'       => isset( $field ) && $field == 'name' ? 'selected' : '',
+
+		// ? Form action
+		'S_MODE_ACTION'        => append_sid( "memberlist.$phpEx" )
+	)
+);
+
+/**
+ * ? Members loop
+ *
+ * todo: Modify query to no longer count the users marked as "DELETED", As they are no longer able to post, why count them?.
+ */
+$sql = "SELECT * FROM " . USERS_TABLE . " WHERE user_id <> " . ANONYMOUS . " && user_level != -1" . $where . $order_by . " LIMIT " . $start . ", " . $board_config['topics_per_page'];
+if ( ! ( $result = dbquery( $sql ) ) ) :
+	message_die( GENERAL_ERROR, 'Could not query users', '', __LINE__, __FILE__, $sql );
+endif;
+
+/**
+ * ? Count the total users registered.
+ */
+$totalUsers = dbunumrows( "SELECT * FROM " . USERS_TABLE . " WHERE user_id <> " . ANONYMOUS ."  && user_level != -1" . $where );
+
 $i = 0;
-while( $i < count($alpha_range) )
-{
-	if ($alpha_range[$i] != 'All') {
-		$temp = ($alpha_range[$i] != '#') ? strtolower($alpha_range[$i]) : 'num';
-		$alphanum_search_url = 'modules.php?name='.basename(dirname(__FILE__)).'&amp;mode=letter&amp;alphanum='.$temp;
-	} else {
-		$alphanum_search_url = 'modules.php?name='.basename(dirname(__FILE__));
-	}
+while ( $row = dbrow( $result ) ) :
 
-	$template->assign_block_vars('alphanumsearch', array(
-		'SEARCH_SIZE' 	=> floor(100/count($alpha_range)) . '%',
-		'SEARCH_TERM' 	=> $alpha_range[$i],
-		'SEARCH_LINK' 	=> $alphanum_search_url)
-	);
-	$i++;
-}
-//---------------------------------------------------------------------
+	/**
+	 * ? Show the users current status, whether they be Online, Offline or Hidden,
+	 * ? Hidden users are only visible to those with permission.
+	 *
+	 * ? default status is "Offline".
+	 */
+	$status       = $lang['Offline'];
+	$status_style = $offline_color;
+	$status_class = 'class="__user-offline"';
+	/**
+	 * ? If the users session time is greater than the current timestamp + online time set in forum admin, the user is online.
+	 */
+	if ( $row['user_session_time'] >= ( time() - $board_config['online_time'] ) && $row['user_allow_viewonline'] ):
+		$status       = $lang['Online'];
+		$status_style = $online_color;
+		$status_class = 'class="__user-online"';
+	/**
+	 * ? If the user has requested to hide their online status from the public eye,
+	 * ? Administrators will always see their status.
+	 */
+	elseif ( $row['user_session_time'] >= ( time() - $board_config['online_time'] )
+		&& $userdata['user_level'] == ADMIN
+		|| $userdata['user_id'] == $row['user_id'] ):
+		$status       = $lang['Hidden'];
+		$status_style = $hidden_color;
+		$status_class = 'class="__user-hidden"';
+	endif;
 
-switch( $mode )
-{
-	case 'letter':
-		$alphanum 	= ( isset($HTTP_POST_VARS['alphanum']) ) ? htmlspecialchars($HTTP_POST_VARS['alphanum']) : htmlspecialchars($HTTP_GET_VARS['alphanum']);
-		$alphanum 	= str_replace("\'", "''", $alphanum);
-		$where 		= ( $alphanum == 'num' ) ? " AND `username` NOT RLIKE '^[A-Z]' " : " AND `username` LIKE '".$alphanum."%' ";
-		$order_by 	= 'user_id '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-		break;
-	case 'age':
-		$age_order 	= $sort_order == 'ASC' ? 'DESC' : 'ASC';
-		$order_by  	= 'coalesce(user_birthday2,';
-		$order_by  .= ($age_order == 'ASC') ? '99999999' : '0';
-		$order_by  .= ") $age_order LIMIT $start, " . $board_config['topics_per_page'];
-		break;
-	case 'joined': 		$order_by = 'user_id '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	case 'username': 	$order_by = 'username '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	case 'location': 	$order_by = 'user_from '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	case 'posts': 		$order_by = 'user_posts '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	case 'email': 		$order_by = 'user_email '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	case 'website': 	$order_by = 'user_website '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	case 'topten': 		$order_by = 'user_posts '.$sort_order.' LIMIT 10'; break;
-	case 'online': 		$order_by = 'user_session_time '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-	default: 			$order_by = 'user_id '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; break;
-}
+	/*---------------------------------------------------------------------------------------------------------------------------------------------*/
 
-$username = ( !empty($HTTP_POST_VARS['username']) ) ? $HTTP_POST_VARS['username'] : '';
-if ( $username && isset($HTTP_POST_VARS['submituser']) )
-{
-//---------------------------------------------------------------------
-//	SEARCH FOR A USER, USING A WILDCARD
-//---------------------------------------------------------------------
-	$search_author = str_replace('*', '%', trim($username));
-	if( ( strpos($search_author, '%') !== false ) && ( strlen(str_replace('%', '', $search_author)) < $board_config['search_min_chars'] ) )
-		$search_author = '';
-//---------------------------------------------------------------------
-	$sql = "SELECT username, user_id, user_posts, user_gender, user_facebook, user_birthday, birthday_display, user_regdate, user_from, user_from_flag, user_website, user_allow_viewonline, user_session_time, user_lastvisit FROM " . USERS_TABLE . " WHERE username LIKE '" . str_replace("\'", "''", $search_author) . "' AND user_id <> " . ANONYMOUS . " LIMIT 1";
-    // $sql = "SELECT username, user_id, user_posts, user_gender, user_facebook, user_birthday, birthday_display, user_regdate, user_from, user_from_flag, user_website, user_allow_viewonline, user_session_time, user_lastvisit FROM " . USERS_TABLE . " WHERE username = '$username' AND user_id <> " . ANONYMOUS . " LIMIT 1";
-}
-else
-	$sql = "SELECT username, user_id, user_posts, user_gender, user_facebook, user_birthday, birthday_display, user_regdate, user_from, user_from_flag, user_website, user_allow_viewonline, user_session_time, user_lastvisit FROM " . USERS_TABLE . " WHERE user_id <> ".ANONYMOUS."".$where." ORDER BY $order_by";
+	/**
+	 * ? Calculate users birthday/age
+	 */
+	preg_match( '/(..)(..)(....)/', sprintf( '%08d', $userdata['user_birthday'] ), $bday_parts );
 
-if( !($result = $db->sql_query($sql)) )
-	message_die(GENERAL_ERROR, 'Could not query users', '', __LINE__, __FILE__, $sql);
-
-if ( $row = $db->sql_fetchrow($result) )
-{
-	$i = 0;
-	do
-	{
-		$username 			= $row['username'];
-		$user_id 			= intval($row['user_id']);
-		# Get the users location and flag
-		$user_from 			= ( !empty($row['user_from']) ) ? $row['user_from'] : '&nbsp;';
-
-		// $user_flag 			= ( !empty($row['user_from_flag']) ) ? "&nbsp;<img src=\"images/flags/". $row['user_from_flag'] ."\" alt=\"". $row['user_from_flag'] ."\">&nbsp;" : '&nbsp;<img src="images/flags/blank.png" alt="">&nbsp;';
-		// $user_flag 			= ( !empty($row['user_from_flag']) ) ? "&nbsp;<span class=\"countries ".str_replace('.png','',$row['user_from_flag'])."\"></span>&nbsp;" : '&nbsp;<span class="countries unknown"></span>&nbsp;';
-		$user_flag 			= ( !empty($row['user_from_flag']) ) ? '&nbsp;'.get_evo_icon('countries '.str_replace('.png','',$row['user_from_flag'])).'&nbsp;' : '&nbsp;'.get_evo_icon('countries unknown').'&nbsp;';
-
-		# Calculate the users age.
-		$bday_month_day 	= floor($row['user_birthday'] / 10000);
-		$bday_year_age 		= ( $row['birthday_display'] != BIRTHDAY_NONE && $row['birthday_display'] != BIRTHDAY_DATE ) ? $row['user_birthday'] - 10000*$bday_month_day : 0;
-		$fudge 				= ( gmdate('md') < $bday_month_day ) ? 1 : 0;
-		$age 				= ( $bday_year_age ) ? gmdate('Y')-$bday_year_age-$fudge : false;
-		# Website URL
-		$www 				= ( $row['user_website'] ) ? '<a href="'.$row['user_website'].'" target="_userwww">'.get_evo_icon('evo-sprite globe tooltip', $lang['Visit_website']).'</a>&nbsp;' : '';
-		$joined 			= $row['user_regdate'];
-		$posts 				= ( $row['user_posts'] ) ? '<a href="modules.php?name=Forums&file=search&search_author='.$username.'">'.$row['user_posts'].'</a>' : 0;
-		$pm 				= '<a href="'.append_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$user_id").'">'.get_evo_icon('evo-sprite mail tooltip', sprintf($lang['Send_private_message'],$username)).'</a>';
-		$gender 			= (($row['user_gender'] == 0) ? '' : (($row['user_gender'] == 1) ? get_evo_icon('evo-sprite male').'&nbsp;' : get_evo_icon('evo-sprite female').'&nbsp;'));
-		$facebook 			= (($row['user_facebook']) ? '<a href="https://www.facebook.com/'.$row['user_facebook'].'" target="_blank">'.get_evo_icon('evo-sprite facebook tooltip', $lang['Visit_facebook']).'</a>&nbsp;' : '');
-		$last_visit 		= ($row['user_lastvisit'] == 0) ? '' : formatTimestamp($row['user_lastvisit'],'M d, Y');
-
-		# The users current status
-        if ($row['user_session_time'] >= (time()-$board_config['online_time']))
-        {
-            if ($row['user_allow_viewonline'])
-                $online_status = '<a href="' . append_sid("viewonline.$phpEx") . '" class="tooltip" title="' . sprintf($lang['is_online'], $username) . '"' . $online_color . '>' . $lang['Online'] . '</a>';
-            else if ($userdata['user_level'] == ADMIN || $userdata['user_id'] == $user_id)
-                $online_status = '<em><a class="tooltip" href="' . append_sid("viewonline.$phpEx") . '" title="' . sprintf($lang['is_hidden'], $username) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em>';
-            else
-                $online_status = '<span class="tooltip" title="'.sprintf($lang['is_offline'], $username).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
-        }
-        else
-            $online_status = '<span class="tooltip" title="'.sprintf($lang['is_offline'], $username).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
-
-        # Alternate the row class
-        $row_class = ( !($i % 2) ) ? 'row2' : 'row3';
-		$template->assign_block_vars('memberrow', array(
-			'ROW_NUMBER' 			=> $i + ( $start + 1 ),
-			'ROW_CLASS' 			=> $row_class,
-			'USERNAME' 				=> UsernameColor($row['username']),
-			'FROM' 					=> $user_from,
-			'FLAG' 					=> $user_flag,
-			'JOINED' 				=> $joined,
-			'AGE' 					=> $age,
-			'POSTS' 				=> $posts,
-			'PM' 					=> $pm,
-			'WWW' 					=> $www,
-			'GENDER' 				=> $gender,
-			'LAST_ACTIVE'			=> $last_visit,
-			'FACEBOOK'				=> $facebook,
-			'STATUS'				=> $online_status,
-			'U_VIEWPROFILE' 		=> "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id")
-		);
-		$i++;
-	} 
-	while ( $row = $db->sql_fetchrow($result) );
-	$db->sql_freeresult($result);
-}
-else
-{
-	$template->assign_block_vars('no_username', array(
-		'NO_USER_ID_SPECIFIED' => $lang['No_user_id_specified'])
-	);
-}
-
-$total_found = $db->sql_unumrows($sql);
-
-# Generate the page numbers
-$alphanum 	= ( isset($HTTP_POST_VARS['alphanum']) ) ? htmlspecialchars($HTTP_POST_VARS['alphanum']) : htmlspecialchars($HTTP_GET_VARS['alphanum']);
-$where 		= ( $alphanum == 'num' ) ? " AND `username` NOT RLIKE '^[A-Z]' " : " AND `username` LIKE '".$alphanum."%' ";
-$sql1 		= "SELECT count(*) AS total FROM " . USERS_TABLE . " WHERE user_id <> " . ANONYMOUS.$where;
-$result1 	= $db->sql_query($sql1);
-$total 		= $db->sql_fetchrow($result1);
-
-if($total['total'] > $board_config['topics_per_page'] && $mode != 'topten' || $board_config['topics_per_page'] < 10)
-{
-	if(isset($pageroot))
-		$page = intval($pageroot);
-	else
-		$page = 1;
-		
-	$pagination = '';
-		
-	$redirect = 'modules.php?name=Members_List'.(($HTTP_GET_VARS['mode']) ? '&mode=letter&alphanum='.$HTTP_GET_VARS['alphanum'] : '');
-	if(isset($page))
-	{			
-		$totalPages = ceil($total['total'] / $board_config['topics_per_page']);
-		
-		if ( $totalPages == 1 )
-			return '';
-		
-		$on_page = floor($start / $board_config['topics_per_page']) + 1;
-		
-		if ($totalPages > 10)
-		{
-			$init_page_max = ( $totalPages > 3 ) ? 3 : $totalPages;
-			
-			for($i = 1; $i < $init_page_max + 1; $i++)
-			{
-				$pagination .= ( $i == $on_page ) ? '<span style="font-weight:bold; font-size:13px;">'.$i.'</span>' : '<a href="'.$redirect.'&amp;page='.$i.'"><span>'.$i.'</span></a>';
-				if ( $i <  $init_page_max )
-				{
-					$pagination .= "&nbsp;";
-				}
-			}
-			if ( $totalPages > 3 )
-			{
-				if ( $on_page > 1  && $on_page < $totalPages )
-				{
-					$pagination .= ( $on_page > 5 ) ? ' ... ' : '&nbsp;';
-					$init_page_min = ( $on_page > 4 ) ? $on_page : 5;
-					$init_page_max = ( $on_page < $totalPages - 4 ) ? $on_page : $totalPages - 4;
-
-					for($i = $init_page_min - 1; $i < $init_page_max + 2; $i++)
-					{
-						$pagination .= ($i == $on_page) ? '<span style="font-weight:bold; font-size:13px;">'.$i.'</span>' : '<a href="'.$redirect.'&amp;page='.$i.'"><span>'.$i.'</span></a>';
-						if ( $i <  $init_page_max + 1 )
-						{
-							$pagination .= '&nbsp;';
-						}
-					}
-
-					$pagination .= ( $on_page < $totalPages - 4 ) ? ' ... ' : '&nbsp;';
-				}
-				else
-				{
-					$pagination .= ' ... ';
-				}
-				for($i = $totalPages - 2; $i < $totalPages + 1; $i++)
-				{
-					$pagination .= ( $i == $on_page ) ? '<span style="font-weight:bold; font-size:13px;">'.$i.'</span>'  : '<a href="'.$redirect.'&amp;page='.$i.'"><span>'.$i.'</span></a>';
-					if( $i <  $totalPages )
-					{
-						$pagination .= "&nbsp;";
-					}
-				}		
-			}
-		}
-		else
-		{
-			for($i = 1; $i < $totalPages + 1; $i++)
-			{
-				$pagination .= ( $i == $on_page ) ? '<span style="font-weight:bold; font-size:13px;">'.$i.'</span>' : '<a href="'.$redirect.'&amp;page='.$i.'"><span>'.$i.'</span></a>';
-				if ( $i <  $totalPages )
-				{
-					$pagination .= '&nbsp;';
-				}
-			}
+	$birthday = $birthday_age = $birthday_age_alt = '';
+	if ( $bday_parts[3] != 0000 ) {
+		if ( $userdata['user_birthday'] != 0
+			&& $userdata['birthday_display'] != 1
+			&& $userdata['birthday_display'] != 3
+			|| $userdata['birthday_display'] == 0
+		) {
+			$bday_month_day   = floor( $userdata['user_birthday'] / 10000 );
+			$bday_year_age    = ( $userdata['birthday_display'] != BIRTHDAY_NONE && $userdata['birthday_display'] != BIRTHDAY_DATE )
+									? $userdata['user_birthday'] - 10000 * $bday_month_day
+									: 0;
+			$fudge            = ( gmdate('md') < $bday_month_day ) ? 1 : 0;
+			$birthday_age     = ( $bday_year_age ) ? gmdate( 'Y' ) - $bday_year_age - $fudge : '';
+			$birthday_age_alt = ' ( ' . $birthday_age . ' )';
 		}
 
-		if($page <= 1)
-		{
-			$pagination = '<span>'.$lang['Goto_page_prev'].'</span>&nbsp;'.$pagination.'&nbsp';
-		}
-		else
-		{
-			$j = $page - 1;
-			$pagination = '<span><a href="'.$redirect.'&amp;page='.$j.'">'.$lang['Goto_page_prev'].'</a></span>&nbsp;'.$pagination.'&nbsp;';
-		}
-		
-		if($page == $totalPages )
-		{
-			$pagination .= '<span>'.$lang['Goto_page_next'].'</span>';
-		}
-			else
-		{
-			$j = $page + 1;
-			$pagination .= '<a href="'.$redirect.'&amp;page='.$j.'">'.$lang['Goto_page_next'].'</a>';
+		if ( $userdata['user_birthday'] != 0 && $userdata['birthday_display'] != 3 ) {
+			$bday_day   = date( 'jS', mktime( 0, 0, 0, 0, $bday_parts[2], 0 ) );
+			$bday_month = date( 'F', mktime( 0, 0, 0, $bday_parts[1], 10 ) );
+			$bday_year  = ( $userdata['birthday_display'] <> 1 && $bday_parts[3] != 0000 ) ? ', ' . $bday_parts[3] : '';
+			$birthday   = $bday_month . ' ' . $bday_day . $bday_year . $birthday_age_alt;
 		}
 	}
 
-	$template->assign_block_vars('pagination', array(
-		'PAGINATION'	=> $pagination,
-		'TOTAL' 		=> $total_found,
-		'PERPAGE'		=> $board_config['topics_per_page'])
+	/**
+	 * ? Calculate the number of days this user has been a member ($memberdays)
+	 * ? Then calculate their posts per day
+	 */
+	$registration_date = $row['user_regdate'];
+	$date_timestamp    = strtotime( $registration_date );
+	$member_days       = max( 1, round( ( time() - $date_timestamp ) / 86400 ) );
+
+	/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+
+	$row_class = ( ! ( $i % 2 ) ) ? 'row2' : 'row3';
+
+	$template->assign_block_vars(
+		'row',
+		array(
+			'AVATAR'           => get_user_avatar( $row['user_id'], $row ),
+			'AVATAR_ALLOWED'   => ( $row['user_avatar_type'] && $row['user_allowavatar'] ) ? true : false,
+			'AVATAR_ATTR'      => 'style="--avatar-max-width: ' . get_board_option( 'avatar_max_width' ) . 'px; --avatar-max-height: ' . get_board_option( 'avatar_max_height' ) . 'px;"',
+			'AVATAR_MAX_WIDTH' => get_board_option( 'avatar_max_width' ),
+			'AVATAR_MAX_HEIGHT'=> get_board_option( 'avatar_max_height' ),
+			'BIRTHDAY'         => $birthday,
+			'BIRTHDAY_AGE'     => $birthday_age,
+			'BIRTHDAY_DISPLAY' => $userdata['birthday_display'],
+			'CLASS'            => ( ! ( $i % 2 ) ) ? 'isEven' : 'isOdd',
+			// 'COVER'            => $row['cover'] ?: 'default-cover-image.jpg',
+			// 'COVER_PATH'       => get_board_option( 'cover_path' ),
+			'DAYS_BEEN_MEMBER' => $member_days,
+			'FACEBOOK'         => stripslashes( parse_url( $row['user_facebook'], PHP_URL_PATH ) ),
+			'FLAG'             => isset( $row['user_from_flag'] ) ? strtolower( get_file_basename( $row['user_from_flag'] ) ) : 'blank',
+			'GENDER'           => $lang['gender-' . $row['user_gender'] ],
+			'INTRODUCTION'     => $row['bio'],
+			'JOINED'           => $row['user_regdate'],
+			'JOINED_AGO'       => get_timeago( strtotime( $row['user_regdate'] ) ),
+			'LAST_VISIT'       => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? $row['user_lastvisit'] : 'Never',
+			'LAST_VISIT_AGO'   => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? get_timeago( $row['user_lastvisit'] ) : 'Never',
+			'LAST_VISIT_DATE'  => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? date( $board_config['default_dateformat'], $row['user_lastvisit'] ) : 'Never',
+			'LOCATION'         => $row['user_from'],
+			'NUM'              => $i + ( $start + 1 ),
+			'PM_URL'           => append_sid( "privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=" . $row['user_id'] ),
+			'POSTS'            => ( $row['user_posts'] ) ? convert_to_thousands( $row['user_posts'] ) : 0,
+			'POSTS_SEARCH'     => append_sid( "search.$phpEx?search_author=" . urlencode( $row['username'] )."&amp;showresults=posts" ),
+			'PROFILE_URL'      => "modules.php?name=Profile&amp;mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id'],
+			'RELATIONSHIP_STATUS' => ucfirst( $row['relationship'] ),
+			'ROW_CLASS'        => $row_class, // (Kept in for backwards compatibility with legacy themes).
+			'ROW_NUMBER'       => $i + ( $start + 1 ),
+			'STATUS'           => $status,
+			'STATUS_STYLE'     => $status_style,
+			'STATUS_CLASS'     => $status_class,
+			'STATUS_URL'       => append_sid( "viewonline.$phpEx" ),
+			'USERNAME'         => $row['username'],
+			'USERNAME_COLORED' => color_username( $row['username'], $row['user_color_gc'] ),
+			'USER_AUC'         => isset( $row['user_color_gc'] ) ? '--auc-group-color: #' . $row['user_color_gc'] . ';' : '',
+			'USER_ID'          => (int) $row['user_id'],
+			'USER_LVL'         => (int) $row['user_level'],
+			'WEBSITE'          => $row['user_website'],
+			'WEBSITE_HOST'     => parse_url( $row['user_website'], PHP_URL_HOST ),
+			'WEBSITE_SCHEME'   => parse_url( $row['user_website'], PHP_URL_SCHEME ),
+
+			/**
+			 * Todo: There is a much better way to do this, but since this is just the start of the socials use,
+			 * Todo: I will be rebuilding the "Your_Account" module for version 2.0.12,
+			 * Todo: So the variables below are just temporary and may error out, if the URL used is not correct.
+			 *
+			 * ? You may be asking why I am using a full URL to get the social ID's,
+			 * ? I do this because social website's are constantly changing the way they use URL's.
+			 * ? So using the full URL is the best way, and we just break it down.
+			 */
+			'STEAM'           => $row['steam'],
+			'FACEBOOK'        => $row['user_facebook'],
+			'INSTAGRAM'       => $row['instagram'],
+			'TWITTER'         => $row['twitter'],
+			'TWITCH'          => $row['twitch'],
+			'YOUTUBE'         => $row['youtube'],
+		)
 	);
-}
-//---------------------------------------------------------------------
 
-$template->pparse('body');
-echo '<span style="float:right; padding-right:5px;"><a class="font-family" href="#module-copyright-popup" rel="modal:open">'.str_replace('_',' ',$name).' &#169;</a></span><br />';
-include(NUKE_INCLUDE_DIR.'page_tail.php');
+	++$i;
 
-?>
+endwhile;
+dbfree( $result );
+
+// $template->assign_block_vars(
+// 	'pagination',
+// 	array(
+// 		'PAGINATION' => get_pagination(
+// 			array(
+// 				'url'           => 'modules.php?name=Members_List' . $page_queries,
+// 				'total'         => $totalUsers,
+// 				'per-page'      => $board_config['topics_per_page'],
+// 				'next-previous' => true,
+// 				'first-last'    => true,
+// 				'adjacents'     => 1
+// 			)
+// 		)
+// 	)
+// );
+
+$template->pparse( 'body' );
+include NUKE_INCLUDE_DIR . 'page_tail.php';

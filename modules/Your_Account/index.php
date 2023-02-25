@@ -115,7 +115,7 @@ switch($op)
         if ($ya_config['allowuserdelete'] == 1) {
             include(NUKE_MODULES_DIR.$module_name.'/public/delete.php');
         } else {
-            disabled();
+            your_account_disabled();
         }
     break;
 
@@ -123,7 +123,7 @@ switch($op)
         if ($ya_config['allowuserdelete'] == 1) {
             include(NUKE_MODULES_DIR.$module_name.'/public/deleteconfirm.php');
         } else {
-            disabled();
+            your_account_disabled();
         }
     break;
 
@@ -146,7 +146,7 @@ switch($op)
         if ($ya_config['allowusertheme']==0) {
             include(NUKE_MODULES_DIR.$module_name.'/public/chngtheme.php');
         } else {
-            disabled();
+            your_account_disabled();
         }
     break;
 
@@ -396,7 +396,7 @@ if ($ya_config['allowuserreg']==0) {
          }
        // redirect("modules.php?name=Profile");
            }else {
-    disabled();
+            your_account_disabled();
   }
 }
     break;
@@ -414,7 +414,7 @@ if ($ya_config['allowuserreg']==0) {
                     include(NUKE_MODULES_DIR.$module_name.'/public/new_confirm3.php');
                 }
             } else {
-                disabled();
+                your_account_disabled();
             }
         }
     break;
@@ -433,7 +433,7 @@ if ($ya_config['allowuserreg']==0) {
                     include(NUKE_MODULES_DIR.$module_name.'/public/new_finish3.php');
                 }
             } else {
-                disabled();
+                your_account_disabled();
             }
         }
     break;
@@ -467,7 +467,7 @@ if ($ya_config['allowuserreg']==0) {
             if ($ya_config['allowusertheme']==0) {
                 include(NUKE_MODULES_DIR.$module_name.'/public/savetheme.php');
             } else {
-                disabled();
+                your_account_disabled();
             }
         } else {
             notuser();

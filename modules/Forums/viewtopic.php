@@ -928,89 +928,84 @@ $printer_alt = $lang['printertopic_button'];
 //
 // Set a cookie for this topic
 //
-if ( $userdata['session_logged_in'] )
-{
-		$tracking_topics = ( isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_t']) ) ? unserialize($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_t']) : array();
-		$tracking_forums = ( isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_f']) ) ? unserialize($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_f']) : array();
+if ( $userdata['session_logged_in'] ) {
+	$tracking_topics = ( isset( $_COOKIE[ $board_config['cookie_name'] . '_t'] ) ) ? unserialize( $_COOKIE[ $board_config['cookie_name'] . '_t'] ) : array();
+	$tracking_forums = ( isset( $_COOKIE[ $board_config['cookie_name'] . '_f'] ) ) ? unserialize( $_COOKIE[ $board_config['cookie_name'] . '_f'] ) : array();
 
-		if ( !empty($tracking_topics[$topic_id]) && !empty($tracking_forums[$forum_id]) )
-		{
-				$topic_last_read = ( $tracking_topics[$topic_id] > $tracking_forums[$forum_id] ) ? $tracking_topics[$topic_id] : $tracking_forums[$forum_id];
-		}
-		else if ( !empty($tracking_topics[$topic_id]) || !empty($tracking_forums[$forum_id]) )
-		{
-				$topic_last_read = ( !empty($tracking_topics[$topic_id]) ) ? $tracking_topics[$topic_id] : $tracking_forums[$forum_id];
-		}
-		else
-		{
-				$topic_last_read = $userdata['user_lastvisit'];
-		}
+	if ( ! empty( $tracking_topics[ $topic_id ] ) && ! empty( $tracking_forums[ $forum_id ] ) ) {
+		$topic_last_read = ( $tracking_topics[ $topic_id ] > $tracking_forums[ $forum_id ] ) ? $tracking_topics[ $topic_id ] : $tracking_forums[ $forum_id ];
+	} elseif ( ! empty( $tracking_topics[ $topic_id ] ) || ! empty( $tracking_forums[ $forum_id ] ) ) {
+		$topic_last_read = ( ! empty( $tracking_topics[ $topic_id ] ) ) ? $tracking_topics[ $topic_id ] : $tracking_forums[ $forum_id ];
+	} else {
+		$topic_last_read = $userdata['user_lastvisit'];
+	}
 
-		if ( count($tracking_topics) >= 150 && empty($tracking_topics[$topic_id]) )
-		{
-				asort($tracking_topics);
-				unset($tracking_topics[key($tracking_topics)]);
-		}
+	if ( count( $tracking_topics ) >= 150 && empty( $tracking_topics[ $topic_id ] ) ) {
+		asort( $tracking_topics );
+		unset( $tracking_topics[ key( $tracking_topics ) ] );
+	}
 
-		$tracking_topics[$topic_id] = time();
+	$tracking_topics[ $topic_id ] = time();
 
-		setcookie($board_config['cookie_name'] . '_t', serialize($tracking_topics), 0, $board_config['cookie_path'], $board_config['cookie_domain'], $board_config['cookie_secure']);
+	$cookie_is_secure             = is_ssl() ?: false;
+	$cookie_same_site             = is_ssl() ? 'None' : 'Strict';
+
+	setcookie(
+		$board_config['cookie_name'] . '_t',
+		serialize( $tracking_topics ),
+		array(
+			'expires'  => 0,
+			'path'     => trailingslashit( $board_config['cookie_path'] ),
+			'domain'   => untrailingslashit( $board_config['cookie_domain'] ),
+			'secure'   => $cookie_is_secure,
+			'httponly' => true,
+			'samesite' => $cookie_same_site
+		)
+	);
 }
 
 //
 // Load templates
 //
-/*****[BEGIN]******************************************
- [ Mod:    Printer Topic                       v1.0.8 ]
- ******************************************************/
-if(isset($HTTP_GET_VARS['printertopic']))
+if ( isset( $_GET['printertopic'] ) )
 {
-	$template->set_filenames(array(
-		'body' => 'printertopic_body.tpl')
+	$template->set_filenames(
+		array(
+			'body' => 'printertopic_body.tpl'
+		)
 	);
 } else {
-$template->set_filenames(array(
-/*****[BEGIN]******************************************
- [ Mod:     Super Quick Reply                  v1.3.2 ]
- ******************************************************/
-	'qrbody' => 'viewtopic_quickreply.tpl',
-	'body' => 'viewtopic_body.tpl')
-/*****[END]********************************************
- [ Mod:     Super Quick Reply                  v1.3.2 ]
- ******************************************************/
-);
+	$template->set_filenames(
+		array(
+			'qrbody' => 'viewtopic_quickreply.tpl',
+			'body'   => 'viewtopic_body.tpl'
+		)
+	);
 }
-/*****[END]********************************************
- [ Mod:    Printer Topic                       v1.0.8 ]
- ******************************************************/
 
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-//make_jumpbox('viewforum.'.$phpEx, $forum_id);
 $all_forums = array();
-make_jumpbox_ref('viewforum.'.$phpEx, $forum_id, $all_forums);
+make_jumpbox_ref( 'viewforum.'.$phpEx, $forum_id, $all_forums );
 
 $parent_id = 0;
-for( $i = 0; $i < count($all_forums); $i++ )
-{
-	if( $all_forums[$i]['forum_id'] == $forum_id )
-	{
-		$parent_id = $all_forums[$i]['forum_parent'];
+for( $i = 0; $i < count( $all_forums ); ++$i ) {
+	if( $all_forums[ $i ]['forum_id'] == $forum_id ) 	{
+		$parent_id = $all_forums[ $i ]['forum_parent'];
 	}
 }
 
-if( $parent_id )
-{
-	for( $i = 0; $i < count($all_forums); $i++ )
-	{
-		if( $all_forums[$i]['forum_id'] == $parent_id )
-		{
-			$template->assign_vars(array(
-				'PARENT_FORUM'			=> 1,
-				'U_VIEW_PARENT_FORUM'	=> append_sid("viewforum.$phpEx?" . POST_FORUM_URL .'=' . $all_forums[$i]['forum_id']),
-				'PARENT_FORUM_NAME'		=> $all_forums[$i]['forum_name'],
-				));
+if ( $parent_id ) {
+	for( $i = 0; $i < count( $all_forums ); ++$i ) {
+		if ( $all_forums[ $i ]['forum_id'] == $parent_id ) {
+			$template->assign_vars(
+				array(
+					'PARENT_FORUM'        => 1,
+					'U_VIEW_PARENT_FORUM' => append_sid( "viewforum.$phpEx?" . POST_FORUM_URL . '=' . $all_forums[ $i ]['forum_id'] ),
+					'PARENT_FORUM_NAME'   => $all_forums[ $i ]['forum_name'],
+				)
+			);
 		}
 	}
 }
@@ -1022,34 +1017,18 @@ if( $parent_id )
 // Output page header
 //
 $page_title = $lang['View_topic'] .' - ' . $topic_title;
-/*****[BEGIN]******************************************
- [ Mod:    Printer Topic                       v1.0.8 ]
- ******************************************************/
-if(isset($HTTP_GET_VARS['printertopic']))
-{
-	include('includes/page_header_printer.'.$phpEx);
-} else
-{
-	include("includes/page_header.$phpEx");
+if ( isset( $HTTP_GET_VARS['printertopic'] ) ) {
+	include 'includes/page_header_printer.' . $phpEx;
+} else {
+	include 'includes/page_header.' . $phpEx;
 }
-/*****[END]********************************************
- [ Mod:    Printer Topic                       v1.0.8 ]
- ******************************************************/
 
-/*****[BEGIN]******************************************
- [ Mod:     Smilies in Topic Titles            v1.0.0 ]
- [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
- ******************************************************/
-$topic_title = ($board_config['smilies_in_titles']) ? smilies_pass($topic_title) : $topic_title;
-/*****[END]********************************************
- [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
- [ Mod:     Smilies in Topic Titles            v1.0.0 ]
- ******************************************************/
+$topic_title = ( $board_config['smilies_in_titles'] ) ? smilies_pass( $topic_title ) : $topic_title;
 
 //
 // User authorisation levels output
 //
-$s_auth_can = ( ( $is_auth['auth_post'] ) ? $lang['Rules_post_can'] : $lang['Rules_post_cannot'] ) . '<br />';
+$s_auth_can  = ( ( $is_auth['auth_post'] ) ? $lang['Rules_post_can'] : $lang['Rules_post_cannot'] ) . '<br />';
 $s_auth_can .= ( ( $is_auth['auth_reply'] ) ? $lang['Rules_reply_can'] : $lang['Rules_reply_cannot'] ) . '<br />';
 $s_auth_can .= ( ( $is_auth['auth_edit'] ) ? $lang['Rules_edit_can'] : $lang['Rules_edit_cannot'] ) . '<br />';
 $s_auth_can .= ( ( $is_auth['auth_delete'] ) ? $lang['Rules_delete_can'] : $lang['Rules_delete_cannot'] ) . '<br />';
@@ -1058,20 +1037,25 @@ $s_auth_can .= ( ( $is_auth['auth_vote'] ) ? $lang['Rules_vote_can'] : $lang['Ru
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-attach_build_auth_levels($is_auth, $s_auth_can);
+attach_build_auth_levels( $is_auth, $s_auth_can );
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
 
-$topic_mod = '';
-$delete_topic_url = $delete_topic_btn = '';
-$move_topic_url = $move_topic_btn = '';
-$lock_topic_url = $lock_topic_btn = $lock_topic_status = '';
-$split_topic_url = $split_topic_btn = '';
-$merge_topic_url = $merge_topic_btn = '';
+$topic_mod         = '';
+$delete_topic_url  = '';
+$delete_topic_btn  = '';
+$move_topic_url    = '';
+$move_topic_btn    = '';
+$lock_topic_url    = '';
+$lock_topic_btn    = '';
+$lock_topic_status = '';
+$split_topic_url   = '';
+$split_topic_btn   = '';
+$merge_topic_url   = '';
+$merge_topic_btn   = '';
 
-if ( $is_auth['auth_mod'] )
-{
+if ( $is_auth['auth_mod'] ) {
 		$s_auth_can .= sprintf($lang['Rules_moderate'], '<a href="' . append_sid("modcp.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
 
 		$topic_mod .= '<a href="' . append_sid("modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=delete") . '"><img src="' . $images['topic_mod_delete'] . '" alt="' . $lang['Delete_topic'] . '" title="' . $lang['Delete_topic'] . '" border="0" /></a>&nbsp;';
@@ -1110,38 +1094,40 @@ if ( $is_auth['auth_mod'] )
 //
 // Topic watch information
 //
-$s_watching_topic = $s_watching_topic_url = $s_watching_topic_text = $s_watching_topic_state = '';
-if ( $can_watch_topic )
-{
-		if ( $is_watching_topic )
-		{
-				$s_watching_topic = '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start") . '">' . $lang['Stop_watching_topic'] . '</a>';
-				$s_watching_topic_img = ( isset($images['Topic_un_watch']) ) ? '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start") . '"><img src="' . $images['Topic_un_watch'] . '" alt="' . $lang['Stop_watching_topic'] . '" title="' . $lang['Stop_watching_topic'] . '" border="0"></a>' : '';
+$s_watching_topic       = '';
+$s_watching_topic_url   = '';
+$s_watching_topic_text  = '';
+$s_watching_topic_state = '';
 
-				$s_watching_topic_url = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;page=$start");
-				$s_watching_topic_text = $lang['Stop_watching_topic'];
-				$s_watching_topic_state = 1;
-		}
-		else
-		{
-				$s_watching_topic = '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start") . '">' . $lang['Start_watching_topic'] . '</a>';
-				$s_watching_topic_img = ( isset($images['Topic_watch']) ) ? '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start") . '"><img src="' . $images['Topic_watch'] . '" alt="' . $lang['Stop_watching_topic'] . '" title="' . $lang['Start_watching_topic'] . '" border="0"></a>' : '';
+if ( $can_watch_topic ) {
+	if ( $is_watching_topic ) {
+		$s_watching_topic       = '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start") . '">' . $lang['Stop_watching_topic'] . '</a>';
+		$s_watching_topic_img   = ( isset($images['Topic_un_watch']) ) ? '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;start=$start") . '"><img src="' . $images['Topic_un_watch'] . '" alt="' . $lang['Stop_watching_topic'] . '" title="' . $lang['Stop_watching_topic'] . '" border="0"></a>' : '';
 
-				$s_watching_topic_url = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;page=$start");
-				$s_watching_topic_text = $lang['Start_watching_topic'];
-				$s_watching_topic_state = 0;
-		}
+		$s_watching_topic_url   = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;unwatch=topic&amp;page=$start");
+		$s_watching_topic_text  = $lang['Stop_watching_topic'];
+		$s_watching_topic_state = 1;
+	} else {
+		$s_watching_topic       = '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start") . '">' . $lang['Start_watching_topic'] . '</a>';
+		$s_watching_topic_img   = ( isset($images['Topic_watch']) ) ? '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;start=$start") . '"><img src="' . $images['Topic_watch'] . '" alt="' . $lang['Stop_watching_topic'] . '" title="' . $lang['Start_watching_topic'] . '" border="0"></a>' : '';
+
+		$s_watching_topic_url   = append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;watch=topic&amp;page=$start");
+		$s_watching_topic_text  = $lang['Start_watching_topic'];
+		$s_watching_topic_state = 0;
+	}
 }
 /*****[BEGIN]******************************************
  [ Mod:     Email topic to friend              v1.0.0 ]
  ******************************************************/
-$s_email_topic = $s_email_url = $s_email_text = '';
-if($userdata['session_logged_in'])
-{
-  $action = ($post_id) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id&amp;start=$start";
-  $s_email_topic = '<a href="' . append_sid("emailtopic.$phpEx?$action") . '">' . $lang['Email_topic'] . '</a>';
-  $s_email_url = append_sid("emailtopic.$phpEx?$action");
-  $s_email_text = $lang['Email_topic'];
+$s_email_topic = '';
+$s_email_url   = '';
+$s_email_text  = '';
+
+if ( $userdata['session_logged_in'] ) {
+	$action        = ( $post_id ) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id&amp;start=$start";
+	$s_email_topic = '<a href="' . append_sid( "emailtopic.$phpEx?$action" ) . '">' . $lang['Email_topic'] . '</a>';
+	$s_email_url   = append_sid( "emailtopic.$phpEx?$action" );
+	$s_email_text  = $lang['Email_topic'];
 }
 /*****[END]********************************************
  [ Mod:     Email topic to friend              v1.0.0 ]

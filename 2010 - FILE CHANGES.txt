@@ -1,6 +1,10 @@
-FILES CHANGED.EDITED
+WHEN DOING THE UPDATE INSTALL FILES, HAVE THE DEFAULT THEME INFO REMOVE AND READD THE DEFAULT THEME OPTIONS.
+
+
+FILES CHANGED EDITED
 
 admin.php
+header.php
 index.php
 mainfile.php
 
@@ -10,14 +14,17 @@ admin/language/custom/lang-english.php
 
 admin/modules/modules.php
 admin/modules/newsletter.php
+admin/modules/themes.php
 
 blocks/block-Big_Story_of_Today.php
+blocks/block-Honey_Pot.php
 
 includes/bbcode.php 
 includes/constants.php
 includes/counter.php
 includes/deprecated.php
 includes/dynamic_titles.php
+includes/formatting.php
 includes/functions.php
 includes/functions_browser.php 
 includes/functions_cache.php
@@ -26,12 +33,17 @@ includes/functions_evo_custom.php
 includes/functions_mods_settings.php
 includes/functions_mg_ranks.php
 includes/language.php
+includes/media.php
 includes/meta.php
 includes/nsn_center_block_functions.php
+includes/options.php
 includes/page_header.php
 includes/sessions.php
+includes/styles.php
 includes/topic_review.php
+includes/templates-evo.php
 includes/user.php
+includes/vars.php
 includes/viewtopic_quickreply.php
 includes/widgets.php
 
@@ -48,15 +60,33 @@ language/blocks/lang-english.php
 language/custom/lang-english.php
 
 modules/Content/admin/language/lang-english.php
+
 modules/ECalendar/language/lang-english.php
+
 modules/Evo_UserBlock/addons/good_afternoon.php
+
 modules/FAQ/admin/language/lang-english.php
+
+modules/Forums/emailtopic.php - still working on this
 modules/Forums/index.php
-modules/Forums/viewtopic.php
+modules/Forums/viewforum.php
+modules/Forums/viewtopic.php - change the way progress bars display, as i have removed the function
 modules/Forums/language/lang_english.php
+
+modules/Member_List/index.php
+
 modules/News/admin/index.php
 modules/News/admin/wait.php
 modules/News/admin/language/lang-english.php
 
+modules/Private_Messages/index.php
+
 modules/Your_Account/index.php
+modules/Your_Account/includes/functions.php
 modules/Your_Account/language/lang-english.php
+
+includes/vendor/
+
+
+Find out why the theme CSS is above the other styles,
+Should always be added last for style override.

@@ -3,6 +3,13 @@ REMOVED FILES
 includes/functions_deprecated.php
 includes/json.php
 includes/nsncb_func.php
+includes/visible.js
+
+includes/embed_fix.js
+
+includes/abstract/
+includes/exceptions/
+includes/js/
 
 modules/Advertising/
 modules/Arcade_Tweaks/

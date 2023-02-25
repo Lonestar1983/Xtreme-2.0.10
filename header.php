@@ -28,9 +28,9 @@ function head() {
 	global $sitename, $ab_config, $modheader, $cache;
 
 	$ThemeSel = get_theme();
-	echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'."\n";
-	// echo '<!DOCTYPE html>';
-	// echo "<html lang=\""._LANGCODE."\" dir=\""._LANG_DIRECTION."\">\n";
+	// echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'."\n";
+	echo '<!DOCTYPE html>';
+	echo '<html lang="' . _LANGCODE . '" dir="' . _LANG_DIRECTION . '">'."\n";
 	echo '<head>'."\n";
 
 	# function to grab the page title.

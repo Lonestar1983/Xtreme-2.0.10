@@ -188,21 +188,22 @@ if ( GZIPSUPPORT && ! ini_get( 'zlib.output_compression' ) && isset( $_SERVER['H
 	ob_implicit_flush( 0 );
 }
 
-require NUKE_INCLUDE_DIR . 'constants.php';
-require NUKE_INCLUDE_DIR . 'vars.php';
 require NUKE_CLASSES_DIR . 'class.cache.php';
 require NUKE_CLASSES_DIR . 'class.zip.php';
+require NUKE_CLASSES_DIR . 'class.debugger.php';
+
+require NUKE_INCLUDE_DIR . 'constants.php';
+require NUKE_INCLUDE_DIR . 'formatting.php';
 require NUKE_INCLUDE_DIR . 'functions_database.php';
 require NUKE_INCLUDE_DIR . 'functions_cache.php';
-require NUKE_INCLUDE_DIR . 'user.php';
-require NUKE_CLASSES_DIR . 'class.debugger.php';
-require NUKE_INCLUDE_DIR . 'formatting.php';
 require NUKE_INCLUDE_DIR . 'functions_evo.php';
 require NUKE_INCLUDE_DIR . 'functions_evo_custom.php';
-require NUKE_INCLUDE_DIR . 'options.php';
-require NUKE_INCLUDE_DIR . 'validation.php';
-
 require NUKE_INCLUDE_DIR . 'nsn_center_block_functions.php';
+require NUKE_INCLUDE_DIR . 'options.php';
+require NUKE_INCLUDE_DIR . 'templates-evo.php';
+require NUKE_INCLUDE_DIR . 'user.php';
+require NUKE_INCLUDE_DIR . 'validation.php';
+require NUKE_INCLUDE_DIR . 'vars.php';
 require NUKE_INCLUDE_DIR . 'widgets.php';
 
 
@@ -237,8 +238,10 @@ if ( isset( $_POST['clear_cache'] ) ) {
 }
 
 define( 'NUKE_FILE', true );
+
 $sitekey      = md5( $_SERVER['HTTP_HOST'] );
 $tipath       = 'modules/News/images/topics/';
+
 $reasons      = array(
 	'As Is',
 	'Offtopic',
@@ -252,6 +255,7 @@ $reasons      = array(
 	'Overrated',
 	'Underrated'
 );
+
 $AllowableHTML = array(
 	'b'          => 1,
 	'i'          => 1,

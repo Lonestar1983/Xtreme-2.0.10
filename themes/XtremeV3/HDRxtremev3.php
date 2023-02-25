@@ -30,19 +30,19 @@ echo '<div class="container" style="width: '.xtremev3_width.'">'
 
     .'<header>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container logo">'
     .'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDR_01.png" style="width: 37px; height: 150px;"></div>'
     .'  <div class="flex-item" style="width: 100%; height: 150px; background-image: url('.xtremev3_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogo">&nbsp;</div><div id="hdr-banner-ads">'.$ads.'</div></div>'
     .'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDR_03.png" style="width: 37px; height: 150px;"></div>'
     .'</section>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container logo-bottom">'
     .'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRbartop_01.png" style="width: 114px; height: 9px;"></div>'
     .'  <div class="flex-item" style="width: 100%; height: 9px; background-image: url('.xtremev3_hdr_images.'HDRbartop_Bg_Stretch.png)"></div>'
     .'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRbartop_03.png" style="width: 114px; height: 9px;"></div>'
     .'</section>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container navigation-bar">'
     .'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRnav_01.png" style="width: 98px; height: 29px;"></div>' #  style="width: 98px; height: 29px;"
     .'  <div class="flex-item" style="width: 100%; height: 29px; background-image: url('.xtremev3_hdr_images.'HDRnav_Bg_Stretch.png)">';
 include(xtremev3_theme_dir.'HDRnavi.php');
@@ -50,7 +50,7 @@ echo '  </div>'
     .'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDRnav_03.png" style="width: 98px; height: 29px;"></div>'
     .'</section>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container">'
     .'  <div class="welcomebg"><div style="padding-top: 23px;">'.$username.'</div></div>'
     .'  <div style="width: 100%; height: 60px; background-image: url('.xtremev3_hdr_images.'Usernav_Bg_Stretch.png)">'
     .'    <div class="bviewed center">Best Viewed w/Minimum Screen Resolution of 1368px or Higher!</div>'
@@ -62,7 +62,7 @@ echo '  </div>'
 
     .'  </header>'
 
-    .'<section id="flex-container">'
+    .'<section class="flex-container">'
     .'  <div style="background-image: url('.xtremev3_images_dir.'sideleft.png); vertical-align: top"><img src="'.xtremev3_images_dir.'spacer.gif" style="width: 40px; height: 5px" alt=""></div>';
 
 if(blocks_visible('left')):

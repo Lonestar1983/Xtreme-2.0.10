@@ -1,10 +1,9 @@
 <?php
-
 /***************************************************************************
  *                               emailtopic.php
  *                            --------------------
  *  Hack:   Email topic to friend 1.0.1
- *  Copyright:  ©2003 Freakin' Booty ;-P
+ *  Copyright:  ï¿½2003 Freakin' Booty ;-P
  *  Website:  http://freakingbooty.no-ip.com
  *  Support:  http://www.phpbbhacks.com/forums
  *
@@ -19,38 +18,34 @@
  *  Intellectual Property is retained by the hack author(s) listed above.
  ***************************************************************************/
 
-if (!defined('MODULE_FILE')) {
-   die ("You can't access this file directly...");
+if ( ! defined( 'MODULE_FILE' ) ) {
+	die ( "You can't access this file directly..."  );
 }
 
-if ($popup != "1")
-{
-    $module_name = basename(dirname(__FILE__));
-    require("modules/".$module_name."/nukebb.php");
-}
-else
-{
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+if ($popup != "1") {
+	$module_name = basename( dirname( __FILE__ ) );
+	require 'modules/' . $module_name . '/nukebb.php';
+} else {
+	$phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
-define('IN_PHPBB', TRUE);
-include($phpbb_root_path . 'extension.inc');
-include($phpbb_root_path . 'common.'.$phpEx);
-
+define( 'IN_PHPBB', true );
+include $phpbb_root_path . 'extension.inc';
+include $phpbb_root_path . 'common.' . $phpEx;
 
 //
 // Parameters
 //
-$post_id = (isset($HTTP_GET_VARS[POST_POST_URL])) ? intval($HTTP_GET_VARS[POST_POST_URL]) : ((isset($HTTP_POST_VARS[POST_POST_URL])) ? intval($HTTP_POST_VARS[POST_POST_URL]) : 0);
+$post_id  = (isset($HTTP_GET_VARS[POST_POST_URL])) ? intval($HTTP_GET_VARS[POST_POST_URL]) : ((isset($HTTP_POST_VARS[POST_POST_URL])) ? intval($HTTP_POST_VARS[POST_POST_URL]) : 0);
 $topic_id = (isset($HTTP_GET_VARS[POST_TOPIC_URL])) ? intval($HTTP_GET_VARS[POST_TOPIC_URL]) : ((isset($HTTP_POST_VARS[POST_TOPIC_URL])) ? intval($HTTP_POST_VARS[POST_TOPIC_URL]) : 0);
-$start = (isset($HTTP_GET_VARS['start'])) ? intval($HTTP_GET_VARS['start']) : ((isset($HTTP_POST_VARS['start'])) ? intval($HTTP_POST_VARS['start']) : 0);
+$start    = (isset($HTTP_GET_VARS['start'])) ? intval($HTTP_GET_VARS['start']) : ((isset($HTTP_POST_VARS['start'])) ? intval($HTTP_POST_VARS['start']) : 0);
 
 
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_PROFILE);
-init_userprefs($userdata);
+$userdata = session_pagestart( $user_ip, PAGE_PROFILE );
+init_userprefs( $userdata );
 //
 // End session management
 //
@@ -95,9 +90,9 @@ $email_limit = 5;
 $email_time = 24;
 $current_time = time();
 $sql = 'SELECT COUNT(user_id) AS total
-    FROM ' . TOPICS_EMAIL_TABLE . '
-    WHERE user_id = ' . $userdata['user_id'] . '
-    AND time >= ' . ($current_time - ($email_time * 3600));
+	FROM ' . TOPICS_EMAIL_TABLE . '
+	WHERE user_id = ' . $userdata['user_id'] . '
+	AND time >= ' . ($current_time - ($email_time * 3600));
 if(!$result = $db->sql_query($sql))
 {
   message_die(GENERAL_ERROR, 'Could not obtain user\'s email informaton', __LINE__, __FILE__, $sql);
@@ -113,64 +108,83 @@ if($row['total'] >= $email_limit)
 
 
 // If the form was submitted we have got work to do
-if(isset($_POST['submit']))
-{
-  $friend_name = (isset($HTTP_POST_VARS['friend_name'])) ? strip_tags(trim($HTTP_POST_VARS['friend_name'])) : '';
-  $friend_email = (isset($HTTP_POST_VARS['friend_email'])) ? strip_tags(trim($HTTP_POST_VARS['friend_email'])) : '';
-  $message = (isset($HTTP_POST_VARS['message'])) ? strip_tags(trim($HTTP_POST_VARS['message'])) : '';
+if ( isset( $_POST['submit'] ) ) {
+	$friend_name  = ( isset( $_POST['friend_name'] ) ) ? strip_tags( trim( $_POST['friend_name'] ) ) : '';
+	$friend_email = ( isset( $_POST['friend_email'] ) ) ? strip_tags( trim( $_POST['friend_email'] ) ) : '';
+	$message      = ( isset( $_POST['message'] ) ) ? strip_tags( trim( $_POST['message'] ) ) : '';
 
-  if(strlen($friend_name) < 3 || strlen($friend_email) < 3)
-  {
-    message_die(GENERAL_MESSAGE, $lang['No_friend_specified']);
-  }
+	if ( strlen( $friend_name ) < 3 || strlen( $friend_email ) < 3 ) {
+		message_die( GENERAL_MESSAGE, $lang['No_friend_specified'] );
+	}
 
-  if(strlen($friend_name) > 100)
-  {
-    message_die(GENERAL_MESSAGE, $lang['Friend_name_too_long']);
-  }
+	if ( strlen( $friend_name ) > 100 ) {
+		message_die( GENERAL_MESSAGE, $lang['Friend_name_too_long'] );
+	}
 
-  if(strlen($message) > 255)
-  {
-    message_die(GENERAL_MESSAGE, $lang['Message_too_long']);
-  }
+	if ( strlen( $message ) > 255 ) {
+		message_die(GENERAL_MESSAGE, $lang['Message_too_long']);
+	}
 
 
-  // Send the email, but only after we prepared the board URL
-  $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
-  $server_name = preg_replace('#^\/?(.*?)\/?$#', '\1', trim($board_config['server_name']));
-  $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
-  $script_name = preg_replace('#^\/?(.*?)\/?$#', '\1', trim($board_config['script_path']));
-  $script_name = ($script_name != '') ? 'modules.php?name=Forums&file=viewtopic&' : 'modules.php?name=Forums&file=viewtopic&';
-  $u_viewtopic = $server_protocol . $server_name . $server_port . $script_name . POST_TOPIC_URL . "=$topic_id";
+	// Send the email, but only after we prepared the board URL
+	// $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
+	// $server_name = preg_replace('#^\/?(.*?)\/?$#', '\1', trim($board_config['server_name']));
+	// $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+	// $script_name = preg_replace('#^\/?(.*?)\/?$#', '\1', trim($board_config['script_path']));
+	// $script_name = ($script_name != '') ? 'modules.php?name=Forums&file=viewtopic&' : 'modules.php?name=Forums&file=viewtopic&';
+	// $u_viewtopic = $server_protocol . $server_name . $server_port . $script_name . POST_TOPIC_URL . "=$topic_id";
 
-  include('includes/emailer.'.$phpEx);
-  $emailer = new emailer($board_config['smtp_delivery']);
-  $emailer->use_template('email_topic', $userdata['user_lang']);
-  $emailer->email_address($friend_email);
-  $emailer->set_subject($lang['Email_topic']);
-  $emailer->assign_vars(array(
-    'SITENAME'    => $board_config['sitename'],
-    'USERNAME'    => $userdata['username'],
-    'FRIEND_NAME' => stripslashes($friend_name),
-    'MESSAGE'   => stripslashes($message),
-    'TOPIC'     => $topic_title,
+	// include('includes/emailer.'.$phpEx);
+	// $emailer = new emailer( $board_config['smtp_delivery'] );
+	// $emailer->use_template( 'email_topic', $userdata['user_lang'] );
+	// $emailer->email_address( $friend_email );
+	// $emailer->set_subject( $lang['Email_topic'] );
+	// $emailer->assign_vars(
+	// 	array(
+	// 		'SITENAME'    => $board_config['sitename'],
+	// 		'USERNAME'    => $userdata['username'],
+	// 		'FRIEND_NAME' => stripslashes( $friend_nam ),
+	// 		'MESSAGE'     => stripslashes( $message ),
+	// 		'TOPIC'       => $topic_title,
+	// 		'BOARD_EMAIL' => $board_config['board_email'],
+	// 		'EMAIL_SIG'   => ( ! empty( $board_config['board_email_sig'] ) ) ? str_replace( '<br />', "\n", "-- \n" . $board_config['board_email_sig'] ) : '',
+	// 		'U_TOPIC'     => $u_viewtopic
+	// 	)
+	// );
+	// $emailer->send();
+	// $emailer->reset();
 
-    'BOARD_EMAIL' => $board_config['board_email'],
-    'EMAIL_SIG'   => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
+	global $adminmail;
 
-    'U_TOPIC'   => $u_viewtopic
-  ));
-  $emailer->send();
-  $emailer->reset();
+	$to        = $friend_email;
+	$subject   = $lang['Email_topic'];
+	$template  = get_evo_option( 'forum_email_topic' );
+	$headers   = array();
+	$headers[] = 'From: ' . $adminmail;
+	$headers[] = 'Reply-To: ' . $adminmail;
+	$headers[] = 'Content-Type: text/html; charset=utf-8';
+	$headers[] = 'X-Mailer: PHP/' . phpversion();
+
+	evo_phpmailer( $to, $subject, $template, $headers );
 
 
-  // Add record to database
-  $current_time = time();
-  $sql = "INSERT INTO " . TOPICS_EMAIL_TABLE . " (user_id, friend_name, friend_email, message, topic_id, time) VALUES (" . $userdata['user_id'] . ", '" . str_replace("\'", "''", $friend_name) . "', '" . str_replace ("\'", "''", $friend_email) . "', '" . str_replace ("\'", "''", $message) . "', $topic_id, $current_time)";
-  if(!$result = $db->sql_query($sql))
-  {
-    message_die(GENERAL_ERROR, 'Could not insert topic email data', __LINE__, __FILE__, $sql);
-  }
+	// Add record to database
+	$current_time = time();
+	$user_ID      = $userdata['user_id'];
+	$friend_name  = str_replace( "\'", "''", $friend_name );
+	$friend_email = str_replace( "\'", "''", $friend_email );
+	$message      = str_replace( "\'", "''", $message );
+
+	$sql          = "INSERT INTO " . TOPICS_EMAIL_TABLE . " ( user_id, friend_name, friend_email, message, topic_id, time ) VALUES ( " . $user_ID . ", '" . $friend_name . "', '" . $friend_email . "', '" . $message . "', $topic_id, $current_time )";
+	if ( ! $result = $db->sql_query( $sql ) ) {
+		message_die(
+			GENERAL_ERROR,
+			'Could not insert topic email data',
+			__LINE__,
+			__FILE__,
+			$sql
+		);
+	}
 
 
   // All done - add the post anchor if a post ID was specified, and redirect to the original topic

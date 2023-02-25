@@ -8,11 +8,10 @@
     Notes         : N/A
 ************************************************************************/
 
-jquery_prefix(function($)
-{
+jQuery.noConflict(), jQuery(function( $ ) {
 //-------------------------------------------------------------------------
 //	VERSION CHECKER - START
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 	if(module_page === 'settings')
 	{
 		$.ajax({
@@ -31,7 +30,7 @@ jquery_prefix(function($)
 					var nversion 	= 'Installed: ' + ((version_installed !== lversion) ? out_of_date : upto_date) + ' | Latest: <span>' + lversion + '</span>';
 					$('#version_alert').html(nversion);
 				});
-				
+
 			},
 			error: function (xml)
 			{
@@ -41,7 +40,7 @@ jquery_prefix(function($)
 	}
 //-------------------------------------------------------------------------
 //	VERSION CHECKER - START
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	INSERT THE DEFAULT VALUES FOR THE PROGRESS BAR FOR EACH USER - START
 //-------------------------------------------------------------------------
@@ -73,7 +72,7 @@ jquery_prefix(function($)
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	PROGRESS BAR BACKGROUND COLOR
-//-------------------------------------------------------------------------		
+//-------------------------------------------------------------------------
 		var background_color = $('#background_color').val();
 		if(background_color == 'nocolor')
 		{
@@ -83,30 +82,30 @@ jquery_prefix(function($)
 		}
 //-------------------------------------------------------------------------
 //	PROGRESS BAR BACKGROUND COLOR
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	PROGRESS BAR BORDER COLOR
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 		var border_color = $('#border_color').val();
 		$('.progress-bar').css('border','1px solid ' + border_color);
 //-------------------------------------------------------------------------
 //	PROGRESS BAR BORDER COLOR
-//-------------------------------------------------------------------------	
-	});	
+//-------------------------------------------------------------------------
+	});
 //-------------------------------------------------------------------------
 //	PROGRESS PERCENT CUSTOM COLOR
-//-------------------------------------------------------------------------		
-	$('#custom_color').on('keyup', function() 
+//-------------------------------------------------------------------------
+	$('#custom_color').on('keyup', function()
 	{
 		var custom_color = $('#custom_color').val().replace('#', '');
 		$('#fileupload-progress-color').css('background-color', '#'+custom_color);
 	});
 //-------------------------------------------------------------------------
 //	PROGRESS PERCENT CUSTOM COLOR
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	PROGRESS PERCENTAGE VIEWER
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 	$('.percentage').on('click', function()
 	{
 		var percent = $(this).data('id');
@@ -115,21 +114,21 @@ jquery_prefix(function($)
 	});
 //-------------------------------------------------------------------------
 //	PROGRESS PERCENTAGE VIEWER
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //	ONCLICK, GENERATE A THUMBNAIL FOR SELECTED IMAGE
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 	$('a.generate-thumbnail').on('click', function(event)
 	{
 		event.preventDefault();
-		var pid = $(this).data('id');		
+		var pid = $(this).data('id');
 		$.ajax({
 			method: 'POST',
 			url: 'modules.php?name=' + module_name + '&op=generate_thumb',
 			data: { pid: pid },
 			dataType: 'json'
 		})
-		.done(function(response) 
+		.done(function(response)
 		{
 			if(response.error)
 			{
@@ -142,13 +141,13 @@ jquery_prefix(function($)
 	});
 //-------------------------------------------------------------------------
 //	ONCLICK, GENERATE A THUMBNAIL FOR SELECTED IMAGE
-//-------------------------------------------------------------------------		
+//-------------------------------------------------------------------------
 	$(document).on('click','.code-popup',function(event)
 	{
 		event.preventDefault();
 		var id = $(this).data('id');
 		$.fancybox.open(
-		{			
+		{
 			href : 'modules.php?name=' + module_name + '&op=image_modal&pid=' + id,
 			type : 'ajax',
 			padding : 5
@@ -173,10 +172,10 @@ jquery_prefix(function($)
 			animation: "RotateY",
 			confirm: function()
 			{
-				$.post('modules.php?name=' + module_name + '&op=image_delete', 
+				$.post('modules.php?name=' + module_name + '&op=image_delete',
 				{
 					'pid' : parts[0]
-				}, 
+				},
 				function(r)
 				{
 //-------------------------------------------------------------------------
@@ -228,7 +227,7 @@ jquery_prefix(function($)
 				$.post('modules.php?name=' + module_name + '&op=image_delete_admin',
 				{
 					'pid' : parts[0], 'user' : parts[1]
-				}, 
+				},
 				function(data)
 				{
 					if(data.error)
@@ -267,7 +266,7 @@ jquery_prefix(function($)
 					data: { user: user },
 					dataType: 'json'
 				})
-				.done(function(response) 
+				.done(function(response)
 				{
 					if(response.error)
 					{
@@ -283,9 +282,9 @@ jquery_prefix(function($)
 	});
 //-------------------------------------------------------------------------
 //	OK, lET'S DO THE CODING FOR THE UPLOAD SCRIPT.
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 	$('#submit').click(function()
-	{		
+	{
 		$('#myimage').upload('modules.php?name=' + module_name + '&op=image_data', function(response)
 		{
 			if(response.error)
@@ -299,21 +298,21 @@ jquery_prefix(function($)
 					error += '  </tr>'
 				$('#errortable_tr').after(error);
 				//console.log(imagecount);
-				setTimeout(function() 
+				setTimeout(function()
 				{
 					$('#errortable').hide();
 					if(imagecount > 0)
 					{
 						$('#imagelist').show();
 						$('.imagethumbs').show();
-					} 
-					else 
+					}
+					else
 					{
 						$('#noimages').show();
 						$('#imagelist').hide();
 					}
 					$('#errortable_header').html(lang_imagelist);
-				}, 8000);				
+				}, 8000);
 				$('#noimages').hide();
 				$('#imagelist').hide();
 				$('.imagethumbs').hide();
@@ -332,7 +331,7 @@ jquery_prefix(function($)
 //-------------------------------------------------------------------------
 				$('#noimages').hide();
 				var content  = '<tr class="imagethumbs" id="image-' + response.nextid + '">'
-					content += '  <td class="row1" style="text-align:center;"><div class="thumbnail_border"><img src="' + upload_dir + '/thumbs/thumb_' + response.image + '" border="0" /></div></td>'					
+					content += '  <td class="row1" style="text-align:center;"><div class="thumbnail_border"><img src="' + upload_dir + '/thumbs/thumb_' + response.image + '" border="0" /></div></td>'
 					content += '  <td class="row1">'
 					content += '    <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" id="imagetable">'
 					content += '      <tr>'
@@ -383,6 +382,6 @@ jquery_prefix(function($)
 	});
 //-------------------------------------------------------------------------
 //	OK, lET'S DO THE CODING FOR THE UPLOAD SCRIPT.
-//-------------------------------------------------------------------------	
+//-------------------------------------------------------------------------
 	$.getScript('modules/' + module_name + '/includes/js/jquery.xhr.js');
 });

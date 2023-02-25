@@ -63,3 +63,11 @@ function untrailingslashit( $string ) {
 function stripslashes_deep( $string ) {
 	return str_replace( '\\', '', $string );
 }
+
+function convert_to_thousands( $num ) {
+	$units = [ '', 'K', 'M', 'B', 'T' ];
+	for ( $i = 0; $num >= 1000; $i++ ) {
+		$num /= 1000;
+	}
+	return round ( $num, 1 ) . $units[ $i ];
+}

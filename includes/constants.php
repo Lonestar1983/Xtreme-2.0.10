@@ -536,8 +536,6 @@ define('META_TABLE', $prefix.'_meta');
 define('EVOLUTION_SESSIONS_TABLE', $prefix.'_session');
 define('USERS_BEEN_TABLE', $prefix.'_users_who_been');
 
-define('THEMES_THEMES_TABLE', $prefix.'_themes');
-
 define('HONEYPOT_TABLE', $prefix.'_honeypot');
 
 define('IP_TO_COUNTRY_TABLE', $prefix.'_nsnst_ip2country');

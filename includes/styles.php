@@ -141,5 +141,3 @@ addCSSToHead(NUKE_CSS_DIR.'images.core.css','file');
 addCSSToHead(NUKE_CSS_DIR.'images.16x16-flags.css','file');
 addCSSToHead(NUKE_CSS_DIR.'images.rating-stars.css','file');
 // addCSSToHead(NUKE_CSS_DIR.'images.user_profile.css','file');
-
-?>

@@ -25,7 +25,7 @@
 /*----------------------------------------------------------------*/
 
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-    exit('Access Denied');
+	exit('Access Denied');
 }
 
 $theme_name = basename(dirname(__FILE__));
@@ -46,7 +46,7 @@ $bgcolor4   = $ThemeInfo['bgcolor4'];
 $textcolor1 = $ThemeInfo['textcolor1'];
 $textcolor2 = $ThemeInfo['textcolor2'];
 
-define( 'THEME_VERISON', '3.0.0' );
+define( 'THEME_VERSION', '3.0.0' );
 define('xtremev3_theme_dir', 'themes/'.$theme_name.'/');
 define('xtremev3_images_dir', xtremev3_theme_dir.'images/');
 define('xtremev3_style_dir', xtremev3_theme_dir.'style/');
@@ -59,143 +59,117 @@ define('xtremev3_width', ((substr($ThemeInfo['themewidth'], -1) == '%') ? str_re
 define('xtremev3_copyright', 'XtremeV3 Theme Designed By: The Mortal<br />Copyright &copy '.date('Y').' RealmDesignz.com<br />All Rights Reserved');
 define('xtremev3_copyright_click', 'Click the Link to Display Copyrights');
 
-addCSSToHead(xtremev3_style_dir.'style.css','file');
-addCSSToHead(xtremev3_style_dir.'menu.css','file');
-// evo_include_style( 'xtreme-main-stylesheet', xtremev3_style_dir . 'style.css', THEME_VERISON );
-// evo_include_style( 'xtreme-menu-stylesheet', xtremev3_style_dir . 'menu.css', THEME_VERISON );
+// addCSSToHead(xtremev3_style_dir.'style.css','file');
+// addCSSToHead(xtremev3_style_dir.'menu.css','file');
+evo_include_style( 'xtreme-google-fonts', 'https://fonts.googleapis.com/css?family=Dosis|Faster+One|Montserrat|Open+Sans|Yanone+Kaffeesatz|Kanit|Roboto' );
+evo_include_style( 'xtreme-main-stylesheet', xtremev3_style_dir . 'style.css', THEME_VERSION );
+evo_include_style( 'xtreme-menu-stylesheet', xtremev3_style_dir . 'menu.css', THEME_VERSION );
 
 /*-------------------*/
 /* OpenTable Section */
 /*-------------------*/
-function OpenTable() 
-{
-echo '<section id="flex-container">'
-    .'  <div class="tb1"></div>'
-    .'  <div class="tb2"></div>'
-    .'  <div class="tb3"></div>'
-    .'</section>'
+function OpenTable() {
+echo '<section class="flex-container">'
+	.'  <div class="tb1"></div>'
+	.'  <div class="tb2"></div>'
+	.'  <div class="tb3"></div>'
+	.'</section>'
 
-    .'<section id="flex-container" class="body-background2">'
-    .'  <div class="tb4"></div>'
-    .'  <div class="tb5">';
+	.'<section class="flex-container table-content">'
+	.'  <div class="tb4"></div>'
+	.'  <div class="tb5">';
 }
 
-function CloseTable() 
-{
+function CloseTable() {
 echo '  </div>'
-    .'  <div class="tb6"></div>'
-    .'</section>'
+	.'  <div class="tb6"></div>'
+	.'</section>'
 
-    .'<section id="flex-container">'
-    .'  <div class="tb7"></div>'
-    .'  <div class="tb8"></div>'
-    .'  <div class="tb9"></div>'
-    .'</section>';
-}
-
-# I missed these out on purpose, they will be deprecated in the next update.
-function OpenTable2() 
-{
-
-}
-
-# I missed these out on purpose, they will be deprecated in the next update.
-function CloseTable2() 
-{
-
+	.'<section class="flex-container">'
+	.'  <div class="tb7"></div>'
+	.'  <div class="tb8"></div>'
+	.'  <div class="tb9"></div>'
+	.'</section>';
 }
 
 /*---------------------*/
 /* FormatStory Section */
 /*---------------------*/
-function FormatStory($thetext, $notes, $aid, $informant) 
-{
+function FormatStory($thetext, $notes, $aid, $informant) {
 global $anonymous;
 
-$notes = !empty($notes) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';	
-if ($aid == $informant) 
-{
+$notes = !empty($notes) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';
+if ($aid == $informant) {
    echo '<span class="content" color="#505050">'.$thetext.$notes.'</span>';
-} 
-else 
-{
-   if (defined('WRITES')) 
-   {
-      if (!empty($informant)) 
-      {
-         if ( is_array($informant) ):
-            $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a>';
-         else:
-            $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a>';
-         endif;
-} 
-else 
-{
-            $boxstuff = $anonymous.' ';
-      }
-            $boxstuff .= _WRITES.' <em>'.$thetext.'</em>'.$notes;
-} 
-else 
-{
-            $boxstuff .= $thetext . $notes;
-      }
-      echo '<span class="content" color="#505050">' . $boxstuff . '</span>';
+} else {
+   if (defined('WRITES'))    {
+	  if (!empty($informant))       {
+		 if ( is_array($informant) ):
+			$boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a>';
+		 else:
+			$boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a>';
+		 endif;
+} else {
+			$boxstuff = $anonymous.' ';
+	  }
+			$boxstuff .= _WRITES.' <em>'.$thetext.'</em>'.$notes;
+} else {
+			$boxstuff .= $thetext . $notes;
+	  }
+	  echo '<span class="content" color="#505050">' . $boxstuff . '</span>';
    }
 }
 
 /*----------------*/
 /* Header Section */
 /*----------------*/
-function themeheader() 
-{
+function themeheader() {
 	include_once(xtremev3_theme_dir.'HDRxtremev3.php');
 }
 
 /*----------------*/
 /* Footer Section */
 /*----------------*/
-function themefooter() 
-{
+function themefooter() {
 	include_once(xtremev3_theme_dir.'FTRxtremev3.php');
 }
 
 /*--------------------*/
 /* News Index Section */
 /*--------------------*/
-function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $writes = false) 
-{
+function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $writes = false) {
 global $anonymous, $tipath, $theme_name, $sid, $ThemeSel, $nukeurl, $customlang;
 
-    if (!empty($topicimage)):
-    
-        $t_image = (file_exists(xtremev3_images_dir.'topics/'.$topicimage)) ? xtremev3_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
-        $topic_img = '<td class="col-3 extra" style="text-align:center;"><a href="modules.php?name=News&new_topic='.$topic.'"><img src="'.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
+	if (!empty($topicimage)):
 
-    else:
-        $topic_img = '';
-    endif;
+		$t_image = (file_exists(xtremev3_images_dir.'topics/'.$topicimage)) ? xtremev3_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
+		$topic_img = '<td class="col-3 extra" style="text-align:center;"><a href="modules.php?name=News&new_topic='.$topic.'"><img src="'.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
 
-    $notes = (!empty($notes)) ? '<br /><br /><strong>'._NOTE.'</strong> '.$notes : '';
-    $content = '';
+	else:
+		$topic_img = '';
+	endif;
 
-    if ($aid == $informant):
-        $content = $thetext.$notes;
-    else: 
+	$notes = (!empty($notes)) ? '<br /><br /><strong>'._NOTE.'</strong> '.$notes : '';
+	$content = '';
 
-        if ($writes):
+	if ($aid == $informant):
+		$content = $thetext.$notes;
+	else:
 
-            if (!empty($informant)) :
-                $content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
-            else:
-                $content = $anonymous.' ';
-            endif;
-            $content .= _WRITES.' '.$thetext.$notes;
+		if ($writes):
 
-        else:
-            $content .= $thetext.$notes;
-        endif;
+			if (!empty($informant)) :
+				$content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
+			else:
+				$content = $anonymous.' ';
+			endif;
+			$content .= _WRITES.' '.$thetext.$notes;
 
-    endif;
+		else:
+			$content .= $thetext.$notes;
+		endif;
+
+	endif;
 
 $posted   = sprintf( $customlang['global']['posted_by'], get_author( $aid ), $time );
 $datetime = substr( $morelink, 0, strpos( $morelink, '|' ) - strlen( $morelink ) );
@@ -204,24 +178,24 @@ $reads    = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</
 
 // echo ( get_query_var('name', 'get') ) ? '' : '<br />';
 echo '<article class="news-article">'
-    .'  <section id="flex-container">'
-    .'    <div class="st1"></div>'
-    .'    <div class="st2"><div class="storytitle-wrapper"><span class="storytitle">'.$title.'</span></div></div>'
-    .'    <div class="st3"></div>'
-    .'  </section>'
-    .'  <section id="flex-container">'
-    .'    <div class="st4"></div>'
-    .'    <div class="st5" class="col-12"><span class="content" style="vertical-align: top">'.$content.'</span><br /><br /></div>'
-    .'    <div class="st6"></div>'
-    .'  </section>'
-    .'  <section id="flex-container">'
-    .'    <div class="st7"></div>'
-    .'    <div class="st8">'
-    .'      <div class="postedoption">'.$posted.'<br />'.$datetime.' '.$topictext.' | '.$morelink.' '.$reads.'</div></div>'
-    .'      <div class="st9"></div>'
-    .'  </section>'
-    .'</article>';
-    // .'<br />';
+	.'  <section class="flex-container">'
+	.'    <div class="st1"></div>'
+	.'    <div class="st2"><div class="storytitle-wrapper"><span class="storytitle">'.$title.'</span></div></div>'
+	.'    <div class="st3"></div>'
+	.'  </section>'
+	.'  <section class="flex-container">'
+	.'    <div class="st4"></div>'
+	.'    <div class="st5" class="col-12"><span class="content" style="vertical-align: top">'.$content.'</span><br /><br /></div>'
+	.'    <div class="st6"></div>'
+	.'  </section>'
+	.'  <section class="flex-container">'
+	.'    <div class="st7"></div>'
+	.'    <div class="st8">'
+	.'      <div class="postedoption">'.$posted.'<br />'.$datetime.' '.$topictext.' | '.$morelink.' '.$reads.'</div></div>'
+	.'      <div class="st9"></div>'
+	.'  </section>'
+	.'</article>';
+	// .'<br />';
 }
 
 /*----------------------*/
@@ -244,7 +218,7 @@ global $admin, $sid, $tipath, $theme_name;
 	$content = '';
 	if ($aid == $informant) 
 	{
-	    $content = $thetext.$notes;
+		$content = $thetext.$notes;
 	} 
 	else 
 	{
@@ -270,32 +244,22 @@ $posted = _POSTEDON.' '.$datetime.' '._BY.' ';
 $posted .= get_author($aid);
 
 echo '<article>'
-    .'  <section id="flex-container">'
-    .'      <div class="st1"></div>'
-    .'      <div class="st2"><div style="padding-top: 14px;"><span class="storytitle">'.$title.'</span></div></div>'
-    .'      <div class="st3"></div>'
-    .'  </section>'
-    .'  <section id="flex-container">'
-    .'      <div class="st4"></div>'
-    .'      <div class="st5" class="col-12"><span class="content" style="vertical-align: top">'.$content.'</span><br /><br /></div>'
-    .'      <div class="st6"></div>'
-    .'  </section>'
-    .'  <section id="flex-container">'
-    .'      <div class="st7"></div>'
-    .'      <div class="st8"><div class="postedoption">'.$posted.'</div></div>'
-    .'      <div class="st9"></div>'
-    .'  </section>'
-    .'</article>';
-}
-
-/*-------------------*/
-/* Centerbox Section */
-/*-------------------*/
-function themecenterbox($title, $content) 
-{
-OpenTable();
-  echo '<center><span class="option"><strong>'.$title.'</strong></span></center>'.$content;
-CloseTable();
+	.'  <section class="flex-container">'
+	.'      <div class="st1"></div>'
+	.'      <div class="st2"><div style="padding-top: 14px;"><span class="storytitle">'.$title.'</span></div></div>'
+	.'      <div class="st3"></div>'
+	.'  </section>'
+	.'  <section class="flex-container">'
+	.'      <div class="st4"></div>'
+	.'      <div class="st5" class="col-12"><span class="content" style="vertical-align: top">'.$content.'</span><br /><br /></div>'
+	.'      <div class="st6"></div>'
+	.'  </section>'
+	.'  <section class="flex-container">'
+	.'      <div class="st7"></div>'
+	.'      <div class="st8"><div class="postedoption">'.$posted.'</div></div>'
+	.'      <div class="st9"></div>'
+	.'  </section>'
+	.'</article>';
 }
 
 /*-----------------*/
@@ -308,19 +272,20 @@ echo (!empty($bodytext)) ? '<br /><br />'.$bodytext : '';
 echo (!empty($notes)) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';
 }
 
-/*-----------------*/
-/* Sidebox Section */
-/*-----------------*/
-function themesidebox($title, $content, $bid = 0) 
-{
-echo '<aside>'
-    .'  <div class="bl1"><div style="padding-top: 15px; text-align:center;"><span class="blocktitle" >'.$title.'</span></div></div>'
-    .'  <div class="bl2">'
-    .'    <div class="bl5-content" style="margin: auto;">'.$content.'</div>'
-    .'  </div>'
-    .'  <div class="bl3"></div>'
-    .'</aside>'
-    .'<br />';
+
+function themecenterbox( $title, $content ) {
+	OpenTable();
+	echo '<center><span class="option"><strong>' . $title . '</strong></span></center>' . $content;
+	CloseTable();
 }
 
-?>
+function themesidebox( $title, $content, $bid = 0 ) {
+	echo '<aside>'
+		.'  <div class="bl1"><div style="padding-top: 15px; text-align:center;"><span class="blocktitle" >' . $title . '</span></div></div>'
+		.'  <div class="bl2">'
+		.'    <div class="bl5-content" style="margin: auto;">' . $content . '</div>'
+		.'  </div>'
+		.'  <div class="bl3"></div>'
+		.'</aside>'
+		.'<br />';
+}

@@ -16,8 +16,8 @@ Date          : 12.14.2005 (mm.dd.yyyy)
 Notes         : Miscellaneous functions
 ************************************************************************/
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-	exit('Access Denied');
+if ( realpath(__FILE__) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
+	exit;
 }
 
 define('HEX_CACHED', 'c997c29199dae4b492a7bad5f2c1dbcbb3d99975d5d3bbdeb46fa4947b9b99b1eb8491d7dabdd5cdbec8e86fb4d9bddfe27daec6bd85a88db3d0b785e5bed9d3be9199c3e4c5afcae6b0e4cfbe85dabdd684bbd4ecc3e584b4d399c3dacdbe85ecb8e6c96bc6ebb492d4bdd4e9b4e4d8c485e8b592d8b3cae2c192d6b0d8e9b4d5d8b4dbde6fe1dbb9caebc29e84acd1e56fe6ccb085ebb4e5d86b8bdcbee2dd8685ab7fa29a6bc7f26fe6ccb085ecb8e6c96bd4f0bdd7d679a1dbc1929389b5e8c6d7d6b0c999b1eb8487c699b7e4c9b1a29bb7e6d8bb9fa87ee9dbc293e7c4ddc978caefbeded9bfcee8bda0c7bad29b6fe6c5bdccdec3af86aac7e5b0e0cf6da3c7c4ddc978aaefbeded9bfcee8bdae93aca3');
