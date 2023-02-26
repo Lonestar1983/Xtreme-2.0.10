@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS nuke_bbgames;
+DROP TABLE IF EXISTS nuke_bbscores;
+DROP TABLE IF EXISTS nuke_bbgamehash;
+DROP TABLE IF EXISTS nuke_bbhackgame;
+DROP TABLE IF EXISTS nuke_bbarcade_categories;
+DROP TABLE IF EXISTS nuke_bbarcade;
+DROP TABLE IF EXISTS nuke_bbauth_arcade_access;
+DROP TABLE IF EXISTS nuke_bbarcade_comments;
+DROP TABLE IF EXISTS nuke_bbarcade_fav;
+
+ALTER TABLE `nuke_users` DROP `user_allow_arcadepm`;

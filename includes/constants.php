@@ -151,17 +151,7 @@ define('PAGE_REPUTATION', -1280);
  [ Mod:     Users Reputations System           v1.0.0 ]
  ******************************************************/
 
-/*****[BEGIN]******************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
-define('PAGE_GAME', -50);
-define('PAGE_ARCADES', -51);
-define('PAGE_TOPARCADES', -52);
-define('PAGE_STATARCADES', -53);
-define('PAGE_SCOREBOARD', -54);
-/*****[END]********************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
+/*--ARCADE MOD #1--*/
 
 /*****[BEGIN]******************************************
  [ Mod:     Staff Site                         v2.0.3 ]
@@ -479,21 +469,7 @@ define('BIRTHDAY_PM',3);
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 
-/*****[BEGIN]******************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
-define('GAMES_TABLE', $prefix.'_bbgames');
-define('SCORES_TABLE', $prefix.'_bbscores');
-define('GAMEHASH_TABLE', $prefix.'_bbgamehash');
-define('HACKGAME_TABLE', $prefix.'_bbhackgame');
-define('ARCADE_CATEGORIES_TABLE', $prefix.'_bbarcade_categories');
-define('ARCADE_TABLE', $prefix.'_bbarcade');
-define('AUTH_ARCADE_ACCESS_TABLE', $prefix.'_bbauth_arcade_access');
-define('COMMENTS_TABLE', $prefix.'_bbarcade_comments');
-define('ARCADE_FAV_TABLE', $prefix.'_bbarcade_fav');
-/*****[END]********************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
+/*--ARCADE MOD #2--*/
 
 /*****[BEGIN]*****************************************
 [ Mod: Inline Banner Ad                       v1.2.3 ]

@@ -59,8 +59,6 @@ define('xtremev3_width', ((substr($ThemeInfo['themewidth'], -1) == '%') ? str_re
 define('xtremev3_copyright', 'XtremeV3 Theme Designed By: The Mortal<br />Copyright &copy '.date('Y').' RealmDesignz.com<br />All Rights Reserved');
 define('xtremev3_copyright_click', 'Click the Link to Display Copyrights');
 
-// addCSSToHead(xtremev3_style_dir.'style.css','file');
-// addCSSToHead(xtremev3_style_dir.'menu.css','file');
 evo_include_style( 'xtreme-google-fonts', 'https://fonts.googleapis.com/css?family=Dosis|Faster+One|Montserrat|Open+Sans|Yanone+Kaffeesatz|Kanit|Roboto' );
 evo_include_style( 'xtreme-main-stylesheet', xtremev3_style_dir . 'style.css', THEME_VERSION );
 evo_include_style( 'xtreme-menu-stylesheet', xtremev3_style_dir . 'menu.css', THEME_VERSION );

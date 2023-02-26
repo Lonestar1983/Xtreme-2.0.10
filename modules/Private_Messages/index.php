@@ -1680,30 +1680,20 @@ else if ( $submit || $refresh || !empty($mode) )
 				}
 		}
 
-		if ( $submit && !$error )
-		{
-				//
-				// Has admin prevented user from sending PM's?
-				//
-				if ( !$userdata['user_allow_pm'] )
-				{
-						$message = $lang['Cannot_send_privmsg'];
-						message_die(GENERAL_MESSAGE, $message);
-				}
+	if ( $submit && ! $error ) {
+		//
+		// Has admin prevented user from sending PM's?
+		//
+		if ( ! $userdata['user_allow_pm'] ) {
+			$message = $lang['Cannot_send_privmsg'];
+			message_die( GENERAL_MESSAGE, $message );
+		}
 
-/*****[BEGIN]******************************************
- [ Mod:     Custom mass PM                     v1.4.7 ]
- ******************************************************/
-				foreach($to_users as $to_userdata)
-				{
-/*****[END]********************************************
- [ Mod:     Custom mass PM                     v1.4.7 ]
- ******************************************************/
+		foreach( $to_users as $to_userdata ) {
 
-				$msg_time = time();
+			$msg_time = time();
 
-				if ( $mode != 'edit' )
-				{
+			if ( $mode != 'edit' ) {
 						//
 						// See if recipient is at their inbox limit
 						//
@@ -1894,568 +1884,437 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
 				}
 			}
 
-			// $template->assign_vars(array(
-			// 	'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("privmsg.$phpEx?folder=inbox") . '">')
-			// );
-
-			// $msg = $lang['Message_sent'] . '<br /><br />' . sprintf($lang['Click_return_inbox'], '<a href="' . append_sid("privmsg.$phpEx?folder=inbox") . '">', '</a> ') . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
-
-			// message_die( GENERAL_MESSAGE, $msg );
-			redirect( append_sid( "privmsg.$phpEx?folder=inbox" ) );
-		}
-		else if ( $preview || $refresh || $error )
-		{
-
-				//
-				// If we're previewing or refreshing then obtain the data
-				// passed to the script, process it a little, do some checks
-				// where neccessary, etc.
-				//
-				$to_username = (isset($_POST['username']) ) ? trim(htmlspecialchars(stripslashes($_POST['username']))) : '';
-				$privmsg_subject = ( isset($_POST['subject']) ) ? trim(htmlspecialchars(stripslashes($_POST['subject']))) : '';
-				$privmsg_message = ( isset($_POST['message']) ) ? trim($_POST['message']) : '';
-				//$privmsg_message = preg_replace('#<textarea>#si', '&lt;textarea&gt;', $privmsg_message);
-				if ( !$preview )
-				{
-						$privmsg_message = stripslashes($privmsg_message);
-				}
-
-				//
-				// Do mode specific things
-				//
-				if ( $mode == 'post' )
-				{
-						$page_title = $lang['Post_new_pm'];
-
-						$user_sig = ( !empty($userdata['user_sig']) && $board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
-
-				}
-				else if ( $mode == 'reply' )
-				{
-						$page_title = $lang['Post_reply_pm'];
-
-						$user_sig = ( !empty($userdata['user_sig']) && $board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
-
-				}
-				else if ( $mode == 'edit' )
-				{
-						$page_title = $lang['Edit_pm'];
-
-						$sql = "SELECT u.user_id, u.user_sig
-								FROM " . PRIVMSGS_TABLE . " pm, " . USERS_TABLE . " u
-								WHERE pm.privmsgs_id = '$privmsg_id'
-										AND u.user_id = pm.privmsgs_from_userid";
-						if ( !($result = $db->sql_query($sql)) )
-						{
-								message_die(GENERAL_ERROR, "Could not obtain post and post text", "", __LINE__, __FILE__, $sql);
-						}
-
-						if ( $postrow = $db->sql_fetchrow($result) )
-						{
-								if ( $userdata['user_id'] != $postrow['user_id'] )
-								{
-										message_die(GENERAL_MESSAGE, $lang['Edit_own_posts']);
-								}
-
-								$user_sig = ( !empty($postrow['user_sig']) && $board_config['allow_sig'] ) ? $postrow['user_sig'] : '';
-						}
-				}
-		}
-		else
-		{
-				if ( !$privmsg_id && ( $mode == 'reply' || $mode == 'edit' || $mode == 'quote' ) )
-				{
-						message_die(GENERAL_ERROR, $lang['No_post_id']);
-				}
-
-				if ( !empty($_GET[POST_USERS_URL]) )
-				{
-						$user_id = intval($_GET[POST_USERS_URL]);
-
-						$sql = "SELECT username
-								FROM " . USERS_TABLE . "
-								WHERE user_id = '$user_id'
-										AND user_id <> " . ANONYMOUS;
-						if ( !($result = $db->sql_query($sql)) )
-						{
-								$error = TRUE;
-								$error_msg = $lang['No_such_user'];
-						}
-
-						if ( $row = $db->sql_fetchrow($result) )
-						{
-								$to_username = $row['username'];
-						}
-				}
-				else if ( $mode == 'edit' )
-				{
-						$sql = "SELECT pm.*, pmt.privmsgs_bbcode_uid, pmt.privmsgs_text, u.username, u.user_id, u.user_sig
-								FROM " . PRIVMSGS_TABLE . " pm, " . PRIVMSGS_TEXT_TABLE . " pmt, " . USERS_TABLE . " u
-								WHERE pm.privmsgs_id = '$privmsg_id'
-										AND pmt.privmsgs_text_id = pm.privmsgs_id
-										AND pm.privmsgs_from_userid = " . $userdata['user_id'] . "
-										AND ( pm.privmsgs_type = " . PRIVMSGS_NEW_MAIL . "
-												OR pm.privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . " )
-										AND u.user_id = pm.privmsgs_to_userid";
-						if ( !($result = $db->sql_query($sql)) )
-						{
-								message_die(GENERAL_ERROR, 'Could not obtain private message for editing', '', __LINE__, __FILE__, $sql);
-						}
-
-						if ( !($privmsg = $db->sql_fetchrow($result)) )
-						{
-								// not needed anymore due to function redirect()
-//$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
-								redirect(append_sid("privmsg.$phpEx?folder=$folder", true));
-								exit;
-						}
-
-						$privmsg_subject = $privmsg['privmsgs_subject'];
-						$privmsg_message = $privmsg['privmsgs_text'];
-						$privmsg_bbcode_uid = $privmsg['privmsgs_bbcode_uid'];
-						$privmsg_bbcode_enabled = ($privmsg['privmsgs_enable_bbcode'] == 1);
-
-						if ( $privmsg_bbcode_enabled )
-						{
-								$privmsg_message = preg_replace("/\:(([a-z0-9]:)?)$privmsg_bbcode_uid/si", '', $privmsg_message);
-						}
-
-						$privmsg_message = str_replace('<br />', "\n", $privmsg_message);
-						//$privmsg_message = preg_replace('#</textarea>#si', '&lt;/textarea&gt;', $privmsg_message);
-
-						$user_sig = ( $board_config['allow_sig'] ) ? (($privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL) ? $user_sig : $privmsg['user_sig']) : '';
-
-						$to_username = $privmsg['username'];
-						$to_userid = $privmsg['user_id'];
-
-				}
-				else if ( $mode == 'reply' || $mode == 'quote' )
-				{
-
-						$sql = "SELECT pm.privmsgs_subject, pm.privmsgs_date, pmt.privmsgs_bbcode_uid, pmt.privmsgs_text, u.username, u.user_id
-								FROM " . PRIVMSGS_TABLE . " pm, " . PRIVMSGS_TEXT_TABLE . " pmt, " . USERS_TABLE . " u
-								WHERE pm.privmsgs_id = '$privmsg_id'
-										AND pmt.privmsgs_text_id = pm.privmsgs_id
-										AND pm.privmsgs_to_userid = " . $userdata['user_id'] . "
-										AND u.user_id = pm.privmsgs_from_userid";
-						if ( !($result = $db->sql_query($sql)) )
-						{
-								message_die(GENERAL_ERROR, 'Could not obtain private message for editing', '', __LINE__, __FILE__, $sql);
-						}
-
-						if ( !($privmsg = $db->sql_fetchrow($result)) )
-						{
-								// not needed anymore due to function redirect()
-//$header_location = ( @preg_match('/Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ) ? 'Refresh: 0; URL=' : 'Location: ';
-								redirect(append_sid("privmsg.$phpEx?folder=$folder", true));
-								exit;
-						}
-			 			$orig_word = $replacement_word = array();
- 						obtain_word_list($orig_word, $replacement_word);
-						$privmsg_subject = ( ( !preg_match('/^Re:/', $privmsg['privmsgs_subject']) ) ? 'Re: ' : '' ) . $privmsg['privmsgs_subject'];
-						$privmsg_subject = preg_replace($orig_word, $replacement_word, $privmsg_subject);
-
-						$to_username = $privmsg['username'];
-						$to_userid = $privmsg['user_id'];
-
-						if ( $mode == 'quote' )
-						{
-								$privmsg_message = $privmsg['privmsgs_text'];
-								$privmsg_bbcode_uid = $privmsg['privmsgs_bbcode_uid'];
-
-								$privmsg_message = preg_replace("/\:(([a-z0-9]:)?)$privmsg_bbcode_uid/si", '', $privmsg_message);
-								$privmsg_message = str_replace('<br />', "\n", $privmsg_message);
-								//$privmsg_message = preg_replace('#</textarea>#si', '&lt;/textarea&gt;', $privmsg_message);
-								$privmsg_message = preg_replace($orig_word, $replacement_word, $privmsg_message);
-
-								$msg_date =  create_date($board_config['default_dateformat'], $privmsg['privmsgs_date'], $board_config['board_timezone']);
-
-								$privmsg_message = '[quote="' . $to_username . '"]' . $privmsg_message . '[/quote]';
-
-								$mode = 'reply';
-						}
-				}
-				else
-				{
-				   $privmsg_subject = $privmsg_message = $to_username = '';
-				}
-		}
-
-		//
-		// Has admin prevented user from sending PM's?
-		//
-		if ( !$userdata['user_allow_pm'] && $mode != 'edit' )
-		{
-				$message = $lang['Cannot_send_privmsg'];
-				message_die(GENERAL_MESSAGE, $message);
-		}
-
-		//
-		// Start output, first preview, then errors then post form
-		//
-		$page_title = $lang['Send_private_message'];
-		include(NUKE_INCLUDE_DIR.'page_header.php');
-
-		if ( $preview && !$error )
-		{
-				$orig_word = array();
-				$replacement_word = array();
-				obtain_word_list($orig_word, $replacement_word);
-
-				if ( $bbcode_on )
-				{
-						$bbcode_uid = make_bbcode_uid();
-				}
-
-				$preview_message = stripslashes(prepare_message($privmsg_message, $html_on, $bbcode_on, $smilies_on, $bbcode_uid));
-				$privmsg_message = stripslashes(preg_replace($html_entities_match, $html_entities_replace, $privmsg_message));
-
-				//
-				// Finalise processing as per viewtopic
-				//
-		if ( !$html_on || !$board_config['allow_html'] || !$userdata['user_allowhtml'] )
-				{
-						if ( !empty($user_sig) )
-						{
-								$user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $user_sig);
-						}
-				}
-
-				if ( $attach_sig && !empty($user_sig) && $userdata['user_sig_bbcode_uid'] )
-				{
-						$user_sig = bbencode_second_pass($user_sig, $userdata['user_sig_bbcode_uid']);
-				}
-
-				if ( $bbcode_on )
-				{
-						$preview_message = bbencode_second_pass($preview_message, $bbcode_uid);
-				}
-
-				if ( $attach_sig && !empty($user_sig) )
-				{
-/*****[BEGIN]******************************************
- [ Mod:     Advance Signature Divider Control  v1.0.0 ]
- [ Mod:     Bottom aligned signature           v1.2.0 ]
- ******************************************************/
-						$preview_message = $preview_message . '<br />' . $board_config['sig_line'] . '<br />' . $user_sig;
-/*****[END]********************************************
- [ Mod:     Bottom aligned signature           v1.2.0 ]
- [ Mod:     Advance Signature Divider Control  v1.0.0 ]
- ******************************************************/
-				}
-
-				if ( count($orig_word) )
-				{
-						$preview_subject = preg_replace($orig_word, $replacement_word, $privmsg_subject);
-						$preview_message = preg_replace($orig_word, $replacement_word, $preview_message);
-				}
-				else
-				{
-/*****[BEGIN]******************************************
- [ Mod:     Smilies in Topic Titles            v1.0.0 ]
- [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
- ******************************************************/
-						$preview_subject = ($board_config['smilies_in_titles']) ? smilies_pass($privmsg_subject) : $privmsg_subject;
-/*****[END]********************************************
- [ Mod:     Smilies in Topic Titles            v1.0.0 ]
- [ Mod:     Smilies in Topic Titles Toggle     v1.0.0 ]
- ******************************************************/
-				}
-
-				if ( $smilies_on )
-				{
-						$preview_message = smilies_pass($preview_message);
-				}
-
-/*****[BEGIN]******************************************
- [ Mod:     Force Word Wrapping               v1.0.16 ]
- ******************************************************/
-				$preview_message = word_wrap_pass($preview_message);
-/*****[END]********************************************
- [ Mod:     Force Word Wrapping               v1.0.16 ]
- ******************************************************/
-
-				$preview_message = make_clickable($preview_message);
-				$preview_message = str_replace("\n", '<br />', $preview_message);
-
-				$s_hidden_fields = '<input type="hidden" name="folder" value="' . $folder . '" />';
-				$s_hidden_fields .= '<input type="hidden" name="mode" value="' . $mode . '" />';
-				$s_hidden_fields .= '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
-
-				if ( isset($privmsg_id) )
-				{
-						$s_hidden_fields .= '<input type="hidden" name="' . POST_POST_URL . '" value="' . $privmsg_id . '" />';
-				}
-
-				$template->set_filenames(array(
-						"preview" => 'privmsgs_preview.tpl')
-				);
-
-/*****[BEGIN]******************************************
- [ Mod:    Attachment Mod                      v2.4.1 ]
- ******************************************************/
-				$attachment_mod['pm']->preview_attachments();
-/*****[END]********************************************
- [ Mod:    Attachment Mod                      v2.4.1 ]
- ******************************************************/
-
-				$template->assign_vars(array(
-						'TOPIC_TITLE' => $preview_subject,
-						'POST_SUBJECT' => $preview_subject,
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-						'MESSAGE_TO' => UsernameColor($to_username),
-						'MESSAGE_FROM' => UsernameColor($userdata['username']),
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-						'POST_DATE' => create_date($board_config['default_dateformat'], time(), $board_config['board_timezone']),
-						'MESSAGE' => $preview_message,
-
-						'S_HIDDEN_FIELDS' => $s_hidden_fields,
-
-						'L_SUBJECT' => $lang['Subject'],
-						'L_DATE' => $lang['Date'],
-						'L_FROM' => $lang['From'],
-						'L_TO' => $lang['To'],
-						'L_PREVIEW' => $lang['Preview'],
-						'L_POSTED' => $lang['Posted'])
-				);
-
-				$template->assign_var_from_handle('POST_PREVIEW_BOX', 'preview');
-		}
-
-		//
-		// Start error handling
-		//
-		if ($error)
-		{
-				$privmsg_message = htmlspecialchars($privmsg_message);
-				$template->set_filenames(array(
-						'reg_header' => 'error_body.tpl')
-				);
-				$template->assign_vars(array(
-						'ERROR_MESSAGE' => $error_msg)
-				);
-				$template->assign_var_from_handle('ERROR_BOX', 'reg_header');
-		}
-
-		//
-		// Load templates
-		//
-		$template->set_filenames(array(
-				'body' => 'posting_body.tpl')
+		$template->assign_vars(
+			array(
+				'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("privmsg.$phpEx?folder=inbox") . '">'
+			)
 		);
-	if ($forum_on) {
-		make_jumpbox('viewforum.'.$phpEx);
+
+		$msg = $lang['Message_sent'] . '<br /><br />' . sprintf($lang['Click_return_inbox'], '<a href="' . append_sid( "privmsg.$phpEx?folder=inbox" ) . '">', '</a> ') . '<br /><br />' . sprintf( $lang['Click_return_index'], '<a href="' . append_sid( "index.$phpEx" ) . '">', '</a>' );
+
+		message_die( GENERAL_MESSAGE, $msg );
+		// redirect( append_sid( "privmsg.$phpEx?folder=inbox" ) );
+	} elseif ( $preview || $refresh || $error ) {
+
+			//
+			// If we're previewing or refreshing then obtain the data
+			// passed to the script, process it a little, do some checks
+			// where neccessary, etc.
+			//
+			$to_username     = ( isset( $_POST['username'] ) ) ? trim( htmlspecialchars( stripslashes( $_POST['username'] ) ) ) : '';
+			$privmsg_subject = ( isset( $_POST['subject'] ) ) ? trim( htmlspecialchars( stripslashes( $_POST['subject'] ) ) ) : '';
+			$privmsg_message = ( isset( $_POST['message'] ) ) ? trim( $_POST['message'] ) : '';
+
+			if ( ! $preview ) {
+				$privmsg_message = stripslashes( $privmsg_message );
+			}
+
+			//
+			// Do mode specific things
+			//
+			if ( $mode == 'post' ) {
+				$page_title = $lang['Post_new_pm'];
+				$user_sig   = ( !empty($userdata['user_sig']) && $board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+			} elseif ( $mode == 'reply' ) {
+				$page_title = $lang['Post_reply_pm'];
+				$user_sig = ( !empty($userdata['user_sig']) && $board_config['allow_sig'] ) ? $userdata['user_sig'] : '';
+			} elseif ( $mode == 'edit' ) {
+				$page_title = $lang['Edit_pm'];
+
+				$sql = "SELECT u.user_id, u.user_sig
+						FROM " . PRIVMSGS_TABLE . " pm, " . USERS_TABLE . " u
+						WHERE pm.privmsgs_id = '$privmsg_id'
+								AND u.user_id = pm.privmsgs_from_userid";
+
+				if ( ! ( $result = $db->sql_query( $sql ) ) ) {
+					message_die(
+						GENERAL_ERROR,
+						"Could not obtain post and post text",
+						"",
+						__LINE__,
+						__FILE__,
+						$sql
+					);
+				}
+
+				if ( $postrow = $db->sql_fetchrow( $result ) ) {
+					if ( $userdata['user_id'] != $postrow['user_id'] ) {
+							message_die( GENERAL_MESSAGE, $lang['Edit_own_posts'] );
+					}
+
+					$user_sig = ( ! empty( $postrow['user_sig'] ) && $board_config['allow_sig'] ) ? $postrow['user_sig'] : '';
+				}
+			}
+	} else {
+		if ( ! $privmsg_id && ( $mode == 'reply' || $mode == 'edit' || $mode == 'quote' ) ) {
+			message_die( GENERAL_ERROR, $lang['No_post_id'] );
+		}
+
+		if ( ! empty( $_GET[ POST_USERS_URL ] ) )  {
+				$user_id = (int) $_GET[ POST_USERS_URL ];
+
+				$sql = "SELECT username
+						FROM " . USERS_TABLE . "
+						WHERE user_id = '$user_id'
+								AND user_id <> " . ANONYMOUS;
+				if ( ! ( $result = $db->sql_query( $sql ) ) ) {
+					$error     = true;
+					$error_msg = $lang['No_such_user'];
+				}
+
+				if ( $row = $db->sql_fetchrow( $result ) ) {
+					$to_username = $row['username'];
+				}
+		} elseif ( $mode == 'edit' ) {
+			$sql = "SELECT pm.*, pmt.privmsgs_bbcode_uid, pmt.privmsgs_text, u.username, u.user_id, u.user_sig
+					FROM " . PRIVMSGS_TABLE . " pm, " . PRIVMSGS_TEXT_TABLE . " pmt, " . USERS_TABLE . " u
+					WHERE pm.privmsgs_id = '$privmsg_id'
+							AND pmt.privmsgs_text_id = pm.privmsgs_id
+							AND pm.privmsgs_from_userid = " . $userdata['user_id'] . "
+							AND ( pm.privmsgs_type = " . PRIVMSGS_NEW_MAIL . "
+									OR pm.privmsgs_type = " . PRIVMSGS_UNREAD_MAIL . " )
+							AND u.user_id = pm.privmsgs_to_userid";
+			if ( ! ( $result = $db->sql_query( $sql ) ) ) {
+				message_die(
+					GENERAL_ERROR,
+					'Could not obtain private message for editing',
+					'',
+					__LINE__,
+					__FILE__,
+					$sql
+				);
+			}
+
+			if ( ! ( $privmsg = $db->sql_fetchrow( $result ) ) ) {
+				redirect( append_sid( "privmsg.$phpEx?folder=$folder", true ) );
+				exit;
+			}
+
+			$privmsg_subject        = $privmsg['privmsgs_subject'];
+			$privmsg_message        = $privmsg['privmsgs_text'];
+			$privmsg_bbcode_uid     = $privmsg['privmsgs_bbcode_uid'];
+			$privmsg_bbcode_enabled = ($privmsg['privmsgs_enable_bbcode'] == 1);
+
+			if ( $privmsg_bbcode_enabled ) {
+				$privmsg_message = preg_replace(
+					"/\:(([a-z0-9]:)?)$privmsg_bbcode_uid/si",
+					'',
+					$privmsg_message
+				);
+			}
+
+			$privmsg_message = str_replace( '<br />', "\n", $privmsg_message );
+
+			$user_sig        = ( $board_config['allow_sig'] ) ? ( ( $privmsg['privmsgs_type'] == PRIVMSGS_NEW_MAIL ) ? $user_sig : $privmsg['user_sig'] ) : '';
+
+			$to_username     = $privmsg['username'];
+			$to_userid       = $privmsg['user_id'];
+		} elseif ( $mode == 'reply' || $mode == 'quote' ) {
+			$sql = "SELECT pm.privmsgs_subject, pm.privmsgs_date, pmt.privmsgs_bbcode_uid, pmt.privmsgs_text, u.username, u.user_id
+					FROM " . PRIVMSGS_TABLE . " pm, " . PRIVMSGS_TEXT_TABLE . " pmt, " . USERS_TABLE . " u
+					WHERE pm.privmsgs_id = '$privmsg_id'
+							AND pmt.privmsgs_text_id = pm.privmsgs_id
+							AND pm.privmsgs_to_userid = " . $userdata['user_id'] . "
+							AND u.user_id = pm.privmsgs_from_userid";
+			if ( ! ( $result = $db->sql_query( $sql ) ) ) {
+				message_die(
+					GENERAL_ERROR,
+					'Could not obtain private message for editing',
+					'',
+					__LINE__,
+					__FILE__,
+					$sql
+				);
+			}
+
+			if ( ! ( $privmsg = $db->sql_fetchrow( $result ) ) ) {
+				redirect( append_sid( "privmsg.$phpEx?folder=$folder", true ) );
+				exit;
+			}
+
+			$orig_word        = array();
+			$replacement_word = array();
+			obtain_word_list( $orig_word, $replacement_word );
+			$privmsg_subject  = ( ( ! preg_match( '/^Re:/', $privmsg['privmsgs_subject'] ) ) ? 'Re: ' : '' ) . $privmsg['privmsgs_subject'];
+			$privmsg_subject  = preg_replace( $orig_word, $replacement_word, $privmsg_subject );
+			$to_username      = $privmsg['username'];
+			$to_userid        = $privmsg['user_id'];
+
+			if ( $mode == 'quote' )  {
+				$privmsg_message    = $privmsg['privmsgs_text'];
+				$privmsg_bbcode_uid = $privmsg['privmsgs_bbcode_uid'];
+				$privmsg_message    = preg_replace( "/\:(([a-z0-9]:)?)$privmsg_bbcode_uid/si", '', $privmsg_message );
+				$privmsg_message    = str_replace( '<br />', "\n", $privmsg_message );
+				$privmsg_message    = preg_replace( $orig_word, $replacement_word, $privmsg_message );
+				$msg_date           =  create_date( $board_config['default_dateformat'], $privmsg['privmsgs_date'], $board_config['board_timezone'] );
+				$privmsg_message    = '[quote="' . $to_username . '"]' . $privmsg_message . '[/quote]';
+				$mode               = 'reply';
+			}
+		} else {
+			$privmsg_subject = '';
+			$privmsg_message = '';
+			$to_username     = '';
+		}
 	}
 
-		//
-		// Enable extensions in posting_body
-		//
-		$template->assign_block_vars('switch_privmsg', array());
+	//
+	// Has admin prevented user from sending PM's?
+	//
+	if ( ! $userdata['user_allow_pm'] && $mode != 'edit' ) {
+		$message = $lang['Cannot_send_privmsg'];
+		message_die( GENERAL_MESSAGE, $message );
+	}
 
-		//
-		// HTML toggle selection
-		//
-		if ( $board_config['allow_html'] )
-		{
-				$html_status = $lang['HTML_is_ON'];
-				$template->assign_block_vars('switch_html_checkbox', array());
-		}
-		else
-		{
-				$html_status = $lang['HTML_is_OFF'];
-		}
+	//
+	// Start output, first preview, then errors then post form
+	//
+	$page_title = $lang['Send_private_message'];
+	include NUKE_INCLUDE_DIR.'page_header.php';
 
-		//
-		// BBCode toggle selection
-		//
-		if ( $board_config['allow_bbcode'] )
-		{
-				$bbcode_status = $lang['BBCode_is_ON'];
-				$template->assign_block_vars('switch_bbcode_checkbox', array());
-		}
-		else
-		{
-				$bbcode_status = $lang['BBCode_is_OFF'];
+	if ( $preview && ! $error ) {
+		$orig_word        = array();
+		$replacement_word = array();
+		obtain_word_list( $orig_word, $replacement_word );
+
+		if ( $bbcode_on ) {
+			$bbcode_uid = make_bbcode_uid();
 		}
 
-		//
-		// Smilies toggle selection
-		//
-		if ( $board_config['allow_smilies'] )
-		{
-				$smilies_status = $lang['Smilies_are_ON'];
-				$template->assign_block_vars('switch_smilies_checkbox', array());
-		}
-		else
-		{
-				$smilies_status = $lang['Smilies_are_OFF'];
-		}
+		$preview_message = stripslashes( prepare_message( $privmsg_message, $html_on, $bbcode_on, $smilies_on, $bbcode_uid ) );
+		$privmsg_message = stripslashes( preg_replace( $html_entities_match, $html_entities_replace, $privmsg_message ) );
 
 		//
-		// Signature toggle selection - only show if
-		// the user has a signature
+		// Finalise processing as per viewtopic
 		//
-		if ( !empty($user_sig) )
-		{
-				$template->assign_block_vars('switch_signature_checkbox', array());
+		if ( ! $html_on || ! $board_config['allow_html'] || ! $userdata['user_allowhtml'] ) {
+			if ( ! empty( $user_sig ) ) {
+				$user_sig = preg_replace( '#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $user_sig );
+			}
 		}
 
-		if ( $mode == 'post' )
-		{
-				$post_a = $lang['Send_a_new_message'];
-		}
-		else if ( $mode == 'reply' )
-		{
-				$post_a = $lang['Send_a_reply'];
-				$mode = 'post';
-		}
-		else if ( $mode == 'edit' )
-		{
-				$post_a = $lang['Edit_message'];
+		if ( $attach_sig && ! empty( $user_sig ) && $userdata['user_sig_bbcode_uid'] ) {
+			$user_sig = bbencode_second_pass( $user_sig, $userdata['user_sig_bbcode_uid'] );
 		}
 
-		$s_hidden_fields = '<input type="hidden" name="folder" value="' . $folder . '" />';
+		if ( $bbcode_on ) {
+			$preview_message = bbencode_second_pass($preview_message, $bbcode_uid);
+		}
+
+		if ( $attach_sig && ! empty( $user_sig ) ) {
+			$preview_message = $preview_message . '<br />' . $board_config['sig_line'] . '<br />' . $user_sig;
+		}
+
+		if ( count( $orig_word ) ) {
+			$preview_subject = preg_replace( $orig_word, $replacement_word, $privmsg_subject );
+			$preview_message = preg_replace( $orig_word, $replacement_word, $preview_message );
+		} else {
+			$preview_subject = ( $board_config['smilies_in_titles'] ) ? smilies_pass( $privmsg_subject ) : $privmsg_subject;
+		}
+
+		if ( $smilies_on ) {
+			$preview_message = smilies_pass( $preview_message );
+		}
+
+		$preview_message  = word_wrap_pass( $preview_message );
+
+		$preview_message  = make_clickable( $preview_message );
+		$preview_message  = str_replace( "\n", '<br />', $preview_message );
+
+		$s_hidden_fields  = '<input type="hidden" name="folder" value="' . $folder . '" />';
 		$s_hidden_fields .= '<input type="hidden" name="mode" value="' . $mode . '" />';
 		$s_hidden_fields .= '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
-		if ( $mode == 'edit' )
-		{
-				$s_hidden_fields .= '<input type="hidden" name="' . POST_POST_URL . '" value="' . $privmsg_id . '" />';
+
+		if ( isset( $privmsg_id ) ) {
+			$s_hidden_fields .= '<input type="hidden" name="' . POST_POST_URL . '" value="' . $privmsg_id . '" />';
 		}
-/*****[BEGIN]******************************************
- [ Mod:     Welcome PM                         v2.0.0 ]
- ******************************************************/
-		if ( $userdata['user_level'] == ADMIN ) {
-				$template->assign_block_vars('switch_Welcome_PM', array());
-		}
-/*****[END]********************************************
- [ Mod:     Welcome PM                         v2.0.0 ]
- ******************************************************/
 
-		//
-		// Send smilies to template
-		//
-		generate_smilies('inline', PAGE_PRIVMSGS);
-
-		$template->assign_vars(array(
-				'SUBJECT' => $privmsg_subject,
-				'USERNAME' => $to_username,
-				'MESSAGE' => $privmsg_message,
-				'HTML_STATUS' => $html_status,
-				'SMILIES_STATUS' => $smilies_status,
-				'BB_BOX' => Make_TextArea_Ret('message', $privmsg_message, 'post', '99.8%', '300px', true),
-				'BBCODE_STATUS' => sprintf($bbcode_status, '<a href="' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
-				'FORUM_NAME' => $lang['Private_Message'],
-
-				'BOX_NAME' => $l_box_name,
-				'INBOX_IMG' => $inbox_img,
-				'SENTBOX_IMG' => $sentbox_img,
-				'OUTBOX_IMG' => $outbox_img,
-				'SAVEBOX_IMG' => $savebox_img,
-				'INBOX' => $inbox_url,
-				'SENTBOX' => $sentbox_url,
-				'OUTBOX' => $outbox_url,
-				'SAVEBOX' => $savebox_url,
-
-				'L_SUBJECT' => $lang['Subject'],
-				'L_MESSAGE_BODY' => $lang['Message_body'],
-				'L_OPTIONS' => $lang['Options'],
-				'L_SPELLCHECK' => $lang['Spellcheck'],
-				'L_PREVIEW' => $lang['Preview'],
-				'L_SUBMIT' => $lang['Submit'],
-				'L_CANCEL' => $lang['Cancel'],
-				'L_POST_A' => $post_a,
-				'L_FIND_USERNAME' => $lang['Find_username'],
-				'L_FIND' => $lang['Find'],
-				'L_DISABLE_HTML' => $lang['Disable_HTML_pm'],
-				'L_DISABLE_BBCODE' => $lang['Disable_BBCode_pm'],
-				'L_DISABLE_SMILIES' => $lang['Disable_Smilies_pm'],
-				'L_ATTACH_SIGNATURE' => $lang['Attach_signature'],
-
-				'L_BBCODE_B_HELP' => $lang['bbcode_b_help'],
-				'L_BBCODE_I_HELP' => $lang['bbcode_i_help'],
-				'L_BBCODE_U_HELP' => $lang['bbcode_u_help'],
-				'L_BBCODE_Q_HELP' => $lang['bbcode_q_help'],
-				'L_BBCODE_C_HELP' => $lang['bbcode_c_help'],
-				'L_BBCODE_L_HELP' => $lang['bbcode_l_help'],
-				'L_BBCODE_O_HELP' => $lang['bbcode_o_help'],
-				'L_BBCODE_P_HELP' => $lang['bbcode_p_help'],
-				'L_BBCODE_W_HELP' => $lang['bbcode_w_help'],
-				'L_BBCODE_A_HELP' => $lang['bbcode_a_help'],
-				'L_BBCODE_S_HELP' => $lang['bbcode_s_help'],
-				'L_BBCODE_F_HELP' => $lang['bbcode_f_help'],
-				'L_EMPTY_MESSAGE' => $lang['Empty_message'],
-
-				'L_FONT_COLOR' => $lang['Font_color'],
-				'L_COLOR_DEFAULT' => $lang['color_default'],
-				'L_COLOR_DARK_RED' => $lang['color_dark_red'],
-				'L_COLOR_RED' => $lang['color_red'],
-				'L_COLOR_ORANGE' => $lang['color_orange'],
-				'L_COLOR_BROWN' => $lang['color_brown'],
-				'L_COLOR_YELLOW' => $lang['color_yellow'],
-				'L_COLOR_GREEN' => $lang['color_green'],
-				'L_COLOR_OLIVE' => $lang['color_olive'],
-				'L_COLOR_CYAN' => $lang['color_cyan'],
-				'L_COLOR_BLUE' => $lang['color_blue'],
-				'L_COLOR_DARK_BLUE' => $lang['color_dark_blue'],
-				'L_COLOR_INDIGO' => $lang['color_indigo'],
-				'L_COLOR_VIOLET' => $lang['color_violet'],
-				'L_COLOR_WHITE' => $lang['color_white'],
-				'L_COLOR_BLACK' => $lang['color_black'],
-/*****[BEGIN]******************************************
-[ Base:    XtraColors                            v1.0 ]
-******************************************************/
-				'L_COLOR_CADET_BLUE' => $lang['color_cadet_blue'], 
-				'L_COLOR_CORAL' => $lang['color_coral'], 
-				'L_COLOR_CRIMSON' => $lang['color_crimson'], 
-				'L_COLOR_TOMATO' => $lang['color_tomato'], 
-				'L_COLOR_SEA_GREEN' => $lang['color_sea_green'], 
-				'L_COLOR_DARK_ORCHID' => $lang['color_dark_orchid'],
-				'L_COLOR_CHOCOLATE' => $lang['color_chocolate'],
-				'L_COLOR_DEEPSKYBLUE' => $lang['color_deepskyblue'], 
-				'L_COLOR_GOLD' => $lang['color_gold'], 
-				'L_COLOR_GRAY' => $lang['color_gray'], 
-				'L_COLOR_MIDNIGHTBLUE' => $lang['color_midnightblue'], 
-				'L_COLOR_DARKGREEN' => $lang['color_darkgreen'], 
-/*****[END]*******************************************
-[ Base:    XtraColors                            v1.0 ]
-******************************************************/
-				'L_FONT_SIZE' => $lang['Font_size'],
-				'L_FONT_TINY' => $lang['font_tiny'],
-				'L_FONT_SMALL' => $lang['font_small'],
-				'L_FONT_NORMAL' => $lang['font_normal'],
-				'L_FONT_LARGE' => $lang['font_large'],
-				'L_FONT_HUGE' => $lang['font_huge'],
-
-				'L_BBCODE_CLOSE_TAGS' => $lang['Close_Tags'],
-				'L_STYLES_TIP' => $lang['Styles_tip'],
-
-/*****[BEGIN]******************************************
- [ Mod:     Welcome PM                         v2.0.0 ]
- ******************************************************/
-				'L_WELCOME_PM' => $lang['Welcome_PM'],
-				'S_WELCOME_PM' => ( $welcome_pm ) ? ' checked="checked"' : '',
-/*****[END]********************************************
- [ Mod:     Welcome PM                         v2.0.0 ]
- ******************************************************/
-
-				'S_HTML_CHECKED' => ( !$html_on ) ? ' checked="checked"' : '',
-				'S_BBCODE_CHECKED' => ( !$bbcode_on ) ? ' checked="checked"' : '',
-				'S_SMILIES_CHECKED' => ( !$smilies_on ) ? ' checked="checked"' : '',
-				'S_SIGNATURE_CHECKED' => ( $attach_sig ) ? ' checked="checked"' : '',
-				'S_HIDDEN_FORM_FIELDS' => $s_hidden_fields,
-				'S_POST_ACTION' => append_sid("privmsg.$phpEx"),
-
-				'U_SEARCH_USER' => "modules.php?name=Forums&amp;file=search&amp;mode=searchuser&amp;popup=1",
-				'U_VIEW_FORUM' => append_sid("privmsg.$phpEx"))
+		$template->set_filenames(
+			array(
+				'preview' => 'privmsgs_preview.tpl'
+			)
 		);
 
-		$template->pparse('body');
+		$attachment_mod['pm']->preview_attachments();
 
-		include(NUKE_INCLUDE_DIR.'page_tail.php');
+		$template->assign_vars(
+			array(
+				'TOPIC_TITLE'     => $preview_subject,
+				'POST_SUBJECT'    => $preview_subject,
+				'MESSAGE_TO'      => UsernameColor($to_username),
+				'MESSAGE_FROM'    => UsernameColor($userdata['username']),
+				'POST_DATE'       => create_date($board_config['default_dateformat'], time(), $board_config['board_timezone']),
+				'MESSAGE'         => $preview_message,
+				'S_HIDDEN_FIELDS' => $s_hidden_fields,
+				'L_SUBJECT'       => $lang['Subject'],
+				'L_DATE'          => $lang['Date'],
+				'L_FROM'          => $lang['From'],
+				'L_TO'            => $lang['To'],
+				'L_PREVIEW'       => $lang['Preview'],
+				'L_POSTED'        => $lang['Posted']
+			)
+		);
+
+		$template->assign_var_from_handle( 'POST_PREVIEW_BOX', 'preview' );
+	}
+
+	//
+	// Start error handling
+	//
+	if ( $error ) {
+		$privmsg_message = htmlspecialchars( $privmsg_message );
+
+		$template->set_filenames(
+			array(
+				'reg_header' => 'error_body.tpl'
+			)
+		);
+
+		$template->assign_vars(
+			array(
+				'ERROR_MESSAGE' => $error_msg
+			)
+		);
+
+		$template->assign_var_from_handle( 'ERROR_BOX', 'reg_header' );
+	}
+
+	//
+	// Load templates
+	//
+	$template->set_filenames(
+		array(
+			'body' => 'posting_body.tpl'
+		)
+	);
+
+	if ( $forum_on ) {
+		make_jumpbox( 'viewforum.' . $phpEx );
+	}
+
+	//
+	// Enable extensions in posting_body
+	//
+	$template->assign_block_vars( 'switch_privmsg', array() );
+
+	//
+	// HTML toggle selection
+	//
+	if ( $board_config['allow_html'] ) {
+		$html_status = $lang['HTML_is_ON'];
+		$template->assign_block_vars( 'switch_html_checkbox', array() );
+	} else {
+		$html_status = $lang['HTML_is_OFF'];
+	}
+
+	//
+	// BBCode toggle selection
+	//
+	if ( $board_config['allow_bbcode'] ) {
+		$bbcode_status = $lang['BBCode_is_ON'];
+		$template->assign_block_vars( 'switch_bbcode_checkbox', array() );
+	} else {
+		$bbcode_status = $lang['BBCode_is_OFF'];
+	}
+
+	//
+	// Smilies toggle selection
+	//
+	if ( $board_config['allow_smilies'] ) {
+		$smilies_status = $lang['Smilies_are_ON'];
+		$template->assign_block_vars( 'switch_smilies_checkbox', array() );
+	} else {
+		$smilies_status = $lang['Smilies_are_OFF'];
+	}
+
+	//
+	// Signature toggle selection - only show if
+	// the user has a signature
+	//
+	if ( ! empty( $user_sig ) ) {
+		$template->assign_block_vars('switch_signature_checkbox', array());
+	}
+
+	if ( $mode == 'post' ) {
+		$post_a = $lang['Send_a_new_message'];
+	} elseif ( $mode == 'reply' ) {
+		$post_a = $lang['Send_a_reply'];
+		$mode = 'post';
+	} elseif ( $mode == 'edit' ) {
+		$post_a = $lang['Edit_message'];
+	}
+
+	$s_hidden_fields  = '<input type="hidden" name="folder" value="' . $folder . '" />';
+	$s_hidden_fields .= '<input type="hidden" name="mode" value="' . $mode . '" />';
+	$s_hidden_fields .= '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
+	if ( $mode == 'edit' ) {
+		$s_hidden_fields .= '<input type="hidden" name="' . POST_POST_URL . '" value="' . $privmsg_id . '" />';
+	}
+
+	if ( $userdata['user_level'] == ADMIN ) {
+		$template->assign_block_vars( 'switch_Welcome_PM', array() );
+	}
+
+	//
+	// Send smilies to template
+	//
+	generate_smilies( 'inline', PAGE_PRIVMSGS );
+
+	$template->assign_vars(
+		array(
+			'SUBJECT'              => $privmsg_subject,
+			'USERNAME'             => $to_username,
+			'MESSAGE'              => $privmsg_message,
+			'HTML_STATUS'          => $html_status,
+			'SMILIES_STATUS'       => $smilies_status,
+			'BB_BOX'               => Make_TextArea_Ret('message', $privmsg_message, 'post', '99.8%', '300px', true),
+			'BBCODE_STATUS'        => sprintf($bbcode_status, '<a href="' . append_sid("faq.$phpEx?mode=bbcode") . '" target="_phpbbcode">', '</a>'),
+			'FORUM_NAME'           => $lang['Private_Message'],
+
+			'BOX_NAME'             => $l_box_name,
+
+			'INBOX_IMG'            => $inbox_img,
+			'SENTBOX_IMG'          => $sentbox_img,
+			'OUTBOX_IMG'           => $outbox_img,
+			'SAVEBOX_IMG'          => $savebox_img,
+
+			'INBOX'                => $inbox_url,
+			'SENTBOX'              => $sentbox_url,
+			'OUTBOX'               => $outbox_url,
+			'SAVEBOX'              => $savebox_url,
+
+			'L_SUBJECT'            => $lang['Subject'],
+			'L_MESSAGE_BODY'       => $lang['Message_body'],
+			'L_OPTIONS'            => $lang['Options'],
+			'L_SPELLCHECK'         => $lang['Spellcheck'],
+			'L_PREVIEW'            => $lang['Preview'],
+			'L_SUBMIT'             => $lang['Submit'],
+			'L_CANCEL'             => $lang['Cancel'],
+			'L_POST_A'             => $post_a,
+			'L_FIND_USERNAME'      => $lang['Find_username'],
+			'L_FIND'               => $lang['Find'],
+			'L_DISABLE_HTML'       => $lang['Disable_HTML_pm'],
+			'L_DISABLE_BBCODE'     => $lang['Disable_BBCode_pm'],
+			'L_DISABLE_SMILIES'    => $lang['Disable_Smilies_pm'],
+			'L_ATTACH_SIGNATURE'   => $lang['Attach_signature'],
+
+			'L_WELCOME_PM'         => $lang['Welcome_PM'],
+			'S_WELCOME_PM'         => ( $welcome_pm ) ? ' checked="checked"' : '',
+
+			'S_HTML_CHECKED'       => ( ! $html_on ) ? ' checked="checked"' : '',
+			'S_BBCODE_CHECKED'     => ( ! $bbcode_on ) ? ' checked="checked"' : '',
+			'S_SMILIES_CHECKED'    => ( ! $smilies_on ) ? ' checked="checked"' : '',
+			'S_SIGNATURE_CHECKED'  => ( $attach_sig ) ? ' checked="checked"' : '',
+			'S_HIDDEN_FORM_FIELDS' => $s_hidden_fields,
+			'S_POST_ACTION'        => append_sid("privmsg.$phpEx"),
+
+			'U_SEARCH_USER'        => "modules.php?name=Forums&amp;file=search&amp;mode=searchuser&amp;popup=1",
+			'U_VIEW_FORUM'         => append_sid( "privmsg.$phpEx" )
+		)
+	);
+
+	$template->pparse( 'body' );
+
+	include NUKE_INCLUDE_DIR . 'page_tail.php';
 }
 
 //
@@ -2728,7 +2587,6 @@ if ( $userdata['user_level'] == ADMIN )
 	 *  @since 2.0.9e.001
 	 */
 	$mass_pm_allowed = true;
-	   
 } else
 {
 	$sql_g = "SELECT DISTINCT g.group_id
@@ -2814,11 +2672,6 @@ $template->assign_vars(array(
 		'OUTBOX' => $outbox_url,
 		'SAVEBOX' => $savebox_url,
 
-		/**
-		 *  Modded for use with bootstrap template
-		 *
-		 *  @since 2.0.9e.001
-		 */
 		'INBOX_URI' => $inbox_uri,
 		'INBOX_TITLE' => $inbox_title,
 
@@ -2831,7 +2684,6 @@ $template->assign_vars(array(
 		'SAVEBOX_URI' => $savebox_uri,
 		'SAVEBOX_TITLE' => $savebox_title,
 
-		// $post_pm_img = '<a href="' . $post_pm . '"><img src="' . $images['pm_postmsg'] . '" alt="' . $lang['Post_new_pm'] . '" border="0"></a>';
 		'POST_PM_URL' => $post_pm_url,
 		'L_POST_PM' => $lang['Post_new_pm'],
 
@@ -2867,15 +2719,6 @@ $template->assign_vars(array(
 
 		'INBOX_LIMIT_IMG_WIDTH' => $inbox_limit_img_length,
 		'INBOX_LIMIT_PERCENT' => $inbox_limit_pct,
- /*****[Begin]******************************************
- [ Mod:         PM Switchbox Repair              v1.0.0 ]
- *******************************************************/
-		// 'LCAP_IMG' => $images['voting_lcap'],
-		// 'MAINBAR_IMG' => $images['voting_graphic'][0],
-		// 'RCAP_IMG' => $images['voting_rcap'],
-/*****[END]********************************************
- [ Mod:         PM Switchbox Repair              v1.0.0 ]
- *******************************************************/
 
 
 		'BOX_SIZE_STATUS' => $l_box_size_status,

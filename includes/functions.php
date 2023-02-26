@@ -2047,7 +2047,6 @@ function password_check( $mode, $id, $password, $redirect ) {
 	$cookie_is_secure = is_ssl() ?: false;
 	$cookie_same_site = is_ssl() ? 'None' : 'Strict';
 
-	// setcookie($savename, serialize($passdata), 0, $cookie_path, $cookie_domain, $cookie_secure);
 	setcookie(
 		$savename,
 		serialize( $passdata ),

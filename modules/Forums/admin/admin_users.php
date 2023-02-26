@@ -209,58 +209,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
                                 message_die(GENERAL_ERROR, 'Could not delete user from topic watch table', '', __LINE__, __FILE__, $sql);
                         }
 
-/*****[BEGIN]******************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
-                                                $sql = "DELETE FROM " . SCORES_TABLE . " WHERE user_id = $user_id";
-
-                                                if ( !$db->sql_query($sql) )
-                                                {
-                                                                message_die(GENERAL_ERROR, 'Could not delete scores from table', '', __LINE__, __FILE__, $sql);
-                                                }
-
-                                                $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_highuser = $user_id";
-
-                                                if( !($result = $db->sql_query($sql)) )
-                                                {
-                                                                message_die(GENERAL_ERROR, 'Could not read games table', '', __LINE__, __FILE__, $sql);
-                                                }
-
-                                                while ( $row_games = $db->sql_fetchrow($result) ) {
-                                                                $sql2 = "SELECT * FROM " . SCORES_TABLE . " WHERE game_id = " . $row_games['game_id'] . " ORDER BY score_game DESC, score_date ASC LIMIT 0,1";
-
-                                                                if( !($result2 = $db->sql_query($sql2)) )
-                                                                {
-                                                                                message_die(GENERAL_ERROR, 'Could not select scores', '', __LINE__, __FILE__, $sql2);
-                                                                }
-
-                                                                $game_highuser = 0 ;
-                                                                $game_highscore = 0 ;
-                                                                $game_highdate = 0 ;
-
-                                                                if ( $row_high = $db->sql_fetchrow($result2) )
-                                                                {
-                                                                                $game_highuser = $row_high['user_id'] ;
-                                                                                $game_highscore = $row_high['score_game'] ;
-                                                                                $game_highdate =  $row_high['score_date'] ;
-                                                                }
-
-                                                                $sql2 = "UPDATE " . GAMES_TABLE . " SET game_highuser = $game_highuser , game_highdate = $game_highdate , game_highscore = $game_highscore WHERE game_id = " . $row_games['game_id'];
-
-                                                                if ( !$db->sql_query($sql2) )
-                                                                {
-                                                                                message_die(GENERAL_ERROR, 'Could not update games table', '', __LINE__, __FILE__, $sql2);
-                                                                }
-
-                                                                $sql2 = "UPDATE " . COMMENTS_TABLE. " SET comments_value = '' WHERE game_id = " . $row_games['game_id'];
-                                                                if (!$db->sql_query($sql2))
-                                                                {
-                                                                                message_die(GENERAL_ERROR, 'Could not delete from comments table', '', __LINE__, __FILE__, $sql2);
-                                                                }
-                                                }
-/*****[END]********************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
+/*--ARCADE MOD--*/
 
                         $sql = "DELETE FROM " . BANLIST_TABLE . "
                                 WHERE ban_userid = '$user_id'";

@@ -32,45 +32,13 @@
 	  Arcade                                   v3.0.2       05/29/2009
  ************************************************************************/
 
-define('HOME_FILE', true);
-define('MODULE_FILE', true);
+define( 'HOME_FILE', true );
+define( 'MODULE_FILE', true );
 $_SERVER['PHP_SELF'] = 'modules.php';
 
-require_once(dirname(__FILE__).'/mainfile.php');
+require_once dirname( __FILE__ ) . '/mainfile.php';
 
-/*****[BEGIN]******************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
-//Arcade MOD - IBProSupport
-// $arcade = $HTTP_GET_VARS['act'];
-$arcade = get_query_var('act', 'get');
-// $newscore = $HTTP_GET_VARS['do'];
-$newscore = get_query_var('do', 'get');
-if($arcade == 'Arcade' && $newscore='newscore')
-{
-$gamename = str_replace("\'","''",$HTTP_POST_VARS['gname']);
-$gamename = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'),$gamename);
-$gamescore = intval($HTTP_POST_VARS['gscore']);
-
-//Get Game ID
-$row = $db->sql_ufetchrow("SELECT game_id FROM ".$prefix."_bbgames WHERE game_scorevar='$gamename'");
-$gid = intval($row['game_id']);
-
-$ThemeSel = get_theme();
-echo "<link rel=\"StyleSheet\" href=\"themes/".$ThemeSel."/style/style.css\" type=\"text/css\">\n\n\n";
-echo "<form method='post' name='ibpro_score' action='modules.php?name=Forums&amp;file=proarcade&amp;valid=X&amp;gpaver=GFARV2'>";
-echo "<input type=hidden name='vscore' value='".$gamescore."'>";
-echo "<input type=hidden name='gid' value='".$gid."'>";
-echo "</form>";
-
-echo "<script type=\"text/javascript\">";
-echo "window.onload = function(){document.forms[\"ibpro_score\"].submit()}";
-echo "</script>";
-exit;
-}
-/*****[END]********************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
+/*--ARCADE MOD--*/
 
 global $prefix, $db, $admin_file, $httpref, $httprefmax;
 

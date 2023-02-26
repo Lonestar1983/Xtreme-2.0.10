@@ -727,32 +727,8 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[END]********************************************
  [ Mod:     Users Reputations System           v1.0.0 ]
  ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
-                                                case PAGE_GAME:
-                                                        $location = $lang['Playing_game'];
-                                                        $location_url = "index.$phpEx?pane=right";
-                                                        break;
-                                                case PAGE_ARCADES:
-                                                        $location = $lang['Viewing_arcades'];
-                                                        $location_url = "index.$phpEx?pane=right";
-                                                        break;
-                                                case PAGE_TOPARCADES:
-                                                        $location = $lang['Viewing_toparcades'];
-                                                        $location_url = "index.$phpEx?pane=right";
-                                                        break;
-                                                case PAGE_STATARCADES:
-                                                        $location = $lang['watchingstats'];
-                                                        $location_url = "index.$phpEx?pane=right";
-                                                        break;
-                                                case PAGE_SCOREBOARD:
-                                                        $location = $lang['watchingboard'];
-                                                        $location_url = "index.$phpEx?pane=right";
-                                                        break;
-/*****[END]********************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
+
+/*--ARCADE MOD #1--*/
 
 /*****[BEGIN]******************************************
  [ Mod:     Staff Site                         v2.0.3 ]
@@ -886,32 +862,8 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[END]********************************************
  [ Mod:     Users Reputations System           v1.0.0 ]
  ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
-                                        case PAGE_GAME:
-                                                $location = $lang['Playing_game'];
-                                                $location_url = "index.$phpEx?pane=right";
-                                                break;
-                                        case PAGE_ARCADES:
-                                                $location = $lang['Viewing_arcades'];
-                                                $location_url = "index.$phpEx?pane=right";
-                                                break;
-                                        case PAGE_TOPARCADES:
-                                                $location = $lang['Viewing_toparcades'];
-                                                $location_url = "index.$phpEx?pane=right";
-                                                break;
-                                        case PAGE_STATARCADES:
-                                                $location = $lang['watchingstats'];
-                                                $location_url = "index.$phpEx?pane=right";
-                                                break;
-                                        case PAGE_SCOREBOARD:
-                                                $location = $lang['watchingboard'];
-                                                $location_url = "index.$phpEx?pane=right";
-                                                break;
-/*****[END]********************************************
- [ Mod:     Arcade                             v3.0.2 ]
- ******************************************************/
+
+/*--ARCADE MOD #2--*/
 
 /*****[BEGIN]******************************************
  [ Mod:     Staff Site                         v2.0.3 ]

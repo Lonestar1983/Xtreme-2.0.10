@@ -43,6 +43,7 @@ includes/styles.php
 includes/topic_review.php
 includes/templates-evo.php
 includes/user.php
+includes/usercp_viewprofile.php
 includes/vars.php
 includes/viewtopic_quickreply.php
 includes/widgets.php
@@ -70,8 +71,12 @@ modules/FAQ/admin/language/lang-english.php
 modules/Forums/emailtopic.php - still working on this
 modules/Forums/index.php
 modules/Forums/viewforum.php
+modules/Forums/viewonline.php
 modules/Forums/viewtopic.php - change the way progress bars display, as i have removed the function
+modules/Forums/admin/index.php
+modules/Forums/admin/admin_users.php
 modules/Forums/language/lang_english.php
+modules/Forums/language/lang_english/lang_main.php
 
 modules/Member_List/index.php
 
@@ -82,6 +87,7 @@ modules/News/admin/language/lang-english.php
 modules/Private_Messages/index.php
 
 modules/Your_Account/index.php
+modules/Your_Account/admin/adduserconf.php
 modules/Your_Account/includes/functions.php
 modules/Your_Account/language/lang-english.php
 
