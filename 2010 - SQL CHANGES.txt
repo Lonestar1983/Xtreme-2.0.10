@@ -42,6 +42,13 @@ DROP TABLE IF EXISTS nuke_subscriptions;
 DROP TABLE IF EXISTS nuke_link_us;
 DROP TABLE IF EXISTS nuke_link_us_config;
 
+DROP TABLE IF EXISTS nuke_links_categories;
+DROP TABLE IF EXISTS nuke_links_editorials;
+DROP TABLE IF EXISTS nuke_links_links;
+DROP TABLE IF EXISTS nuke_links_modrequest;
+DROP TABLE IF EXISTS nuke_links_newlink;
+DROP TABLE IF EXISTS nuke_links_votedata;
+
 
 
 

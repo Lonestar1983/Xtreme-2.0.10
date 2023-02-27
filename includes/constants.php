@@ -214,7 +214,6 @@ define('_MODULES_TABLE', $prefix.'_modules');
 define('_MODULES_CATEGORIES_TABLE', $prefix.'_modules_cat');
 define('_MODULES_CONFIG_TABLE', $prefix.'_modules_config');
 define('_MODULES_EXLINKS_TABLE', $prefix.'_modules_links');
-define('_MODULES_POPUPS_TABLE', $prefix.'_modules_popups');
 define('_MOSTONLINE_TABLE', $prefix.'_mostonline');
 define('_NUKE_CONFIG_TABLE', $prefix.'_config');
 define('_QUEUE_TABLE', $prefix.'_queue');
@@ -507,7 +506,6 @@ define('_FILE_REPOSITORY_THEMES',   $prefix.'_file_repository_themes');
 
 define('EVOLUTION_CONFIG_TABLE', $prefix.'_evolution');
 define('META_TABLE', $prefix.'_meta');
-// define('MODULES_TABLE', $prefix.'_modules');
 
 define('EVOLUTION_SESSIONS_TABLE', $prefix.'_session');
 define('USERS_BEEN_TABLE', $prefix.'_users_who_been');

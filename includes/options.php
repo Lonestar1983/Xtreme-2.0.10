@@ -61,37 +61,45 @@ function get_board_option( $option, $default = false ) {
 function load_evoconfig() {
     global $db, $cache, $debugger;
 
-    if ((($evoconfig = $cache->load('evoconfig', 'config')) === false) || empty($evoconfig)) {
+    if ( ( ( $evoconfig = $cache->load( 'evoconfig', 'config' ) ) === false ) || empty( $evoconfig ) ) {
         $evoconfig = array();
-        $result = $db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
-        while(list($evo_field, $evo_value) = $db->sql_fetchrow($result)) {
-            if($evo_field != 'cache_data') {
-                $evoconfig[$evo_field] = $evo_value;
+        $result = $db->sql_query( 'SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"' );
+        while( list( $evo_field, $evo_value ) = $db->sql_fetchrow( $result ) ) {
+            if ( $evo_field != 'cache_data' ) {
+                $evoconfig[ $evo_field ] = $evo_value;
             }
         }
+
         $sql = "SELECT `config_value` FROM " . _CNBYA_CONFIG_TABLE . " WHERE `config_name` = 'allowusertheme'";
-        if( !($resultcnbya = $db->sql_query($sql))) {
-            $debugger->handle_error("Could not query cnbya config information", 'Error');
+
+        if ( ! ( $resultcnbya = $db->sql_query( $sql ) ) ) {
+            $debugger->handle_error( "Could not query cnbya config information", 'Error' );
         }
-        $row = $db->sql_fetchrow($resultcnbya);
+
+        $row                         = $db->sql_fetchrow( $resultcnbya );
         $evoconfig['allowusertheme'] = $row['config_value'];
-        $sql = 'SELECT `word`, `replacement` FROM `'.WORDS_TABLE.'`';
-        if( !($resultwords = $db->sql_query($sql))) {
-            $debugger->handle_error("Could not query bad words information", 'Error');
+
+        $sql = 'SELECT `word`, `replacement` FROM `' . WORDS_TABLE . '`';
+
+        if ( ! ( $resultwords = $db->sql_query( $sql ) ) ) {
+            $debugger->handle_error( "Could not query bad words information", 'Error' );
         }
-        while(list($word, $replacement) = $db->sql_fetchrow($resultwords)) {
-            $wordrow[$word] = $replacement;
+
+        while( list( $word, $replacement ) = $db->sql_fetchrow( $resultwords ) ) {
+            $wordrow[ $word ] = $replacement;
         }
+
         $evoconfig['censor_words'] = $wordrow;
 
-        $cache->save('evoconfig', 'config', $evoconfig);
-        $db->sql_freeresult($result);
+        $cache->save( 'evoconfig', 'config', $evoconfig );
+        $db->sql_freeresult( $result );
     }
-    if(is_array($evoconfig)) {
+
+    if ( is_array( $evoconfig ) ) {
         return $evoconfig;
     } else {
-        $cache->delete('evoconfig', 'config');
-        $debugger->handle_error('There is an error in your evoconfig data', 'Error');
+        $cache->delete( 'evoconfig', 'config' );
+        $debugger->handle_error( 'There is an error in your evoconfig data', 'Error' );
         return array();
     }
 }

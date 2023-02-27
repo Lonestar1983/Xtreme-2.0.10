@@ -1,5 +1,7 @@
 <?php
 
+defined( 'NUKE_EVO' ) || exit;
+
 /**
  * Loads a template part into a template.
  *

@@ -75,11 +75,13 @@ $start_mem  = memory_get_usage();
 $start_time = get_microtime();
 
 // Stupid handle to create REQUEST_URI for IIS 5 servers
-if (preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NAME'])) {
+if ( preg_match( '/IIS/', $_SERVER['SERVER_SOFTWARE'] ) && isset( $_SERVER['SCRIPT_NAME'] ) ) {
     $requesturi = $_SERVER['SCRIPT_NAME'];
-    if (isset($_SERVER['QUERY_STRING'])) {
-        $requesturi .= '?'.$_SERVER['QUERY_STRING'];
+
+    if ( isset( $_SERVER['QUERY_STRING'] ) ) {
+        $requesturi .= '?' . $_SERVER['QUERY_STRING'];
     }
+
     $_SERVER['REQUEST_URI'] = $requesturi;
 }
 
@@ -137,7 +139,7 @@ define( 'CAN_MOD_INI', ! stristr( ini_get( 'disable_functions' ), 'ini_set' ) );
 if ( ! function_exists( 'classAutoloader' ) ) {
     function classAutoloader( $class ) {
         // Set the class file path
-        if (preg_match( '/Exception/', $class ) ) {
+        if ( preg_match( '/Exception/', $class ) ) {
             $file = NUKE_CLASS_EXCEPTION_DIR . strtolower( $class ) . '.php';
         } else {
             $file = NUKE_CLASSES_DIR . 'class.' . strtolower( $class ) . '.php';
@@ -205,7 +207,6 @@ require NUKE_INCLUDE_DIR . 'user.php';
 require NUKE_INCLUDE_DIR . 'validation.php';
 require NUKE_INCLUDE_DIR . 'vars.php';
 require NUKE_INCLUDE_DIR . 'widgets.php';
-
 
 /**
  * We globalize the $cookie and $userinfo variables,
@@ -300,7 +301,8 @@ $moderate     = (int) $moderate;
 $admingraphic = (int) $admingraphic;
 $httpref      = (int) $httpref;
 $httprefmax   = (int) $httprefmax;
-$domain       = str_replace( 'http://', '', $nukeurl );
+// $domain       = str_replace( 'http://', '', $nukeurl );
+$domain       = str_replace( array( 'http://', 'https://' ), '', $nukeurl );
 
 if ( isset( $default_Theme ) ) {
 	$Default_Theme = $default_Theme;
