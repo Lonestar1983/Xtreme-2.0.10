@@ -841,7 +841,7 @@ CREATE TABLE `nuke_bbforums` (
 --
 
 INSERT INTO `nuke_bbforums` (`forum_id`, `cat_id`, `forum_name`, `forum_desc`, `forum_status`, `forum_order`, `forum_posts`, `forum_topics`, `forum_last_post_id`, `prune_next`, `prune_enable`, `auth_view`, `auth_read`, `auth_post`, `auth_reply`, `auth_edit`, `auth_delete`, `auth_sticky`, `auth_announce`, `auth_globalannounce`, `auth_vote`, `auth_pollcreate`, `auth_attachments`, `forum_display_sort`, `forum_display_order`, `auth_download`, `forum_parent`, `forum_color`, `title_is_link`, `weblink`, `forum_link_icon`, `forum_link_count`, `forum_link_target`, `forum_icon`, `forum_thank`, `forum_password`) VALUES
-(1, 1, 'Site', '', 0, 10, 1, 1, 2, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, 'd40000', 0, 'http://', '', 0, 0, 'images/forum_icons/general.png', 1, '');
+(1, 1, 'Site', '', 0, 10, 0, 0, 0, NULL, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 0, 1, 0, 'd40000', 0, 'http://', '', 0, 0, 'images/forum_icons/general.png', 1, '');
 
 
 -- --------------------------------------------------------
