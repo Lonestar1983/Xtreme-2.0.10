@@ -9,3 +9,54 @@ DROP TABLE IF EXISTS nuke_bbarcade_comments;
 DROP TABLE IF EXISTS nuke_bbarcade_fav;
 
 ALTER TABLE `nuke_users` DROP `user_allow_arcadepm`;
+
+DROP TABLE IF EXISTS nuke_reviews;
+DROP TABLE IF EXISTS nuke_reviews_add;
+DROP TABLE IF EXISTS nuke_reviews_comments;
+DROP TABLE IF EXISTS nuke_reviews_main;
+
+DROP TABLE IF EXISTS nuke_shoutbox_censor;
+DROP TABLE IF EXISTS nuke_shoutbox_conf;
+DROP TABLE IF EXISTS nuke_shoutbox_date;
+DROP TABLE IF EXISTS nuke_shoutbox_emoticons;
+DROP TABLE IF EXISTS nuke_shoutbox_ipblock;
+DROP TABLE IF EXISTS nuke_shoutbox_manage_count;
+DROP TABLE IF EXISTS nuke_shoutbox_nameblock;
+DROP TABLE IF EXISTS nuke_shoutbox_shouts;
+DROP TABLE IF EXISTS nuke_shoutbox_sticky;
+DROP TABLE IF EXISTS nuke_shoutbox_themes;
+DROP TABLE IF EXISTS nuke_shoutbox_theme_images;
+DROP TABLE IF EXISTS nuke_shoutbox_version;
+
+DROP TABLE IF EXISTS nuke_nsnsp_config;
+DROP TABLE IF EXISTS nuke_nsnsp_sites;
+
+DROP TABLE IF EXISTS nuke_banner;
+DROP TABLE IF EXISTS nuke_banner_clients;
+DROP TABLE IF EXISTS nuke_banner_plans;
+DROP TABLE IF EXISTS nuke_banner_positions;
+DROP TABLE IF EXISTS nuke_banner_terms;
+
+DROP TABLE IF EXISTS nuke_subscriptions;
+
+DROP TABLE IF EXISTS nuke_link_us;
+DROP TABLE IF EXISTS nuke_link_us_config;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

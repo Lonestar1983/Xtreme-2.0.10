@@ -1,7 +1,7 @@
 <?php
 
 /*=======================================================================
- Nuke-Evolution Xtreme: Enhanced PHP-Nuke Web Portal System
+ Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -17,7 +17,7 @@
 /************************************************************************/
 
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-	exit('Access Denied');
+    exit('Access Denied');
 }
 
 /*----[ Welcome! ] ---------------------------------------
@@ -36,7 +36,7 @@ $dbhost = 'localhost';
 |                                                         |
 | Default: xxx_evo                                        |
 ---------------------------------------------------------*/
-$dbname = 'update_2010';
+$dbname = 'xxx_evo';
 
 /*----[ $dbuname ] ---------------------------------------
 | The username linked to your database, must have correct |
@@ -44,7 +44,7 @@ $dbname = 'update_2010';
 |                                                         |
 | Default: xxx_evo                                        |
 ---------------------------------------------------------*/
-$dbuname = 'root';
+$dbuname = 'xxx_evo';
 
 /*----[ $dbpass ] ----------------------------------------
 | The password associated with your db usersname          |
@@ -100,7 +100,7 @@ $admin_file = 'admin';
 -------------------------------------------------------------------*/
 $directory_mode = 0777;
 
-/*----[ $file_mode ] --------------------------------------------------
+/*----[ $file_mode ] -------------------------------------------------- 
 | file permissions mode - by default, Evo will create all new files    |
 | with the permissions that are provided here.  NOTE: do NOT use any   |
 | quotes (single or double) around this value or it will not work.     |
@@ -109,6 +109,7 @@ $directory_mode = 0777;
 | Server API = CGI = 0644                                              |
 ----------------------------------------------------------------------*/
 $file_mode = 0666;
+
 
 /*----[ $debug ] -----------------------------------------
 | Debugging Status of your website                        |
@@ -132,12 +133,23 @@ $debug = true;
 |       - Faster load, more server usage                  |
 |         We recommend you use SQL cache if you have      |
 |         problems with the File Cache                    |
-|   2: SQL Cache                                          |
-|       - One more query per page, less server usage      |
+|   3: XCache                                             |
+|       - Must be installed                               |
+|       - See http://xcache.lighttpd.net/                 |
+|		- Loads data into opcode and memory               |
+|   4: APC                                                |
+|       - Must be installed (easy to do and fast)         |
+|       - See http://pecl.php.net/package/APC             |
+|		- Loads data into opcode and memory               |
+|   5: Memcached                                          |
+|       - Must be installed                               |
+|       - See http://memcached.org/                       |
+|		- Loads data into opcode and memory               |
 |                                                         |
 | Default: 1 (File Cache)                                 |
 ---------------------------------------------------------*/
 $use_cache = 1;
+define('CACHE_PREFIX', '');
 
 /*----[ $persistency ] -----------------------------------
 | Allow persistent database connections                   |

@@ -3,20 +3,42 @@ REMOVED FILES
 arcade.php
 newscore.php
 
+admin/case/case.newsletter.php
+admin/case/case.who.php
+
+admin/links/links.newsletter.php
+admin/links/links.who.php
+
+admin/modules/newsletter.php
+admin/modules/who.php
+
+blocks/block-Advertising.php
 blocks/block-Arcade.php
 blocks/block-Arcade-Center.php
+blocks/block-HTML_Newsletter.php
+blocks/block-Last_5_Reviews.php
+blocks/block-Newsletter.php
 blocks/block-Random-Games.php
+blocks/block-Reviews.php
+blocks/block-Shout_Box.php
+blocks/block-Supporters.php
+blocks/block-Supporters_Rn.php
 
+images/4nwho/
+images/blocks/
+images/countries/
+
+includes/embed_fix.js
 includes/functions_arcade.php
 includes/functions_deprecated.php
 includes/json.php
 includes/nsncb_func.php
+includes/nsnsp_func.php
+includes/shoutbox.js
 includes/visible.js
 
-includes/embed_fix.js
-
 includes/abstract/
-includes/exceptions/
+includes/classes/exceptions/
 includes/js/
 
 modules/Advertising/
@@ -87,6 +109,9 @@ modules/Forums/templates/subSilver/images/favs.gif
 modules/Forums/templates/subSilver/images/loupe.gif
 modules/Forums/templates/subSilver/images/scoreboard.gif
 
+modules/HTML_Newsletter/
+
+modules/Link_Us/
 
 modules/Reviews/
 
