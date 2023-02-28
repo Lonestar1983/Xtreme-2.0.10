@@ -121,9 +121,10 @@ define( 'NUKE_ADMIN_MODULE_DIR', NUKE_ADMIN_DIR . 'modules/' );
 define( 'NUKE_FORUMS_DIR', ( defined( 'IN_ADMIN' ) ? './../' : 'modules/Forums/' ) );
 define( 'NUKE_CACHE_DIR', NUKE_INCLUDE_DIR . 'cache/' );
 define( 'NUKE_CLASSES_DIR', NUKE_INCLUDE_DIR . 'classes/' );
-define( 'NUKE_ZEND_DIR', NUKE_INCLUDE_DIR . 'Zend/' );
-define( 'NUKE_CLASS_EXCEPTION_DIR',  NUKE_CLASSES_DIR . 'exceptions/' );
 define( 'VENDOR_DIRECTORY', NUKE_INCLUDE_DIR . 'vendor' );
+define( 'NUKE_ZEND_DIR', VENDOR_DIRECTORY . '/Zend/' );
+define( 'NUKE_CLASS_EXCEPTION_DIR',  NUKE_CLASSES_DIR . 'exceptions/' );
+
 
 // User Profile URL, URL was defined here for future use with new account module.
 define( 'ACCOUNT_PROFILE_URL', 'modules.php?name=Profile&amp;mode=viewprofile&amp;u=' );

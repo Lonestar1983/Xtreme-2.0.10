@@ -216,6 +216,9 @@ while ( $row = dbrow( $result ) ) :
 
 	$row_class = ( ! ( $i % 2 ) ) ? 'row2' : 'row3';
 
+	$timestamp = time();
+	$lonestar  = date('m/d/Y H:i:s', $timestamp);
+
 	$template->assign_block_vars(
 		'row',
 		array(
@@ -237,9 +240,14 @@ while ( $row = dbrow( $result ) ) :
 			'INTRODUCTION'     => $row['bio'],
 			'JOINED'           => $row['user_regdate'],
 			'JOINED_AGO'       => get_timeago( strtotime( $row['user_regdate'] ) ),
+
 			'LAST_VISIT'       => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? $row['user_lastvisit'] : 'Never',
-			'LAST_VISIT_AGO'   => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? get_timeago( $row['user_lastvisit'] ) : 'Never',
+			// 'LAST_VISIT_AGO'   => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? get_timeago( $row['user_lastvisit'] ) : 'Never',
+
+			'LAST_VISIT_AGO'   => $lonestar,
+
 			'LAST_VISIT_DATE'  => ( $row['user_lastvisit'] && $row['user_lastvisit'] != 0 ) ? date( $board_config['default_dateformat'], $row['user_lastvisit'] ) : 'Never',
+
 			'LOCATION'         => $row['user_from'],
 			'NUM'              => $i + ( $start + 1 ),
 			'PM_URL'           => append_sid( "privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=" . $row['user_id'] ),

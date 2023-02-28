@@ -251,7 +251,11 @@ a.copyright:hover {
 	min-width: 280px;
 	width: 280px;
 	color: #D29A2B;
-	text-indent: -80px;
+	text-indent: -110px;
+}
+
+.userlinksbg > div {
+	padding-left: 98px;
 }
 
 /*

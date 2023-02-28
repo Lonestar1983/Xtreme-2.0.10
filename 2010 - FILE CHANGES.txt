@@ -28,8 +28,10 @@ includes/formatting.php
 includes/functions.php
 includes/functions_browser.php 
 includes/functions_cache.php
+includes/functions_database.php
 includes/functions_evo.php
 includes/functions_evo_custom.php
+includes/functions_mg_ranks.php
 includes/functions_mods_settings.php
 includes/functions_mg_ranks.php
 includes/language.php
@@ -48,13 +50,17 @@ includes/vars.php
 includes/viewtopic_quickreply.php
 includes/widgets.php
 
+includes/css/
+includes/vendor/
+
 includes/classes/class.cache.php
 includes/classes/class.debugger.php
 includes/classes/class.identify.php
 includes/classes/class.wysiwyg.php
 includes/db/mysqli.php
-includes/Zend/Cache/Backend.php
-includes/Zend/Cache/Core.php
+
+#includes/Zend/Cache/Backend.php
+#includes/Zend/Cache/Core.php
 
 language/lang-english.php
 language/blocks/lang-english.php
@@ -65,6 +71,7 @@ modules/Content/admin/language/lang-english.php
 modules/ECalendar/language/lang-english.php
 
 modules/Evo_UserBlock/addons/good_afternoon.php
+modules/Evo_UserBlock/addons/online.php
 
 modules/FAQ/admin/language/lang-english.php
 
@@ -90,8 +97,6 @@ modules/Your_Account/index.php
 modules/Your_Account/admin/adduserconf.php
 modules/Your_Account/includes/functions.php
 modules/Your_Account/language/lang-english.php
-
-includes/vendor/
 
 
 Find out why the theme CSS is above the other styles,

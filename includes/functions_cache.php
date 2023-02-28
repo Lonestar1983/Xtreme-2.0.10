@@ -9,9 +9,9 @@ function cache_delete( $name, $cat = 'config' ) {
 	return $cache->delete( $name, $cat );
 }
 
-function cache_set( $name, $cat = 'config', $fileData ) {
+function cache_set( $name, $cat = 'config', $data ) {
 	global $cache;
-	return $cache->save( $name, $cat, $fileData );
+	return $cache->save( $name, $cat, $data );
 }
 
 function cache_load( $name, $cat = 'config' ) {

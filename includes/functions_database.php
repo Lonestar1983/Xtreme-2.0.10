@@ -1,7 +1,7 @@
 <?php
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-	exit('Access Denied');
+if ( realpath( __FILE__ ) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
+	exit( 'Access Denied' );
 }
 
 /**
@@ -21,8 +21,7 @@ function _db() {
  * @param mixed $query
  * @return mixed
  */
-function dbquery( $query )
-{
+function dbquery( $query ) {
 	return _db()->sql_query( $query );
 }
 
@@ -32,8 +31,7 @@ function dbquery( $query )
  * @param mixed $query
  * @return mixed
  */
-function dbrow( $result ) 
-{
+function dbrow( $result ) {
 	return _db()->sql_fetchrow( $result );
 }
 
@@ -43,8 +41,7 @@ function dbrow( $result )
  * @param mixed $query
  * @return mixed
  */
-function dburow( $result ) 
-{
+function dburow( $result ) {
 	return _db()->sql_ufetchrow( $result );
 }
 
@@ -54,29 +51,24 @@ function dburow( $result )
  * @param  resource $query_id
  * @return mixed
  */
-function dbrowset( $result ) 
-{
+function dbrowset( $result ) {
 	return _db()->sql_fetchrowset( $result );
 }
 
-function dburowset( $result )
-{
+function dburowset( $result ) {
 	return _db()->sql_ufetchrowset( $result );
 }
 
 # Gets the total number of rows in the query and returns the value
-function dbnumrows( $result ) 
-{
+function dbnumrows( $result ) {
 	return _db()->sql_numrows( $result );
 }
 
-function dbunumrows( $result ) 
-{
+function dbunumrows( $result ) {
 	return _db()->sql_unumrows( $result );
 }
 
-function dbescape( $result ) 
-{
+function dbescape( $result ) {
 	return _db()->sql_escapestring( $result );
 }
 
@@ -84,30 +76,23 @@ function dbescape( $result )
  * If the table has an AUTO_INCREMENT row present the MySQL server will return the next integer for the newly inserted row
  *
  * @return int
- */	
-function dbnextid()
-{
+ */
+function dbnextid() {
 	return _db()->sql_nextid();
 }
 
-function dbfree( $result ) 
-{
+function dbfree( $result ) {
 	return _db()->sql_freeresult( $result );
 }
 
-function dboptimize( $table_name = '' )
-{
+function dboptimize( $table_name = '' ) {
 	return _db()->sql_optimize( $table_name );
 }
 
-function dbdebug()
-{
+function dbdebug() {
 	return _db()->print_debug();
 }
 
-function dbclose()
-{
+function dbclose() {
 	return _db()->sql_close();
 }
-
-?>

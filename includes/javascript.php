@@ -159,7 +159,17 @@ if (defined('ADMIN_FILE') && defined('USE_DRAG_DROP')) {
 </script>\n";
 }
 
-
+/**
+ * Font Awesome
+ *
+ * JavaScript library for DOM operations
+ *
+ * @author  Fonticons, Inc
+ * @version 6.1.1
+ * @license MIT
+ * @link    https://fontawesome.com
+ */
+evo_include_style( 'fontawesome', NUKE_CSS_DIR . 'fontawesome.css', '6.1.1' );
 
 // global $analytics;
 // if (!empty($analytics)) {

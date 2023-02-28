@@ -39,7 +39,7 @@ function head() {
 	require NUKE_INCLUDE_DIR . 'meta.php';
 	require NUKE_INCLUDE_DIR . 'styles.php';
 	require NUKE_INCLUDE_DIR . 'javascript.php';
-	require NUKE_THEMES_DIR . $ThemeSel . '/theme.php';
+	require NUKE_THEMES_DIR . trailingslashit( $ThemeSel ) . 'theme.php';
 
 	// if ((($favicon = $cache->load('favicon', 'config')) === false) || empty($favicon)) {
 	// 	if (file_exists(NUKE_BASE_DIR.'favicon.ico')) {
@@ -85,61 +85,54 @@ function head() {
 	// 	}
 	// }
 
-	echo "</head>\n";
+	echo '</head>'."\n";
 	themeheader();
 
-/*****[BEGIN]******************************************
- [ Base:    NukeSentinel                      v2.5.00 ]
- ******************************************************/
-	if($ab_config['site_switch'] == 1) {
-		echo '<center><img src="modules/NukeSentinel/images/disabled.png" alt="'._AB_SITEDISABLED.'" title="'._AB_SITEDISABLED.'" border="0" /></center><br />';
+	if ( $ab_config['site_switch'] == 1 ) {
+		echo '<center><img src="modules/NukeSentinel/images/disabled.png" alt="' . _AB_SITEDISABLED . '" title="' . _AB_SITEDISABLED . '" /></center>';
 	}
-/*****[END]********************************************
- [ Base:    NukeSentinel                      v2.5.00 ]
- ******************************************************/
 }
 
-function online() 
-{
+function online() {
 	global $prefix, $db, $name, $board_config, $userinfo;
-	$ip = get_user_IP();
-	$url = (defined('ADMIN_FILE')) ? 'index.php' : Fix_Quotes($_SERVER['REQUEST_URI']);
-	$uname = $ip;
-	$guest = 1;
-	$user_agent = get_user_agent();
-	if (is_user()):
 
+	$ip         = get_user_IP();
+	$url        = ( defined( 'ADMIN_FILE' ) ) ? 'index.php' : Fix_Quotes( $_SERVER['REQUEST_URI'] );
+	$uname      = $ip;
+	$guest      = 1;
+	$user_agent = get_user_agent();
+	$is_mobile  = (int) evo_is_mobile();
+
+	if ( is_user() ) {
 		$uname = $userinfo['username'];
 		$guest = 0;
-
-	elseif($user_agent['engine'] == 'bot'):
-
+	} elseif ( $user_agent['engine'] == 'bot' ) {
 		$uname = $user_agent['bot'];
 		$guest = 3;
-
-	endif;
+	}
 
 	$custom_title = $name;
-	$url = str_replace("&amp;", "&", $url);
-	$url = addslashes($url);
-	$past = time() - $board_config['online_time'];
-	$db->sql_query('DELETE FROM '._SESSION_TABLE.' WHERE time < "'.$past.'"');
-	$ctime = time();
+	$url          = str_replace( "&amp;", "&", $url );
+	$url          = addslashes( $url );
+	$ctime        = time();
+	$past         = time() - $board_config['online_time'];
+	dbquery( "DELETE FROM " . _SESSION_TABLE . " WHERE time < '" . $past . "'" );
 
 	/**
 	 * A replace into sql command was added, to prevent the duplication of users, This also saves on several lines of code.
 	 *
 	 * @since 2.0.9E
 	 */
-	$db->sql_query("replace into `"._SESSION_TABLE."` (uname, time, starttime, host_addr, guest, module, url) values ('".$uname."', '".$ctime."', '".$ctime."', '".$ip."', '".$guest."', '".$custom_title."', '".$url."');");
+	dbquery( "REPLACE INTO `"._SESSION_TABLE."` VALUES ('" . $uname . "', '" . $ctime . "', '" . $ctime . "', '" . $ip . "', '" . $guest . "', '" . $custom_title . "', '" . $url . "', '" . $is_mobile . "')");
 
 	/**
 	 * This sql replace command is to track who has been to the site and records their last visit.
 	 *
 	 * @since 2.0.9E
 	 */
-	if ( $guest == 0 )
-		$db->sql_query("replace into `"._USERS_WHO_BEEN."` (`user_ID`, `username`, `last_visit`) values ('".$userinfo['user_id']."', '".$userinfo['username']."', ".time().");");
+	if ( $guest == 0 ) {
+		dbquery("REPLACE INTO " . _USERS_WHO_BEEN . " (`user_ID`, `username`, `last_visit`) VALUES ('" . $userinfo['user_id'] . "', '" . $userinfo['username'] . "', " . time() . ")" );
+	}
 }
 
 online();

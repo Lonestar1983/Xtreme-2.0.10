@@ -49,6 +49,8 @@ DROP TABLE IF EXISTS nuke_links_modrequest;
 DROP TABLE IF EXISTS nuke_links_newlink;
 DROP TABLE IF EXISTS nuke_links_votedata;
 
+ALTER TABLE `nuke_session` ADD `is_mobile` INT(1) NOT NULL DEFAULT '0' AFTER `url`; 
+
 
 
 

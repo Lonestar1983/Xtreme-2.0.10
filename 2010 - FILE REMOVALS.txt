@@ -34,12 +34,14 @@ includes/functions_deprecated.php
 includes/json.php
 includes/nsncb_func.php
 includes/nsnsp_func.php
+includes/select_expand_bbcodes.js
 includes/shoutbox.js
 includes/visible.js
 
 includes/abstract/
 includes/classes/exceptions/
 includes/js/
+includes/Zend/
 
 modules/Advertising/
 
