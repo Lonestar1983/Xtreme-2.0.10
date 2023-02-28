@@ -306,8 +306,7 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
 // Adds/updates a new session to the database for the given userid.
 // Returns the new session ID on success.
 //
-function session_begin($user_id, $user_ip, $page_id, $auto_create = 0, $enable_autologin = 0, $admin = 0)
-{
+function session_begin($user_id, $user_ip, $page_id, $auto_create = 0, $enable_autologin = 0, $admin = 0) {
 	global $db, $board_config, $_COOKIE, $_GET, $SID;
 
 	$cookiename = $board_config['cookie_name'];
@@ -328,15 +327,12 @@ function session_begin($user_id, $user_ip, $page_id, $auto_create = 0, $enable_a
 		$sessionmethod = SESSION_METHOD_GET;
 	}
 
-	//
-	if (!preg_match('/^[A-Za-z0-9]*$/', $session_id))
-	{
+	if ( ! preg_match( '/^[A-Za-z0-9]*$/', $session_id ) ) {
 		$session_id = '';
 	}
 
-	$page_id = (int) $page_id;
-
-	$last_visit = 0;
+	$page_id      = (int) $page_id;
+	$last_visit   = 0;
 	$current_time = time();
 
 	//

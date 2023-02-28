@@ -1,0 +1,1978 @@
+.countries {
+  background-image: url(../css/sprites/16x16-flags.png);
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+.countries.abkhazia {
+  background-position: 0 0;
+}
+.countries.af,
+.countries.afghanistan {
+  background-position: -16px 0;
+}
+.countries.aland,
+.countries.aland_islands,
+.countries.ax {
+  background-position: -32px 0;
+}
+.countries.al,
+.countries.albania,
+.countries.albanian {
+  background-position: -48px 0;
+}
+.countries.algeria,
+.countries.dz {
+  background-position: -64px 0;
+}
+.countries.american_samoa,
+.countries.as {
+  background-position: -80px 0;
+}
+.countries.ad,
+.countries.andorra {
+  background-position: -96px 0;
+}
+.countries.angola,
+.countries.ao {
+  background-position: -112px 0;
+}
+.countries.ai,
+.countries.anguilla {
+  background-position: -128px 0;
+}
+.countries.antarctica,
+.countries.aq {
+  background-position: -144px 0;
+}
+.countries.ag,
+.countries.antigua_and_barbuda {
+  background-position: -160px 0;
+}
+.countries.ar,
+.countries.argentina {
+  background-position: -176px 0;
+}
+.countries.am,
+.countries.armenia {
+  background-position: -192px 0;
+}
+.countries.aruba,
+.countries.aw {
+  background-position: -208px 0;
+}
+.countries.au,
+.countries.australia,
+.countries.heard_and_mcdonald_islands,
+.countries.hm {
+  background-position: -224px 0;
+}
+.countries.at,
+.countries.austria {
+  background-position: -240px 0;
+}
+.countries.az,
+.countries.azerbaijan {
+  background-position: 0 -16px;
+}
+.countries.bahamas,
+.countries.bs {
+  background-position: -16px -16px;
+}
+.countries.bahrain,
+.countries.bh {
+  background-position: -32px -16px;
+}
+.countries.bangladesh,
+.countries.bd {
+  background-position: -48px -16px;
+}
+.countries.barbados,
+.countries.bb {
+  background-position: -64px -16px;
+}
+.countries.basque_country {
+  background-position: -80px -16px;
+}
+.countries.belarus,
+.countries.by {
+  background-position: -96px -16px;
+}
+.countries.be,
+.countries.belgium {
+  background-position: -112px -16px;
+}
+.countries.belize,
+.countries.bz {
+  background-position: -128px -16px;
+}
+.countries.benin,
+.countries.bj {
+  background-position: -144px -16px;
+}
+.countries.bermuda,
+.countries.bm {
+  background-position: -160px -16px;
+}
+.countries.bhutan,
+.countries.bt {
+  background-position: -176px -16px;
+}
+.countries.bo,
+.countries.bolivia {
+  background-position: -192px -16px;
+}
+.countries.ba,
+.countries.bosanski,
+.countries.bosnia_and_herzegovina {
+  background-position: -208px -16px;
+}
+.countries.botswana,
+.countries.bw {
+  background-position: -224px -16px;
+}
+.countries.br,
+.countries.brazil,
+.countries.brazilian {
+  background-position: -240px -16px;
+}
+.countries.british_antarctic_territory {
+  background-position: 0 -32px;
+}
+.countries.british_virgin_islands,
+.countries.vg {
+  background-position: -16px -32px;
+}
+.countries.bn,
+.countries.brunei {
+  background-position: -32px -32px;
+}
+.countries.bg,
+.countries.bulgaria,
+.countries.bulgarian {
+  background-position: -48px -32px;
+}
+.countries.bf,
+.countries.burkina_faso {
+  background-position: -64px -32px;
+}
+.countries.bi,
+.countries.burundi {
+  background-position: -80px -32px;
+}
+.countries.cambodia,
+.countries.kh {
+  background-position: -96px -32px;
+}
+.countries.cameroon,
+.countries.cm {
+  background-position: -112px -32px;
+}
+.countries.ca,
+.countries.canada {
+  background-position: -128px -32px;
+}
+.countries.canary_islands {
+  background-position: -144px -32px;
+}
+.countries.cape_verde,
+.countries.cv {
+  background-position: -160px -32px;
+}
+.countries.cayman_islands,
+.countries.ky {
+  background-position: -176px -32px;
+}
+.countries.central_african_republic,
+.countries.cf {
+  background-position: -192px -32px;
+}
+.countries.chad,
+.countries.td {
+  background-position: -208px -32px;
+}
+.countries.chile,
+.countries.cl {
+  background-position: -224px -32px;
+}
+.countries.china,
+.countries.cn {
+  background-position: -240px -32px;
+}
+.countries.christmas_island,
+.countries.cx {
+  background-position: 0 -48px;
+}
+.countries.cc,
+.countries.cocos_keeling_islands {
+  background-position: -16px -48px;
+}
+.countries.co,
+.countries.colombia,
+.countries.columbia {
+  background-position: -32px -48px;
+}
+.countries.commonwealth {
+  background-position: -48px -48px;
+}
+.countries.comoros,
+.countries.km {
+  background-position: -64px -48px;
+}
+.countries.ck,
+.countries.cook_islands {
+  background-position: -80px -48px;
+}
+.countries.costa_rica,
+.countries.cr {
+  background-position: -96px -48px;
+}
+.countries.ci,
+.countries.cote_divoire {
+  background-position: -112px -48px;
+}
+.countries.croatia,
+.countries.hr {
+  background-position: -128px -48px;
+}
+.countries.cu,
+.countries.cuba {
+  background-position: -144px -48px;
+}
+.countries.curacao {
+  background-position: -160px -48px;
+}
+.countries.cy,
+.countries.cyprus {
+  background-position: -176px -48px;
+}
+.countries.cs,
+.countries.cz,
+.countries.czech,
+.countries.czech_republic,
+.countries.czechoslovakia {
+  background-position: -192px -48px;
+}
+.countries.cd,
+.countries.democratic_republic_of_the_congo {
+  background-position: -208px -48px;
+}
+.countries.danish,
+.countries.denmark,
+.countries.dk {
+  background-position: -224px -48px;
+}
+.countries.dj,
+.countries.djibouti {
+  background-position: -240px -48px;
+}
+.countries.dm,
+.countries.dominica {
+  background-position: 0 -64px;
+}
+.countries.do,
+.countries.dominican_republic {
+  background-position: -16px -64px;
+}
+.countries.east_timor,
+.countries.tp {
+  background-position: -32px -64px;
+}
+.countries.ec,
+.countries.ecuador {
+  background-position: -48px -64px;
+}
+.countries.arabic,
+.countries.eg,
+.countries.egypt {
+  background-position: -64px -64px;
+}
+.countries.el_salvador,
+.countries.sv {
+  background-position: -80px -64px;
+}
+.countries.england,
+.countries.xe {
+  background-position: -96px -64px;
+}
+.countries.equatorial_guinea,
+.countries.gq {
+  background-position: -112px -64px;
+}
+.countries.er,
+.countries.eritrea {
+  background-position: -128px -64px;
+}
+.countries.ee,
+.countries.estonia,
+.countries.estonian {
+  background-position: -144px -64px;
+}
+.countries.et,
+.countries.ethiopia {
+  background-position: -160px -64px;
+}
+.countries.eu,
+.countries.european_union {
+  background-position: -176px -64px;
+}
+.countries.falkland_islands,
+.countries.fk {
+  background-position: -192px -64px;
+}
+.countries.faroes,
+.countries.fo {
+  background-position: -208px -64px;
+}
+.countries.fiji,
+.countries.fj {
+  background-position: -224px -64px;
+}
+.countries.fi,
+.countries.finland,
+.countries.finnish,
+.countries.fl {
+  background-position: -240px -64px;
+}
+.countries.fr,
+.countries.france,
+.countries.french,
+.countries.french_guiana,
+.countries.fx,
+.countries.gf,
+.countries.gp,
+.countries.guadeloupe,
+.countries.metropolitan_france,
+.countries.re,
+.countries.reunion,
+.countries.wallis_and_futuna_islands {
+  background-position: 0 -80px;
+}
+.countries.french_polynesia,
+.countries.pf {
+  background-position: -16px -80px;
+}
+.countries.french_southern_territories,
+.countries.tf {
+  background-position: -32px -80px;
+}
+.countries.ga,
+.countries.gabon {
+  background-position: -48px -80px;
+}
+.countries.gambia,
+.countries.gm {
+  background-position: -64px -80px;
+}
+.countries.ge,
+.countries.georgia {
+  background-position: -80px -80px;
+}
+.countries.de,
+.countries.german,
+.countries.germany {
+  background-position: -96px -80px;
+}
+.countries.gh,
+.countries.ghana {
+  background-position: -112px -80px;
+}
+.countries.gi,
+.countries.gibraltar {
+  background-position: -128px -80px;
+}
+.countries.gosquared {
+  background-position: -144px -80px;
+}
+.countries.gr,
+.countries.greece,
+.countries.greek {
+  background-position: -160px -80px;
+}
+.countries.gl,
+.countries.greenland {
+  background-position: -176px -80px;
+}
+.countries.gd,
+.countries.grenada {
+  background-position: -192px -80px;
+}
+.countries.gu,
+.countries.guam {
+  background-position: -208px -80px;
+}
+.countries.gt,
+.countries.guatemala {
+  background-position: -224px -80px;
+}
+.countries.gg,
+.countries.guernsey {
+  background-position: -240px -80px;
+}
+.countries.gn,
+.countries.guinea {
+  background-position: 0 -96px;
+}
+.countries.guinea_bissau,
+.countries.gw {
+  background-position: -16px -96px;
+}
+.countries.guyana,
+.countries.gy {
+  background-position: -32px -96px;
+}
+.countries.haiti,
+.countries.ht {
+  background-position: -48px -96px;
+}
+.countries.hn,
+.countries.honduras {
+  background-position: -64px -96px;
+}
+.countries.hk,
+.countries.hong_kong {
+  background-position: -80px -96px;
+}
+.countries.hu,
+.countries.hungarian,
+.countries.hungary {
+  background-position: -96px -96px;
+}
+.countries.iceland,
+.countries.icelandic,
+.countries.is {
+  background-position: -112px -96px;
+}
+.countries.in,
+.countries.india {
+  background-position: -128px -96px;
+}
+.countries.id,
+.countries.indonesia,
+.countries.indonesian {
+  background-position: -144px -96px;
+}
+.countries.farsi,
+.countries.ir,
+.countries.iran {
+  background-position: -160px -96px;
+}
+.countries.iq,
+.countries.iraq {
+  background-position: -176px -96px;
+}
+.countries.ie,
+.countries.ireland {
+  background-position: -192px -96px;
+}
+.countries.im,
+.countries.isle_of_man {
+  background-position: -208px -96px;
+}
+.countries.hebrew,
+.countries.il,
+.countries.israel {
+  background-position: -224px -96px;
+}
+.countries.it,
+.countries.italian,
+.countries.italy {
+  background-position: -240px -96px;
+}
+.countries.jamaica,
+.countries.jm {
+  background-position: 0 -112px;
+}
+.countries.japan,
+.countries.japanese,
+.countries.jp {
+  background-position: -16px -112px;
+}
+.countries.je,
+.countries.jersey {
+  background-position: -32px -112px;
+}
+.countries.jo,
+.countries.jordan {
+  background-position: -48px -112px;
+}
+.countries.kazakhstan,
+.countries.kz {
+  background-position: -64px -112px;
+}
+.countries.ke,
+.countries.kenya,
+.countries.swahili {
+  background-position: -80px -112px;
+}
+.countries.ki,
+.countries.kiribati {
+  background-position: -96px -112px;
+}
+.countries.kosovo {
+  background-position: -112px -112px;
+}
+.countries.kuwait,
+.countries.kw {
+  background-position: -128px -112px;
+}
+.countries.kg,
+.countries.kyrgyzstan {
+  background-position: -144px -112px;
+}
+.countries.la,
+.countries.laos {
+  background-position: -160px -112px;
+}
+.countries.latvia,
+.countries.latvian,
+.countries.lv {
+  background-position: -176px -112px;
+}
+.countries.lb,
+.countries.lebanon {
+  background-position: -192px -112px;
+}
+.countries.ls .countries.lesotho {
+  background-position: -208px -112px;
+}
+.countries.liberia,
+.countries.lr {
+  background-position: -224px -112px;
+}
+.countries.libya,
+.countries.ly {
+  background-position: -240px -112px;
+}
+.countries.li,
+.countries.liechtenstein {
+  background-position: 0 -128px;
+}
+.countries.lithuania,
+.countries.lithuanian,
+.countries.lt {
+  background-position: -16px -128px;
+}
+.countries.lu,
+.countries.luxembourg {
+  background-position: -32px -128px;
+}
+.countries.macau,
+.countries.mo {
+  background-position: -48px -128px;
+}
+.countries.macedonia,
+.countries.macedonian,
+.countries.mk {
+  background-position: -64px -128px;
+}
+.countries.madagascar,
+.countries.mg {
+  background-position: -80px -128px;
+}
+.countries.malawi,
+.countries.mw {
+  background-position: -96px -128px;
+}
+.countries.malaysia,
+.countries.melayu,
+.countries.my {
+  background-position: -112px -128px;
+}
+.countries.maldives,
+.countries.mv {
+  background-position: -128px -128px;
+}
+.countries.mali,
+.countries.ml {
+  background-position: -144px -128px;
+}
+.countries.malta,
+.countries.mt {
+  background-position: -160px -128px;
+}
+.countries.mars {
+  background-position: -176px -128px;
+}
+.countries.marshall_islands,
+.countries.mh {
+  background-position: -192px -128px;
+}
+.countries.martinique,
+.countries.mq {
+  background-position: -208px -128px;
+}
+.countries.mauritania,
+.countries.mr {
+  background-position: -224px -128px;
+}
+.countries.mauritius,
+.countries.mu {
+  background-position: -240px -128px;
+}
+.countries.mayotte,
+.countries.yt {
+  background-position: 0 -144px;
+}
+.countries.mexico,
+.countries.mx {
+  background-position: -16px -144px;
+}
+.countries.fm,
+.countries.micronesia {
+  background-position: -32px -144px;
+}
+.countries.md,
+.countries.moldova {
+  background-position: -48px -144px;
+}
+.countries.mc,
+.countries.monaco {
+  background-position: -64px -144px;
+}
+.countries.mn,
+.countries.mongolia {
+  background-position: -80px -144px;
+}
+.countries.me,
+.countries.montenegro {
+  background-position: -96px -144px;
+}
+.countries.montserrat,
+.countries.ms {
+  background-position: -112px -144px;
+}
+.countries.ma,
+.countries.morocco {
+  background-position: -128px -144px;
+}
+.countries.mozambique,
+.countries.mz {
+  background-position: -144px -144px;
+}
+.countries.mm,
+.countries.myanmar {
+  background-position: -160px -144px;
+}
+.countries.nato {
+  background-position: -176px -144px;
+}
+.countries.nagorno_karabakh {
+  background-position: -192px -144px;
+}
+.countries.na,
+.countries.namibia {
+  background-position: -208px -144px;
+}
+.countries.nauru,
+.countries.nr {
+  background-position: -224px -144px;
+}
+.countries.nepal,
+.countries.np {
+  background-position: -240px -144px;
+}
+.countries.dutch,
+.countries.dutch_formal,
+.countries.netherlands,
+.countries.nl {
+  background-position: 0 -160px;
+}
+.countries.an,
+.countries.netherlands_antilles {
+  background-position: -16px -160px;
+}
+.countries.nc,
+.countries.new_caledonia {
+  background-position: -32px -160px;
+}
+.countries.new_zealand,
+.countries.nz {
+  background-position: -48px -160px;
+}
+.countries.ni,
+.countries.nicaragua {
+  background-position: -64px -160px;
+}
+.countries.ne,
+.countries.niger {
+  background-position: -80px -160px;
+}
+.countries.ng,
+.countries.nigeria {
+  background-position: -96px -160px;
+}
+.countries.niue,
+.countries.nu {
+  background-position: -112px -160px;
+}
+.countries.nf,
+.countries.norfolk_island {
+  background-position: -128px -160px;
+}
+.countries.korean,
+.countries.kp,
+.countries.north_korea {
+  background-position: -144px -160px;
+}
+.countries.northern_cyprus {
+  background-position: -160px -160px;
+}
+.countries.mp,
+.countries.northern_mariana_islands {
+  background-position: -176px -160px;
+}
+.countries.bouvet_island,
+.countries.bv,
+.countries.no,
+.countries.norway,
+.countries.norwegian,
+.countries.sj,
+.countries.svalbard {
+  background-position: -192px -160px;
+}
+.countries.olympics {
+  background-position: -208px -160px;
+}
+.countries.om,
+.countries.oman {
+  background-position: -224px -160px;
+}
+.countries.pakistan,
+.countries.pk {
+  background-position: -240px -160px;
+}
+.countries.palau,
+.countries.pw {
+  background-position: 0 -176px;
+}
+.countries.palestine,
+.countries.ps {
+  background-position: -16px -176px;
+}
+.countries.pa,
+.countries.panama {
+  background-position: -32px -176px;
+}
+.countries.papua_new_guinea,
+.countries.pg {
+  background-position: -48px -176px;
+}
+.countries.paraguay,
+.countries.py {
+  background-position: -64px -176px;
+}
+.countries.pe,
+.countries.peru {
+  background-position: -80px -176px;
+}
+.countries.ph,
+.countries.philippines,
+.countries.tagalog {
+  background-position: -96px -176px;
+}
+.countries.pitcairn_islands,
+.countries.pn {
+  background-position: -112px -176px;
+}
+.countries.pl,
+.countries.poland,
+.countries.polish {
+  background-position: -128px -176px;
+}
+.countries.portugal,
+.countries.portuguese,
+.countries.pt {
+  background-position: -144px -176px;
+}
+.countries.pr,
+.countries.puerto_rico {
+  background-position: -160px -176px;
+}
+.countries.qa,
+.countries.qatar {
+  background-position: -176px -176px;
+}
+.countries.red_cross {
+  background-position: -192px -176px;
+}
+.countries.cg,
+.countries.republic_of_the_congo {
+  background-position: -208px -176px;
+}
+.countries.ro,
+.countries.romania,
+.countries.romanian {
+  background-position: -224px -176px;
+}
+.countries.ru,
+.countries.russia,
+.countries.russian,
+.countries.su {
+  background-position: -240px -176px;
+}
+.countries.rw,
+.countries.rwanda {
+  background-position: 0 -192px;
+}
+.countries.saint_barthelemy {
+  background-position: -16px -192px;
+}
+.countries.saint_helena,
+.countries.sh {
+  background-position: -32px -192px;
+}
+.countries.kn,
+.countries.saint_kitts_and_nevis {
+  background-position: -48px -192px;
+}
+.countries.lc,
+.countries.saint_lucia {
+  background-position: -64px -192px;
+}
+.countries.saint_martin {
+  background-position: -80px -192px;
+}
+.countries.saint_vincent_and_the_grenadines,
+.countries.vc {
+  background-position: -96px -192px;
+}
+.countries.samoa,
+.countries.western_samoa,
+.countries.ws {
+  background-position: -112px -192px;
+}
+.countries.san_marino,
+.countries.sm {
+  background-position: -128px -192px;
+}
+.countries.sao_tome_and_principe,
+.countries.st {
+  background-position: -144px -192px;
+}
+.countries.sa,
+.countries.saudi_arabia,
+.countries.sq {
+  background-position: -160px -192px;
+}
+.countries.scotland,
+.countries.xs {
+  background-position: -176px -192px;
+}
+.countries.senegal,
+.countries.sn {
+  background-position: -192px -192px;
+}
+.countries.rs,
+.countries.serbia,
+.countries.serbian {
+  background-position: -208px -192px;
+}
+.countries.sc,
+.countries.seychelles {
+  background-position: -224px -192px;
+}
+.countries.sierra_leone,
+.countries.sl {
+  background-position: -240px -192px;
+}
+.countries.sg,
+.countries.singapore {
+  background-position: 0 -208px;
+}
+.countries.sk,
+.countries.slovak,
+.countries.slovakia {
+  background-position: -16px -208px;
+}
+.countries.si,
+.countries.slovenia {
+  background-position: -32px -208px;
+}
+.countries.sb,
+.countries.solomon_islands {
+  background-position: -48px -208px;
+}
+.countries.so,
+.countries.somalia {
+  background-position: -64px -208px;
+}
+.countries.somaliland {
+  background-position: -80px -208px;
+}
+.countries.afrikaans,
+.countries.south_africa,
+.countries.za {
+  background-position: -96px -208px;
+}
+.countries.gs,
+.countries.south_georgia_and_the_islands,
+.countries.south_georgia_and_the_south_sandwich_islands {
+  background-position: -112px -208px;
+}
+.countries.kr,
+.countries.south_korea {
+  background-position: -128px -208px;
+}
+.countries.south_ossetia {
+  background-position: -144px -208px;
+}
+.countries.south_sudan {
+  background-position: -160px -208px;
+}
+.countries.basque,
+.countries.castellano,
+.countries.es,
+.countries.spain,
+.countries.spanish {
+  background-position: -176px -208px;
+}
+.countries.lk,
+.countries.sri_lanka {
+  background-position: -192px -208px;
+}
+.countries.sd,
+.countries.sudan {
+  background-position: -208px -208px;
+}
+.countries.sr,
+.countries.suriname {
+  background-position: -224px -208px;
+}
+.countries.swaziland,
+.countries.sz {
+  background-position: -240px -208px;
+}
+.countries.se,
+.countries.sweden,
+.countries.swedish {
+  background-position: 0 -224px;
+}
+.countries.ch,
+.countries.switzerland {
+  background-position: -16px -224px;
+}
+.countries.sy,
+.countries.syria {
+  background-position: -32px -224px;
+}
+.countries.taiwan,
+.countries.tw {
+  background-position: -48px -224px;
+}
+.countries.tajikistan,
+.countries.tj {
+  background-position: -64px -224px;
+}
+.countries.tanzania,
+.countries.tz {
+  background-position: -80px -224px;
+}
+.countries.th,
+.countries.thai,
+.countries.thailand {
+  background-position: -96px -224px;
+}
+.countries.tg,
+.countries.togo {
+  background-position: -112px -224px;
+}
+.countries.tk,
+.countries.tokelau {
+  background-position: -128px -224px;
+}
+.countries.to,
+.countries.tonga {
+  background-position: -144px -224px;
+}
+.countries.trinidad_and_tobago,
+.countries.tt {
+  background-position: -160px -224px;
+}
+.countries.tn,
+.countries.tunisia {
+  background-position: -176px -224px;
+}
+.countries.tr,
+.countries.turkey,
+.countries.turkish {
+  background-position: -192px -224px;
+}
+.countries.tm,
+.countries.turkmenistan {
+  background-position: -208px -224px;
+}
+.countries.tc,
+.countries.turks_and_caicos_islands {
+  background-position: -224px -224px;
+}
+.countries.tuvalu,
+.countries.tv {
+  background-position: -240px -224px;
+}
+.countries.us_virgin_islands,
+.countries.vi {
+  background-position: 0 -240px;
+}
+.countries.ug,
+.countries.uganda {
+  background-position: -16px -240px;
+}
+.countries.ua,
+.countries.ukraine,
+.countries.ukrainian {
+  background-position: -32px -240px;
+}
+.countries.ae,
+.countries.united_arab_emirates {
+  background-position: -48px -240px;
+}
+.countries.ac,
+.countries.english,
+.countries.gb,
+.countries.uk,
+.countries.united_kingdom {
+  background-position: -64px -240px;
+}
+.countries.un,
+.countries.united_nations {
+  background-position: -80px -240px;
+}
+.countries.um,
+.countries.united_states,
+.countries.united_states_minor_outlying_islands,
+.countries.us,
+.countries.usa {
+  background-position: -96px -240px;
+}
+.countries.ascension_island,
+.countries.blank,
+.countries.british_indian_ocean_territory,
+.countries.iana_reserved,
+.countries.io,
+.countries.pm,
+.countries.saint_pierre_and_miquelon,
+.countries.unallocated,
+.countries.unknown,
+.countries.zz {
+  background-position: -112px -240px;
+}
+.countries.uruguay,
+.countries.uy {
+  background-position: -128px -240px;
+}
+.countries.uz,
+.countries.uzbekistan {
+  background-position: -144px -240px;
+}
+.countries.vanuatu,
+.countries.vu {
+  background-position: -160px -240px;
+}
+.countries.va,
+.countries.vatican_city {
+  background-position: -176px -240px;
+}
+.countries.ve,
+.countries.venezuela {
+  background-position: -192px -240px;
+}
+.countries.vietnam,
+.countries.vietnamese,
+.countries.vn {
+  background-position: -208px -240px;
+}
+.countries.wales,
+.countries.xw {
+  background-position: -224px -240px;
+}
+.countries.wallis_and_futuna,
+.countries.wf {
+  background-position: -240px -240px;
+}
+.countries.eh,
+.countries.western_sahara {
+  background-position: -256px 0;
+}
+.countries.ye,
+.countries.yemen {
+  background-position: -256px -16px;
+}
+.countries.yu,
+.countries.yugoslavia {
+  background-position: 0 -160px;
+  transform: rotate(180deg);
+}
+.countries.zambia,
+.countries.zm {
+  background-position: -256px -32px;
+}
+.countries.zimbabwe,
+.countries.zw {
+  background-position: -256px -48px;
+}
+.countries-24x24 {
+  background-image: url(../css/sprites/24x24-flags.png);
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+.countries-24x24.abkhazia {
+  background-position: 0 0;
+}
+.countries-24x24.afghanistan {
+  background-position: -24px 0;
+}
+.countries-24x24.aland,
+.countries-24x24.aland_islands {
+  background-position: -48px 0;
+}
+.countries-24x24.albania,
+.countries-24x24.albanian {
+  background-position: -72px 0;
+}
+.countries-24x24.algeria {
+  background-position: -96px 0;
+}
+.countries-24x24.american_samoa {
+  background-position: -120px 0;
+}
+.countries-24x24.andorra {
+  background-position: -144px 0;
+}
+.countries-24x24.angola {
+  background-position: -168px 0;
+}
+.countries-24x24.anguilla {
+  background-position: -192px 0;
+}
+.countries-24x24.antarctica {
+  background-position: -216px 0;
+}
+.countries-24x24.antigua_and_barbuda {
+  background-position: -240px 0;
+}
+.countries-24x24.argentina {
+  background-position: -264px 0;
+}
+.countries-24x24.armenia {
+  background-position: -288px 0;
+}
+.countries-24x24.aruba {
+  background-position: -312px 0;
+}
+.countries-24x24.australia,
+.countries-24x24.heard_and_mcdonald_islands {
+  background-position: -336px 0;
+}
+.countries-24x24.austria {
+  background-position: -360px 0;
+}
+.countries-24x24.azerbaijan {
+  background-position: 0 -24px;
+}
+.countries-24x24.bahamas {
+  background-position: -24px -24px;
+}
+.countries-24x24.bahrain {
+  background-position: -48px -24px;
+}
+.countries-24x24.bangladesh {
+  background-position: -72px -24px;
+}
+.countries-24x24.barbados {
+  background-position: -96px -24px;
+}
+.countries-24x24.basque_country {
+  background-position: -120px -24px;
+}
+.countries-24x24.belarus {
+  background-position: -144px -24px;
+}
+.countries-24x24.belgium {
+  background-position: -168px -24px;
+}
+.countries-24x24.belize {
+  background-position: -192px -24px;
+}
+.countries-24x24.benin {
+  background-position: -216px -24px;
+}
+.countries-24x24.bermuda {
+  background-position: -240px -24px;
+}
+.countries-24x24.bhutan {
+  background-position: -264px -24px;
+}
+.countries-24x24.bolivia {
+  background-position: -288px -24px;
+}
+.countries-24x24.bosanski,
+.countries-24x24.bosnia_and_herzegovina {
+  background-position: -312px -24px;
+}
+.countries-24x24.botswana {
+  background-position: -336px -24px;
+}
+.countries-24x24.brazil,
+.countries-24x24.brazilian {
+  background-position: -360px -24px;
+}
+.countries-24x24.british_antarctic_territory {
+  background-position: 0 -48px;
+}
+.countries-24x24.british_virgin_islands {
+  background-position: -24px -48px;
+}
+.countries-24x24.brunei {
+  background-position: -48px -48px;
+}
+.countries-24x24.bulgaria,
+.countries-24x24.bulgarian {
+  background-position: -72px -48px;
+}
+.countries-24x24.burkina_faso {
+  background-position: -96px -48px;
+}
+.countries-24x24.burundi {
+  background-position: -120px -48px;
+}
+.countries-24x24.cambodia {
+  background-position: -144px -48px;
+}
+.countries-24x24.cameroon {
+  background-position: -168px -48px;
+}
+.countries-24x24.canada {
+  background-position: -192px -48px;
+}
+.countries-24x24.canary_islands {
+  background-position: -216px -48px;
+}
+.countries-24x24.cape_verde {
+  background-position: -240px -48px;
+}
+.countries-24x24.cayman_islands {
+  background-position: -264px -48px;
+}
+.countries-24x24.central_african_republic {
+  background-position: -288px -48px;
+}
+.countries-24x24.chad {
+  background-position: -312px -48px;
+}
+.countries-24x24.chile {
+  background-position: -336px -48px;
+}
+.countries-24x24.china {
+  background-position: -360px -48px;
+}
+.countries-24x24.christmas_island {
+  background-position: 0 -72px;
+}
+.countries-24x24.cocos_keeling_islands {
+  background-position: -24px -72px;
+}
+.countries-24x24.colombia,
+.countries-24x24.columbia {
+  background-position: -48px -72px;
+}
+.countries-24x24.commonwealth {
+  background-position: -72px -72px;
+}
+.countries-24x24.comoros {
+  background-position: -96px -72px;
+}
+.countries-24x24.cook_islands {
+  background-position: -120px -72px;
+}
+.countries-24x24.costa_rica {
+  background-position: -144px -72px;
+}
+.countries-24x24.cote_divoire {
+  background-position: -168px -72px;
+}
+.countries-24x24.croatia {
+  background-position: -192px -72px;
+}
+.countries-24x24.cuba {
+  background-position: -216px -72px;
+}
+.countries-24x24.curacao {
+  background-position: -240px -72px;
+}
+.countries-24x24.cyprus {
+  background-position: -264px -72px;
+}
+.countries-24x24.czech,
+.countries-24x24.czech_republic,
+.countries-24x24.czechoslovakia {
+  background-position: -288px -72px;
+}
+.countries-24x24.democratic_republic_of_the_congo {
+  background-position: -312px -72px;
+}
+.countries-24x24.danish,
+.countries-24x24.denmark {
+  background-position: -336px -72px;
+}
+.countries-24x24.djibouti {
+  background-position: -360px -72px;
+}
+.countries-24x24.dominica {
+  background-position: 0 -96px;
+}
+.countries-24x24.dominican_republic {
+  background-position: -24px -96px;
+}
+.countries-24x24.east_timor {
+  background-position: -48px -96px;
+}
+.countries-24x24.ecuador {
+  background-position: -72px -96px;
+}
+.countries-24x24.arabic,
+.countries-24x24.egypt {
+  background-position: -96px -96px;
+}
+.countries-24x24.el_salvador {
+  background-position: -120px -96px;
+}
+.countries-24x24.england {
+  background-position: -144px -96px;
+}
+.countries-24x24.equatorial_guinea {
+  background-position: -168px -96px;
+}
+.countries-24x24.eritrea {
+  background-position: -192px -96px;
+}
+.countries-24x24.estonia,
+.countries-24x24.estonian {
+  background-position: -216px -96px;
+}
+.countries-24x24.ethiopia {
+  background-position: -240px -96px;
+}
+.countries-24x24.european_union {
+  background-position: -264px -96px;
+}
+.countries-24x24.falkland_islands {
+  background-position: -288px -96px;
+}
+.countries-24x24.faroes {
+  background-position: -312px -96px;
+}
+.countries-24x24.fiji {
+  background-position: -336px -96px;
+}
+.countries-24x24.finland,
+.countries-24x24.finnish {
+  background-position: -360px -96px;
+}
+.countries-24x24.france,
+.countries-24x24.french,
+.countries-24x24.french_guiana,
+.countries-24x24.guadeloupe,
+.countries-24x24.metropolitan_france,
+.countries-24x24.reunion,
+.countries-24x24.wallis_and_futuna_islands {
+  background-position: 0 -120px;
+}
+.countries-24x24.french_polynesia {
+  background-position: -24px -120px;
+}
+.countries-24x24.french_southern_territories {
+  background-position: -48px -120px;
+}
+.countries-24x24.gabon {
+  background-position: -72px -120px;
+}
+.countries-24x24.gambia {
+  background-position: -96px -120px;
+}
+.countries-24x24.georgia {
+  background-position: -120px -120px;
+}
+.countries-24x24.german,
+.countries-24x24.germany {
+  background-position: -144px -120px;
+}
+.countries-24x24.ghana {
+  background-position: -168px -120px;
+}
+.countries-24x24.gibraltar {
+  background-position: -192px -120px;
+}
+.countries-24x24.gosquared {
+  background-position: -216px -120px;
+}
+.countries-24x24.greece,
+.countries-24x24.greek {
+  background-position: -240px -120px;
+}
+.countries-24x24.greenland {
+  background-position: -264px -120px;
+}
+.countries-24x24.grenada {
+  background-position: -288px -120px;
+}
+.countries-24x24.guam {
+  background-position: -312px -120px;
+}
+.countries-24x24.guatemala {
+  background-position: -336px -120px;
+}
+.countries-24x24.guernsey {
+  background-position: -360px -120px;
+}
+.countries-24x24.guinea {
+  background-position: 0 -144px;
+}
+.countries-24x24.guinea_bissau {
+  background-position: -24px -144px;
+}
+.countries-24x24.guyana {
+  background-position: -48px -144px;
+}
+.countries-24x24.haiti {
+  background-position: -72px -144px;
+}
+.countries-24x24.honduras {
+  background-position: -96px -144px;
+}
+.countries-24x24.hong_kong {
+  background-position: -120px -144px;
+}
+.countries-24x24.hungarian,
+.countries-24x24.hungary {
+  background-position: -144px -144px;
+}
+.countries-24x24.iceland,
+.countries-24x24.icelandic {
+  background-position: -168px -144px;
+}
+.countries-24x24.india {
+  background-position: -192px -144px;
+}
+.countries-24x24.indonesia,
+.countries-24x24.indonesian {
+  background-position: -216px -144px;
+}
+.countries-24x24.farsi,
+.countries-24x24.iran {
+  background-position: -240px -144px;
+}
+.countries-24x24.iraq {
+  background-position: -264px -144px;
+}
+.countries-24x24.ireland {
+  background-position: -288px -144px;
+}
+.countries-24x24.isle_of_man {
+  background-position: -312px -144px;
+}
+.countries-24x24.hebrew,
+.countries-24x24.israel {
+  background-position: -336px -144px;
+}
+.countries-24x24.italian,
+.countries-24x24.italy {
+  background-position: -360px -144px;
+}
+.countries-24x24.jamaica {
+  background-position: 0 -168px;
+}
+.countries-24x24.japan,
+.countries-24x24.japanese {
+  background-position: -24px -168px;
+}
+.countries-24x24.jersey {
+  background-position: -48px -168px;
+}
+.countries-24x24.jordan {
+  background-position: -72px -168px;
+}
+.countries-24x24.kazakhstan {
+  background-position: -96px -168px;
+}
+.countries-24x24.kenya,
+.countries-24x24.swahili {
+  background-position: -120px -168px;
+}
+.countries-24x24.kiribati {
+  background-position: -144px -168px;
+}
+.countries-24x24.kosovo {
+  background-position: -168px -168px;
+}
+.countries-24x24.kuwait {
+  background-position: -192px -168px;
+}
+.countries-24x24.kyrgyzstan {
+  background-position: -216px -168px;
+}
+.countries-24x24.laos {
+  background-position: -240px -168px;
+}
+.countries-24x24.latvia,
+.countries-24x24.latvian {
+  background-position: -264px -168px;
+}
+.countries-24x24.lebanon {
+  background-position: -288px -168px;
+}
+.countries-24x24.lesotho {
+  background-position: -312px -168px;
+}
+.countries-24x24.liberia {
+  background-position: -336px -168px;
+}
+.countries-24x24.libya {
+  background-position: -360px -168px;
+}
+.countries-24x24.liechtenstein {
+  background-position: 0 -192px;
+}
+.countries-24x24.lithuania,
+.countries-24x24.lithuanian {
+  background-position: -24px -192px;
+}
+.countries-24x24.luxembourg {
+  background-position: -48px -192px;
+}
+.countries-24x24.macau {
+  background-position: -72px -192px;
+}
+.countries-24x24.macedonia,
+.countries-24x24.macedonian {
+  background-position: -96px -192px;
+}
+.countries-24x24.madagascar {
+  background-position: -120px -192px;
+}
+.countries-24x24.malawi {
+  background-position: -144px -192px;
+}
+.countries-24x24.malaysia,
+.countries-24x24.melayu {
+  background-position: -168px -192px;
+}
+.countries-24x24.maldives {
+  background-position: -192px -192px;
+}
+.countries-24x24.mali {
+  background-position: -216px -192px;
+}
+.countries-24x24.malta {
+  background-position: -240px -192px;
+}
+.countries-24x24.mars {
+  background-position: -264px -192px;
+}
+.countries-24x24.marshall_islands {
+  background-position: -288px -192px;
+}
+.countries-24x24.martinique {
+  background-position: -312px -192px;
+}
+.countries-24x24.mauritania {
+  background-position: -336px -192px;
+}
+.countries-24x24.mauritius {
+  background-position: -360px -192px;
+}
+.countries-24x24.mayotte {
+  background-position: 0 -216px;
+}
+.countries-24x24.mexico {
+  background-position: -24px -216px;
+}
+.countries-24x24.micronesia {
+  background-position: -48px -216px;
+}
+.countries-24x24.moldova {
+  background-position: -72px -216px;
+}
+.countries-24x24.monaco {
+  background-position: -96px -216px;
+}
+.countries-24x24.mongolia {
+  background-position: -120px -216px;
+}
+.countries-24x24.montenegro {
+  background-position: -144px -216px;
+}
+.countries-24x24.montserrat {
+  background-position: -168px -216px;
+}
+.countries-24x24.morocco {
+  background-position: -192px -216px;
+}
+.countries-24x24.mozambique {
+  background-position: -216px -216px;
+}
+.countries-24x24.myanmar {
+  background-position: -240px -216px;
+}
+.countries-24x24.nato {
+  background-position: -264px -216px;
+}
+.countries-24x24.nagorno_karabakh {
+  background-position: -288px -216px;
+}
+.countries-24x24.namibia {
+  background-position: -312px -216px;
+}
+.countries-24x24.nauru {
+  background-position: -336px -216px;
+}
+.countries-24x24.nepal {
+  background-position: -360px -216px;
+}
+.countries-24x24.dutch,
+.countries-24x24.dutch_formal,
+.countries-24x24.netherlands {
+  background-position: 0 -240px;
+}
+.countries-24x24.netherlands_antilles {
+  background-position: -24px -240px;
+}
+.countries-24x24.new_caledonia {
+  background-position: -48px -240px;
+}
+.countries-24x24.new_zealand {
+  background-position: -72px -240px;
+}
+.countries-24x24.nicaragua {
+  background-position: -96px -240px;
+}
+.countries-24x24.niger {
+  background-position: -120px -240px;
+}
+.countries-24x24.nigeria {
+  background-position: -144px -240px;
+}
+.countries-24x24.niue {
+  background-position: -168px -240px;
+}
+.countries-24x24.norfolk_island {
+  background-position: -192px -240px;
+}
+.countries-24x24.korean,
+.countries-24x24.north_korea {
+  background-position: -216px -240px;
+}
+.countries-24x24.northern_cyprus {
+  background-position: -240px -240px;
+}
+.countries-24x24.northern_mariana_islands {
+  background-position: -264px -240px;
+}
+.countries-24x24.bouvet_island,
+.countries-24x24.norway,
+.countries-24x24.norwegian,
+.countries-24x24.svalbard {
+  background-position: -288px -240px;
+}
+.countries-24x24.olympics {
+  background-position: -312px -240px;
+}
+.countries-24x24.oman {
+  background-position: -336px -240px;
+}
+.countries-24x24.pakistan {
+  background-position: -360px -240px;
+}
+.countries-24x24.palau {
+  background-position: 0 -264px;
+}
+.countries-24x24.palestine {
+  background-position: -24px -264px;
+}
+.countries-24x24.panama {
+  background-position: -48px -264px;
+}
+.countries-24x24.papua_new_guinea {
+  background-position: -72px -264px;
+}
+.countries-24x24.paraguay {
+  background-position: -96px -264px;
+}
+.countries-24x24.peru {
+  background-position: -120px -264px;
+}
+.countries-24x24.philippines,
+.countries-24x24.tagalog {
+  background-position: -144px -264px;
+}
+.countries-24x24.pitcairn_islands {
+  background-position: -168px -264px;
+}
+.countries-24x24.poland,
+.countries-24x24.polish {
+  background-position: -192px -264px;
+}
+.countries-24x24.portugal,
+.countries-24x24.portuguese {
+  background-position: -216px -264px;
+}
+.countries-24x24.puerto_rico {
+  background-position: -240px -264px;
+}
+.countries-24x24.qatar {
+  background-position: -264px -264px;
+}
+.countries-24x24.red_cross {
+  background-position: -288px -264px;
+}
+.countries-24x24.republic_of_the_congo {
+  background-position: -312px -264px;
+}
+.countries-24x24.romania,
+.countries-24x24.romanian {
+  background-position: -336px -264px;
+}
+.countries-24x24.russia,
+.countries-24x24.russian {
+  background-position: -360px -264px;
+}
+.countries-24x24.rwanda {
+  background-position: 0 -288px;
+}
+.countries-24x24.saint_barthelemy {
+  background-position: -24px -288px;
+}
+.countries-24x24.saint_helena {
+  background-position: -48px -288px;
+}
+.countries-24x24.saint_kitts_and_nevis {
+  background-position: -72px -288px;
+}
+.countries-24x24.saint_lucia {
+  background-position: -96px -288px;
+}
+.countries-24x24.saint_martin {
+  background-position: -120px -288px;
+}
+.countries-24x24.saint_vincent_and_the_grenadines {
+  background-position: -144px -288px;
+}
+.countries-24x24.samoa,
+.countries-24x24.western_samoa {
+  background-position: -168px -288px;
+}
+.countries-24x24.san_marino {
+  background-position: -192px -288px;
+}
+.countries-24x24.sao_tome_and_principe {
+  background-position: -216px -288px;
+}
+.countries-24x24.saudi_arabia {
+  background-position: -240px -288px;
+}
+.countries-24x24.scotland {
+  background-position: -264px -288px;
+}
+.countries-24x24.senegal {
+  background-position: -288px -288px;
+}
+.countries-24x24.serbia,
+.countries-24x24.serbian {
+  background-position: -312px -288px;
+}
+.countries-24x24.seychelles {
+  background-position: -336px -288px;
+}
+.countries-24x24.sierra_leone {
+  background-position: -360px -288px;
+}
+.countries-24x24.singapore {
+  background-position: 0 -312px;
+}
+.countries-24x24.slovak,
+.countries-24x24.slovakia {
+  background-position: -24px -312px;
+}
+.countries-24x24.slovenia {
+  background-position: -48px -312px;
+}
+.countries-24x24.solomon_islands {
+  background-position: -72px -312px;
+}
+.countries-24x24.somalia {
+  background-position: -96px -312px;
+}
+.countries-24x24.somaliland {
+  background-position: -120px -312px;
+}
+.countries-24x24.afrikaans,
+.countries-24x24.south_africa {
+  background-position: -144px -312px;
+}
+.countries-24x24.south_georgia_and_the_islands,
+.countries-24x24.south_georgia_and_the_south_sandwich_islands {
+  background-position: -168px -312px;
+}
+.countries-24x24.south_korea {
+  background-position: -192px -312px;
+}
+.countries-24x24.south_ossetia {
+  background-position: -216px -312px;
+}
+.countries-24x24.south_sudan {
+  background-position: -240px -312px;
+}
+.countries-24x24.basque,
+.countries-24x24.castellano,
+.countries-24x24.spain,
+.countries-24x24.spanish {
+  background-position: -264px -312px;
+}
+.countries-24x24.sri_lanka {
+  background-position: -288px -312px;
+}
+.countries-24x24.sudan {
+  background-position: -312px -312px;
+}
+.countries-24x24.suriname {
+  background-position: -336px -312px;
+}
+.countries-24x24.swaziland {
+  background-position: -360px -312px;
+}
+.countries-24x24.sweden,
+.countries-24x24.swedish {
+  background-position: 0 -336px;
+}
+.countries-24x24.switzerland {
+  background-position: -24px -336px;
+}
+.countries-24x24.syria {
+  background-position: -48px -336px;
+}
+.countries-24x24.taiwan {
+  background-position: -72px -336px;
+}
+.countries-24x24.tajikistan {
+  background-position: -96px -336px;
+}
+.countries-24x24.tanzania {
+  background-position: -120px -336px;
+}
+.countries-24x24.thai,
+.countries-24x24.thailand {
+  background-position: -144px -336px;
+}
+.countries-24x24.togo {
+  background-position: -168px -336px;
+}
+.countries-24x24.tokelau {
+  background-position: -192px -336px;
+}
+.countries-24x24.tonga {
+  background-position: -216px -336px;
+}
+.countries-24x24.trinidad_and_tobago {
+  background-position: -240px -336px;
+}
+.countries-24x24.tunisia {
+  background-position: -264px -336px;
+}
+.countries-24x24.turkey,
+.countries-24x24.turkish {
+  background-position: -288px -336px;
+}
+.countries-24x24.turkmenistan {
+  background-position: -312px -336px;
+}
+.countries-24x24.turks_and_caicos_islands {
+  background-position: -336px -336px;
+}
+.countries-24x24.tuvalu {
+  background-position: -360px -336px;
+}
+.countries-24x24.us_virgin_islands {
+  background-position: 0 -360px;
+}
+.countries-24x24.uganda {
+  background-position: -24px -360px;
+}
+.countries-24x24.ukraine,
+.countries-24x24.ukrainian {
+  background-position: -48px -360px;
+}
+.countries-24x24.united_arab_emirates {
+  background-position: -72px -360px;
+}
+.countries-24x24.ascension_island,
+.countries-24x24.english,
+.countries-24x24.uk,
+.countries-24x24.united_kingdom {
+  background-position: -96px -360px;
+}
+.countries-24x24.united_nations {
+  background-position: -120px -360px;
+}
+.countries-24x24.united_states,
+.countries-24x24.united_states_minor_outlying_islands,
+.countries-24x24.usa {
+  background-position: -144px -360px;
+}
+.countries-24x24.blank,
+.countries-24x24.british_indian_ocean_territory,
+.countries-24x24.iana_reserved,
+.countries-24x24.saint_pierre_and_miquelon,
+.countries-24x24.unallocated,
+.countries-24x24.unknown {
+  background-position: -168px -360px;
+}
+.countries-24x24.uruguay {
+  background-position: -192px -360px;
+}
+.countries-24x24.uzbekistan {
+  background-position: -216px -360px;
+}
+.countries-24x24.vanuatu {
+  background-position: -240px -360px;
+}
+.countries-24x24.vatican_city {
+  background-position: -264px -360px;
+}
+.countries-24x24.venezuela {
+  background-position: -288px -360px;
+}
+.countries-24x24.vietnam,
+.countries-24x24.vietnamese {
+  background-position: -312px -360px;
+}
+.countries-24x24.wales {
+  background-position: -336px -360px;
+}
+.countries-24x24.wallis_and_futuna {
+  background-position: -360px -360px;
+}
+.countries-24x24.western_sahara {
+  background-position: -384px 0;
+}
+.countries-24x24.yemen {
+  background-position: -384px -24px;
+}
+.countries-24x24.yugoslavia {
+  background-position: 0 -240px;
+  transform: rotate(180deg);
+}
+.countries-24x24.zambia {
+  background-position: -384px -48px;
+}
+.countries-24x24.zimbabwe {
+  background-position: -384px -72px;
+}
+.countries-24x24.viewtopic_username {
+  float: left;
+  padding-top: 5px;
+}

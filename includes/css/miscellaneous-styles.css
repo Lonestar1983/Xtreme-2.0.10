@@ -1,0 +1,85 @@
+/**
+ * CSS for the image resizer bbcode mod.
+ */
+.reimg-loading {
+  background: url(images/reimg-image-resizer/loading.gif) top left no-repeat;
+  width: 126px;
+  height: 22px;
+}
+
+/**
+ * Helpers
+ */
+.center,
+.acenter,
+.text-center {
+  text-align: center;
+}
+
+.left,
+.aleft,
+.text-left {
+  text-align: left;
+}
+
+.right,
+.aright,
+.text-right {
+  text-align: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+:where(table, td, th) .col-12 {
+  width:100%;
+}
+
+:where(table, td, th) .col-11 {
+  width: 91.66666667%;
+}
+
+:where(table, td, th) .col-10 {
+  width:83.33333333%;
+}
+
+:where(table, td, th) .col-9 {
+  width:75%;
+}
+
+:where(table, td, th) .col-8 {
+  width:66.66666667%;
+}
+
+:where(table, td, th) .col-7 {
+  width:58.33333333%;
+}
+
+:where(table, td, th) .col-6 {
+  width:50%;
+}
+
+:where(table, td, th) .col-5 {
+  width:41.66666667%;
+}
+
+:where(table, td, th) .col-4 {
+  width:33.33333333%;
+}
+
+:where(table, td, th) .col-3 {
+  width:25%;
+}
+
+:where(table, td, th) .col-2 {
+  width:16.66666667%;
+}
+
+:where(table, td, th) .col-1 {
+  width:8.33333333%;
+}
