@@ -2100,7 +2100,7 @@ CREATE TABLE `nuke_blocks` (
   `view` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`bid`),
   KEY `title` (`title`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `nuke_blocks`
@@ -2112,16 +2112,12 @@ INSERT INTO `nuke_blocks` VALUES(3, '', 'Survey', '', '', 'r', 4, 0, 3600, '', '
 INSERT INTO `nuke_blocks` VALUES(4, '', 'Information', '<br /><center><span class="content">\r\n<a href="http://phpnuke.org"><img src="images/powered/powered8.jpg" border="0" alt="Powered by PHP-Nuke" title="Powered by PHP-Nuke" width="88" height="31" /></a>\r\n<br /><br />\r\n<a href="http://validator.w3.org/check/referer"><img src="images/html401.gif" width="88" height="31" alt="Valid HTML 4.01!" title="Valid HTML 4.01!" border="0" /></a>\r\n<br /><br />\r\n<a href="http://jigsaw.w3.org/css-validator"><img src="images/css.gif" width="88" height="31" alt="Valid CSS!" title="Valid CSS!" border="0" /></a></span></center><br />', '', 'r', 5, 1, 0, '', '', '', '0');
 INSERT INTO `nuke_blocks` VALUES(5, '', 'User Info', '', '', 'r', 0, 1, 0, '', '', 'block-Evo_User_Info.php', '0');
 INSERT INTO `nuke_blocks` VALUES(6, '', 'Nuke-Evolution', '', '', 'c', 1, 0, 0, '', '', 'block-Nuke-Evolution.php', '0');
-INSERT INTO `nuke_blocks` VALUES(8, '', 'Top 10 Links', '', '', 'r', 7, 0, 3600, '', '', 'block-Top10_Links.php', '0');
-INSERT INTO `nuke_blocks` VALUES(9, '', 'Forums', '', '', 'c', 0, 1, 3600, '', '', 'block-Forums.php', '0');
-INSERT INTO `nuke_blocks` VALUES(10, '', 'Submissions', '', '', 'l', 2, 0, 0, '', '', 'block-Submissions.php', '4');
-INSERT INTO `nuke_blocks` VALUES(11, '', 'Link-us', '', '', 'r', 2, 0, 3600, '0', '', 'block-Link-us.php', '1');
-INSERT INTO `nuke_blocks` VALUES(12, '', 'Shout Box', '', '', 'r', 3, 0, 3600, '0', '', 'block-Shout_Box.php', '1');
-INSERT INTO `nuke_blocks` VALUES(13, '', 'News Center', '', '', 'd', 0, 0, 3600, '0', '', 'block-News_Center.php', '1');
-INSERT INTO `nuke_blocks` VALUES(14, '', 'Donations', '', '', 'r', 1, 0, 3600, '0', '', 'block-Donations.php', '0');
-INSERT INTO `nuke_blocks` VALUES(15, '', 'Arcade Center', '', '', 'd', 1, 0, 3600, '0', '', 'block-Arcade_Center.php', '1');
-INSERT INTO `nuke_blocks` VALUES(16, '', 'ECalendar', '', '', 'l', 3, 0, 3600, '0', '', 'block-ECalendar.php', '1');
-INSERT INTO `nuke_blocks` VALUES(17, '', 'Security', '', '', 'd', 2, 1, 3600, '0', '', 'block-Sentinel_Center.php', '1');
+INSERT INTO `nuke_blocks` VALUES(7, '', 'Top 10 Links', '', '', 'r', 7, 0, 3600, '', '', 'block-Top10_Links.php', '0');
+INSERT INTO `nuke_blocks` VALUES(8, '', 'Forums', '', '', 'c', 0, 1, 3600, '', '', 'block-Forums.php', '0');
+INSERT INTO `nuke_blocks` VALUES(9, '', 'Submissions', '', '', 'l', 2, 0, 0, '', '', 'block-Submissions.php', '4');
+INSERT INTO `nuke_blocks` VALUES(10, '', 'Donations', '', '', 'r', 1, 0, 3600, '0', '', 'block-Donations.php', '0');
+INSERT INTO `nuke_blocks` VALUES(11, '', 'ECalendar', '', '', 'l', 3, 0, 3600, '0', '', 'block-ECalendar.php', '1');
+INSERT INTO `nuke_blocks` VALUES(12, '', 'Security', '', '', 'd', 2, 1, 3600, '0', '', 'block-Sentinel_Center.php', '1');
 
 -- --------------------------------------------------------
 
@@ -3184,27 +3180,26 @@ INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `i
 INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (4, 'ECalendar', 'ECalendar', 0, 0, 1, 17, 7, 1, '', '');
 INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (5, 'Content', 'Content', 1, 0, 1, 0, 3, 1, '', '');
 INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (6, 'Docs', 'Docs', 1, 0, 1, 21, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (7, 'Donations', 'Donations', 1, 0, 1, 1, 3, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (8, 'Evo_UserBlock', 'Evo UserBlock', 0, 0, 1, 26, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (9, 'FAQ', 'FAQ', 0, 0, 1, 25, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (10, 'Feedback', 'Feedback', 1, 0, 1, 2, 3, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (11, 'Groups', 'Groups', 1, 0, 1, 4, 3, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (12, 'Members_List', 'Members List', 1, 0, 1, 1, 2, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (13, 'News', 'News', 1, 0, 1, 0, 6, 3, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (14, 'NukeSentinel', 'NukeSentinel', 0, 0, 1, 15, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (15, 'Private_Messages', 'Private Messages', 1, 0, 1, 3, 2, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (16, 'Profile', 'Profile', 1, 0, 1, 2, 2, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (17, 'Recommend_Us', 'Recommend Us', 0, 0, 1, 5, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (18, 'Search', 'Search', 0, 0, 1, 3, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (19, 'Site_Map', 'Site Map', 0, 0, 1, 2, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (20, 'Spambot_Killer', 'Spambot Killer', 0, 0, 1, 1, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (21, 'Statistics', 'Statistics', 0, 0, 1, 7, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (22, 'Stories_Archive', 'Stories Archive', 0, 0, 1, 8, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (23, 'Submit_News', 'Submit News', 0, 0, 1, 14, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (24, 'Surveys', 'Surveys', 0, 0, 1, 12, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (25, 'Top', 'Top', 0, 0, 1, 11, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (26, 'Topics', 'Topics', 0, 0, 1, 10, 7, 1, '', '');
-INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (27, 'Image_Repository', 'Image Repository', 1, 3, 1, 0, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (7, 'Evo_UserBlock', 'Evo UserBlock', 0, 0, 1, 26, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (8, 'FAQ', 'FAQ', 0, 0, 1, 25, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (9, 'Feedback', 'Feedback', 1, 0, 1, 2, 3, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (10, 'Groups', 'Groups', 1, 0, 1, 4, 3, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (11, 'Members_List', 'Members List', 1, 0, 1, 1, 2, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (12, 'News', 'News', 1, 0, 1, 0, 6, 3, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (13, 'NukeSentinel', 'NukeSentinel', 0, 0, 1, 15, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (14, 'Private_Messages', 'Private Messages', 1, 0, 1, 3, 2, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (15, 'Profile', 'Profile', 1, 0, 1, 2, 2, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (16, 'Recommend_Us', 'Recommend Us', 0, 0, 1, 5, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (17, 'Search', 'Search', 0, 0, 1, 3, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (18, 'Site_Map', 'Site Map', 0, 0, 1, 2, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (19, 'Spambot_Killer', 'Spambot Killer', 0, 0, 1, 1, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (20, 'Statistics', 'Statistics', 0, 0, 1, 7, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (21, 'Stories_Archive', 'Stories Archive', 0, 0, 1, 8, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (22, 'Submit_News', 'Submit News', 0, 0, 1, 14, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (23, 'Surveys', 'Surveys', 0, 0, 1, 12, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (24, 'Top', 'Top', 0, 0, 1, 11, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (25, 'Topics', 'Topics', 0, 0, 1, 10, 7, 1, '', '');
+INSERT INTO `nuke_modules` (`mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `pos`, `cat_id`, `blocks`, `admins`, `groups`) VALUES (26, 'Image_Repository', 'Image Repository', 1, 3, 1, 0, 7, 1, '', '');
 
 -- --------------------------------------------------------
 
