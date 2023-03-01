@@ -789,12 +789,12 @@ function get_timeago( $ptime ) {
 	}
 
 	$condition = array(
-				12 * 30 * 24 * 60 * 60  =>  'year',
-				30 * 24 * 60 * 60       =>  'month',
-				24 * 60 * 60            =>  'day',
-				60 * 60                 =>  'hour',
-				60                      =>  'min',
-				1                       =>  'sec'
+		12 * 30 * 24 * 60 * 60  =>  'year',
+		30 * 24 * 60 * 60       =>  'month',
+		24 * 60 * 60            =>  'day',
+		60 * 60                 =>  'hour',
+		60                      =>  'min',
+		1                       =>  'sec'
 	);
 
 	foreach( $condition as $secs => $str ) {
