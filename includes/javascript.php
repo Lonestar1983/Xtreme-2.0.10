@@ -169,7 +169,7 @@ if (defined('ADMIN_FILE') && defined('USE_DRAG_DROP')) {
  * @license MIT
  * @link    https://fontawesome.com
  */
-evo_include_style( 'fontawesome', NUKE_CSS_DIR . 'fontawesome.css', '6.1.1' );
+evo_include_style( 'fontawesome', NUKE_CSS_DIR . 'fontawesome.min.css', '6.3.0' );
 
 // global $analytics;
 // if (!empty($analytics)) {
