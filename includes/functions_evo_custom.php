@@ -785,7 +785,7 @@ function get_timeago( $ptime ) {
 	$estimate_time = time() - $ptime;
 
 	if ( $estimate_time < 1 ) {
-		return 'secs ago';
+		return 'Just now';
 	}
 
 	$condition = array(
