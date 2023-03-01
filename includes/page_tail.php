@@ -84,7 +84,10 @@ $template->assign_vars(array(
 );
 
 $template->pparse('overall_footer');
-CloseTable();
+
+if ( ! defined( 'REMOVE_CONTENT_CONTAINER' ) ) :
+    closetable();
+endif;
 //
 // Close our DB connection.
 //

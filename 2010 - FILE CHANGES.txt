@@ -40,6 +40,7 @@ includes/meta.php
 includes/nsn_center_block_functions.php
 includes/options.php
 includes/page_header.php
+includes/page_tail.php
 includes/sessions.php
 includes/styles.php
 includes/topic_review.php
@@ -58,7 +59,6 @@ includes/classes/class.debugger.php
 includes/classes/class.identify.php
 includes/classes/class.wysiwyg.php
 includes/db/mysqli.php
-
 #includes/Zend/Cache/Backend.php
 #includes/Zend/Cache/Core.php
 
@@ -87,6 +87,7 @@ modules/Forums/language/lang_english/lang_main.php
 
 modules/Member_List/index.php
 
+modules/News/index.php
 modules/News/admin/index.php
 modules/News/admin/wait.php
 modules/News/admin/language/lang-english.php

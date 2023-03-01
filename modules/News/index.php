@@ -276,7 +276,6 @@ switch ($op) {
             if ($a ==1) { echo "<td width='50%'>&nbsp;</td></tr>\n"; } else { echo "</tr>\n"; }
             echo "</table>\n";
         }
-        echo "\n<!-- PAGING -->\n";
         $articlepagesint = ($totalarticles / $storynum);
         $articlepageremain = ($totalarticles % $storynum);
         if ($articlepageremain != 0) {
@@ -312,7 +311,6 @@ switch ($op) {
             echo "</form>\n";
             CloseTable();
         }
-        echo "<!-- CLOSE PAGING -->\n";
         include(NUKE_BASE_DIR."footer.php");
     break;
 

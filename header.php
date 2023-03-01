@@ -30,7 +30,7 @@ function head() {
 	$ThemeSel = get_theme();
 	// echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'."\n";
 	echo '<!DOCTYPE html>';
-	echo '<html lang="' . _LANGCODE . '" dir="' . _LANG_DIRECTION . '">'."\n";
+	echo '<html lang="' . _LANGCODE . '">'."\n";
 	echo '<head>'."\n";
 
 	# function to grab the page title.
