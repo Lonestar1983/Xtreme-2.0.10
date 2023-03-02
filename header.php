@@ -28,7 +28,6 @@ function head() {
 	global $sitename, $ab_config, $modheader, $cache;
 
 	$ThemeSel = get_theme();
-	// echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'."\n";
 	echo '<!DOCTYPE html>';
 	echo '<html lang="' . _LANGCODE . '">'."\n";
 	echo '<head>'."\n";
@@ -96,12 +95,12 @@ function head() {
 function online() {
 	global $prefix, $db, $name, $board_config, $userinfo;
 
-	$ip         = get_user_IP();
-	$url        = ( defined( 'ADMIN_FILE' ) ) ? 'index.php' : Fix_Quotes( $_SERVER['REQUEST_URI'] );
-	$uname      = $ip;
-	$guest      = 1;
-	$user_agent = get_user_agent();
-	$is_mobile  = (int) evo_is_mobile();
+	$ip           = get_user_IP();
+	$url          = ( defined( 'ADMIN_FILE' ) ) ? 'index.php' : Fix_Quotes( $_SERVER['REQUEST_URI'] );
+	$uname        = $ip;
+	$guest        = 1;
+	$user_agent   = get_user_agent();
+	$is_mobile    = (int) evo_is_mobile();
 
 	if ( is_user() ) {
 		$uname = $userinfo['username'];
@@ -116,21 +115,24 @@ function online() {
 	$url          = addslashes( $url );
 	$ctime        = time();
 	$past         = time() - $board_config['online_time'];
+
 	dbquery( "DELETE FROM " . _SESSION_TABLE . " WHERE time < '" . $past . "'" );
 
 	/**
 	 * A replace into sql command was added, to prevent the duplication of users, This also saves on several lines of code.
 	 *
-	 * @since 2.0.9E
+	 * @since 2.0.9e
 	 */
 	dbquery( "REPLACE INTO `"._SESSION_TABLE."` VALUES ('" . $uname . "', '" . $ctime . "', '" . $ctime . "', '" . $ip . "', '" . $guest . "', '" . $custom_title . "', '" . $url . "', '" . $is_mobile . "')");
 
 	/**
 	 * This sql replace command is to track who has been to the site and records their last visit.
 	 *
-	 * @since 2.0.9E
+	 * @since 2.0.9e
 	 */
 	if ( $guest == 0 ) {
+		// Moved from includes/sessions.php to be a little more precise.
+		dbquery( "UPDATE " . USERS_TABLE . " SET user_lastvisit = " . $ctime . " WHERE user_id = '" . $userinfo['user_id'] . "'" );
 		dbquery("REPLACE INTO " . _USERS_WHO_BEEN . " (`user_ID`, `username`, `last_visit`) VALUES ('" . $userinfo['user_id'] . "', '" . $userinfo['username'] . "', " . time() . ")" );
 	}
 }
@@ -138,20 +140,14 @@ function online() {
 online();
 head();
 
-if (!defined('ADMIN_FILE')):
+if ( ! defined( 'ADMIN_FILE' ) ) {
+	include_once NUKE_INCLUDE_DIR . 'counter.php';
 
-	include_once(NUKE_INCLUDE_DIR.'counter.php');
-
-	if (defined('HOME_FILE')):
-
-		include_once(NUKE_INCLUDE_DIR.'messagebox.php');
-		blocks('Center');
+	if ( defined( 'HOME_FILE' ) ) {
+		include_once NUKE_INCLUDE_DIR . 'messagebox.php';
+		blocks( 'Center' );
 		// If you want either of the following on all pages simply, move the include to before if (defined('HOME_FILE'))
-		include(NUKE_INCLUDE_DIR.'cblocks1.php');
-		include(NUKE_INCLUDE_DIR.'cblocks2.php');
-	
-	endif;
-
-endif;
-
-?>
+		include NUKE_INCLUDE_DIR . 'cblocks1.php';
+		include NUKE_INCLUDE_DIR . 'cblocks2.php';
+	}
+}
