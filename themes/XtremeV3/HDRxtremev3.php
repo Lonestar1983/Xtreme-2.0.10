@@ -25,15 +25,13 @@ else:
 	$theuser .= '<a href="modules.php?name=Your_Account&amp;op=logout">'._LOGOUT.'</a>';
 endif;
 
-$ads = ads(0);
-
 echo '<div class="container" style="width: '.xtremev3_width.'">'
 
 	.'<header>'
 
 	.'<section class="flex-container logo">'
 	.'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDR_01.png" style="width: 37px; height: 150px;"></div>'
-	.'  <div class="flex-item" style="width: 100%; height: 150px; background-image: url('.xtremev3_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogo">&nbsp;</div><div id="hdr-banner-ads">'.$ads.'</div></div>'
+	.'  <div class="flex-item" style="width: 100%; height: 150px; background-image: url('.xtremev3_hdr_images.'HDR_BgRepeat.png)"><div class="wrapLogo">&nbsp;</div></div>'
 	.'  <div class="flex-item"><img src="'.xtremev3_hdr_images.'HDR_03.png" style="width: 37px; height: 150px;"></div>'
 	.'</section>'
 
