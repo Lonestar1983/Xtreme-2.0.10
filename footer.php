@@ -127,24 +127,36 @@ function footmsg() {
 	}
 
 	$debug_sql = false;
-	if (is_admin() && !is_bool($debug) && $debug == 'full') {
-		$strstart = strlen(NUKE_BASE_DIR);
-			$debug_sql = '<span class="genmed" style="font-weight: bold;">SQL Debug:</span><br /><br />';
-			foreach ($db->querylist as $file => $queries) {
-				$file = substr($file, $strstart);
-				if (empty($file)) $file = 'unknown file';
-				$debug_sql .= '<span style="font-weight: bold;">'.$file.'</span><ul>';
-				foreach ($queries as $query) { $debug_sql .= "<li>$query</li>"; }
-				$debug_sql .= '</ul>';
+	if ( is_admin() && ! is_bool( $debug ) && $debug == 'full' ) {
+		$strstart = strlen( NUKE_BASE_DIR );
+		$debug_sql = '<span class="genmed" style="font-weight: bold;">SQL Debug:</span><br /><br />';
+
+		foreach ( $db->querylist as $file => $queries ) {
+			$file = substr( $file, $strstart );
+
+			if ( empty( $file ) ) {
+				$file = 'unknown file';
 			}
-			$debug_sql .= '<span style="color: #0000FF; font-weight: bold;">*</span> - Result freed<br /><br />';
+
+			$debug_sql .= '<span style="font-weight: bold;">'.$file.'</span><ul>';
+
+			foreach ( $queries as $query ) {
+				$debug_sql .= "<li>$query</li>";
+			}
+
+			$debug_sql .= '</ul>';
+		}
+		$debug_sql .= '<span style="color: #0000FF; font-weight: bold;">*</span> - Result freed<br /><br />';
 	}
 	echo $debug_sql;
-	unset($debug_sql);
+	unset( $debug_sql );
+
 	global $browser;
-	if ($browser == 'Bot' || $browser == 'Other') {
-		$footmsg .= '<span style="display:none;"><a href="includes/trap.php">Do Not Click</a></span>'.PHP_EOL;
+
+	if ( $browser == 'Bot' || $browser == 'Other' ) {
+		$footmsg .= '<span style="display:none;"><a href="includes/trap.php">Do Not Click</a></span>' . PHP_EOL;
 	}
+
 	echo $footmsg;
 	$has_echoed = 1;
 }
