@@ -545,9 +545,9 @@ function evo_include_script( $handle, $src = '', $ver = false, $in_footer = fals
 		$_handle = explode( '?', $handle );
 		$script  = array( $_handle[0], $src, $ver );
 
-		if ( ( is_array( $_bodyJS ) && count( $_bodyJS ) > 0) && ( in_array( $script, $_bodyJS ) ) ) :
+		if ( ( is_array( $_bodyJS ) && count( $_bodyJS ) > 0) && ( in_array( $script, $_bodyJS ) ) ) {
 			return;
-		endif;
+        }
 
 		if ( $src && $in_footer === false ) {
 			$_headJS[] = $script;
