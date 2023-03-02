@@ -439,24 +439,6 @@ function ultramode() {
     }
 }
 
-// Adds slashes to string and strips PHP+HTML for SQL insertion and hack prevention
-// $str: the string to modify
-// $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
-function Fix_Quotes( $str, $nohtml = false ) {
-    global $db;
-
-    if ( $nohtml ) {
-        $str = strip_tags( $str );
-    }
-
-    return $str;
-}
-
-function Remove_Slashes($str) {
-    global $_GETVAR;
-    return $_GETVAR->stripSlashes($str);
-}
-
 // check_words function by ReOrGaNiSaTiOn
 function check_words($message) {
     global $censor_words;
@@ -524,44 +506,10 @@ function actualTime() {
   return $actualTime_tempdate;
 }
 
-// formatTimestamp function by ReOrGaNiSaTiOn
-function formatTimestamp($time, $format='', $dateonly='') {
-    global $datetime, $locale, $userinfo, $board_config;
-    if (empty($format)) {
-        if (isset($userinfo['user_dateformat']) && !empty($userinfo['user_dateformat'])) {
-            $format = $userinfo['user_dateformat'];
-        } else if (isset($board_config['default_dateformat']) && !empty($board_config['default_dateformat'])) {
-            $format = $board_config['default_dateformat'];
-        } else {
-            $format = 'D M d, Y g:i a';
-        }
-    }
-    if (!empty($dateonly)) {
-        $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
-        $format = str_replace($replaces, '', $format);
-    }
-    if ((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1) {
-        $tz = $userinfo['user_timezone'];
-    } else if (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])) {
-        $tz = $board_config['board_timezone'];
-    } else {
-        $tz = '10';
-    }
-    setlocale(LC_TIME, $locale);
-    if (!is_numeric($time)) {
-        preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $time, $datetime);
-        $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
-    }
-    $datetime = EvoDate($format, $time, $tz);
-    return $datetime;
-}
-
 function get_microtime() {
     list($usec, $sec) = explode(' ', microtime());
     return ($usec + $sec);
 }
-
-
 
 function getTopics($s_sid) {
     global $topicname, $topicimage, $topictext, $db;
