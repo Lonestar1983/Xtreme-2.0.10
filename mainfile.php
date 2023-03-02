@@ -612,9 +612,9 @@ function evo_include_style( $handle, $src = '', $ver = false, $media = 'all' ) {
 		$_handle = explode( '?', $handle );
 		$script  = array( $_handle[0], $src, $ver, $media );
 
-		if ( ( is_array( $_headCSS ) && count( $_headCSS ) > 0 ) && ( in_array( $script, $_headCSS ) ) ) :
+		if ( ( is_array( $_headCSS ) && count( $_headCSS ) > 0 ) && ( in_array( $script, $_headCSS ) ) ) {
 			return;
-		endif;
+        }
 
 		$_headCSS[] = $script;
 	}
@@ -643,11 +643,11 @@ function writeHEAD() {
 	if ( is_array( $_headCSS ) && count( $_headCSS ) > 0)  {
 		foreach( $_headCSS as $i => $css ) {
 			if ( $css[ 2 ] !== 'inline' ) {
-				if ( $css[ 2 ] === false ) :
+				if ( $css[ 2 ] === false ) {
 					echo "<link id='" . $css[ 0 ] . "-css' rel='stylesheet' href='" . $css[ 1 ] . "' media='" . $css[ 3 ] . "'>\n";
-				else:
+                } else {
 					echo "<link id='" . $css[ 0 ] . "-css' rel='stylesheet' href='" . $css[ 1 ] . "?ver=" . $css[ 2 ] . "' media='" . $css[ 3 ] . "'>\n";
-				endif;
+                }
 			} else {
 				echo '<style id="' . $css[ 0 ] . '">';
 				echo $css[ 1 ];
@@ -659,11 +659,11 @@ function writeHEAD() {
 	if ( is_array( $_headJS ) && count( $_headJS ) > 0)  {
 		foreach( $_headJS as $i => $js ) {
 			if ( $js[ 2 ] !== 'inline' ) {
-				if ( $js[ 2 ] === false ) :
+				if ( $js[ 2 ] === false ) {
 					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "'></script>\n";
-				else:
+                } else {
 					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "?ver=" . $js[ 2 ] . "'></script>\n";
-				endif;
+                }
 			} else {
 				echo "<script id='" . $js[ 0 ] . "-js'>\n";
 				echo $js[ 1 ];
@@ -678,11 +678,11 @@ function writeBODYJS() {
 	if ( is_array( $_bodyJS ) && count( $_bodyJS ) > 0)  {
 		foreach( $_bodyJS as $i => $js ) {
 			if ( $js[ 2 ] !== 'inline' ) {
-				if ( $js[ 2 ] === false ) :
+				if ( $js[ 2 ] === false ) {
 					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "'></script>\n";
-				else:
+                } else {
 					echo "<script id='" . $js[ 0 ] . "-js' src='" . $js[ 1 ] . "?ver=" . $js[ 2 ] . "'></script>\n";
-				endif;
+                }
 			} else {
 				echo "<script id='" . $js[ 0 ] . "-js'>\n";
 				echo $js[ 1 ];
