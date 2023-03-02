@@ -575,77 +575,6 @@ function getTopics($s_sid) {
     $topictext = stripslashes($row['topictext']);
 }
 
-/*****[BEGIN]******************************************
- [ Module:    Advertising                    v7.8.3.1 ]
- ******************************************************/
-function ads($position) {
-    global $prefix, $db, $sitename, $adminmail, $nukeurl, $banners;
-    if(!$banners) { return ''; }
-    $position = intval($position);
-    $result = $db->sql_query("SELECT * FROM `".$prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
-    $numrows = $db->sql_numrows($result);
-    if ($numrows < 1) return '';
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
-    foreach($row as $var => $value) {
-        if (isset($$var)) unset($$var);
-        $$var = $value;
-    }
-    $bid = intval($bid);
-    if(!is_admin()) {
-        $db->sql_query("UPDATE `".$prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
-    }
-    $sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height` FROM `".$prefix."_banner` WHERE `bid`='$bid'";
-    $result2 = $db->sql_query($sql2);
-    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height) = $db->sql_fetchrow($result2);
-    $db->sql_freeresult($result2);
-    $cid = intval($cid);
-    $imptotal = intval($imptotal);
-    $impmade = intval($impmade);
-    $clicks = intval($clicks);
-    /* Check if this impression is the last one and print the banner */
-    if (($imptotal <= $impmade) && ($imptotal != 0)) {
-        $db->sql_query("UPDATE `".$prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
-        $sql3 = "SELECT `name`, `contact`, `email` FROM `".$prefix."_banner_clients` WHERE `cid`='$cid'";
-        $result3 = $db->sql_query($sql3);
-        list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3);
-        $db->sql_freeresult($result3);
-        if (!empty($c_email)) {
-            $from = $sitename.' <'.$adminmail.'>';
-            $to = $c_contact.' <'.$c_email.'>';
-            $message = _HELLO." $c_contact:\n\n";
-            $message .= _THISISAUTOMATED."\n\n";
-            $message .= _THERESULTS."\n\n";
-            $message .= _TOTALIMPRESSIONS." $imptotal\n";
-            $message .= _CLICKSRECEIVED." $clicks\n";
-            $message .= _IMAGEURL." $imageurl\n";
-            $message .= _CLICKURL." $clickurl\n";
-            $message .= _ALTERNATETEXT." $alttext\n\n";
-            $message .= _HOPEYOULIKED."\n\n";
-            $message .= _THANKSUPPORT."\n\n";
-            $message .= "- $sitename "._TEAM."\n";
-            $message .= $nukeurl;
-            $subject = $sitename.': '._BANNERSFINNISHED;
-            $mailcommand = evo_mail($to, $subject, $message, "From: $from\nX-Mailer: PHP/" . PHPVERS);
-            $mailcommand = removecrlf($mailcommand);
-        }
-    }
-    if ($ad_class == "code") {
-        $ad_code = stripslashes($ad_code);
-        $ads = "<center>$ad_code</center>";
-    } elseif ($ad_class == "flash") {
-        $ads = "<center>"
-              ."<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0\" width=\"".$ad_width."\" height=\"".$ad_height."\" id=\"$bid\">"
-              ."<param name=\"movie\" value=\"".$imageurl."\" />"
-              ."<param name=\"quality\" value=\"high\" />"
-              ."<embed src=\"".$imageurl."\" quality=\"high\" width=\"".$ad_width."\" height=\"".$ad_height."\" name=\"".$bid."\" align=\"\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"></embed></object>"
-              ."</center>";
-    } else {
-        $ads = "<center><a href=\"index.php?op=ad_click&amp;bid=$bid\" target=\"_blank\"><img src=\"$imageurl\" border=\"0\" alt=\"$alttext\" title=\"$alttext\"></a></center>";
-    }
-    return $ads;
-}
-
 /**
  * Enqueue a script.
  *
@@ -853,40 +782,25 @@ function get_theme() {
  [ Base:    Evolution Functions                v1.5.0 ]
  ******************************************************/
 
-// Function to translate Datestrings
-function translate($phrase) {
-    switch($phrase) {
-        case'xdatestring': $tmp='%A, %B %d @ %T %Z'; break;
-        case'linksdatestring': $tmp='%d-%b-%Y'; break;
-        case'xdatestring2': $tmp='%A, %B %d'; break;
-        default: $tmp=$phrase; break;
-    }
-    return $tmp;
-}
-
-function removecrlf($str) {
-    return strtr($str, '\015\012', ' ');
-}
-
-function validate_mail($email) {
-    if(strlen($email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email)) {
-        DisplayError(_ERRORINVEMAIL);
+function validate_mail( $email ) {
+    if ( strlen( $email ) < 7 || ! preg_match( '/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email ) ) {
+        DisplayError( _ERRORINVEMAIL );
         return false;
     } else {
         return $email;
     }
 }
 
-function encode_mail($email) {
+function encode_mail( $email ) {
     $finished = '';
-    for($i=0, $j = strlen($email); $i<$j; ++$i) {
-        $n = mt_rand(0, 1);
-        $finished .= ($n) ? '&#x'.sprintf('%X',ord($email[$i])).';' : '&#'.ord($email[$i]).';';
+
+    for( $i = 0, $j = strlen( $email ); $i < $j; ++$i ) {
+        $n = mt_rand( 0, 1 );
+        $finished .= ( $n ) ? '&#x' . sprintf( '%X', ord( $email[ $i ] ) ) . ';' : '&#' . ord( $email[ $i ]) . ';';
     }
+
     return $finished;
 }
-
-
 
 function GroupColor($group_name, $short=0) {
     global $db, $use_colors, $cache;

@@ -212,3 +212,26 @@ function is_serialized_string( $data ) {
 		return true;
 	}
 }
+
+function removecrlf( $str ) {
+    return strtr( $str, '\015\012', ' ' );
+}
+
+// Function to translate Datestrings
+function translate( $phrase ) {
+    switch( $phrase ) {
+        case 'xdatestring':
+            $tmp = '%A, %B %d @ %T %Z';
+            break;
+        case 'linksdatestring':
+            $tmp = '%d-%b-%Y';
+            break;
+        case 'xdatestring2':
+            $tmp = '%A, %B %d';
+            break;
+        default:
+        $tmp = $phrase;
+    }
+
+    return $tmp;
+}
