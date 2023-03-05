@@ -22,8 +22,8 @@
 
 session_start();
 
-include('install/functions.php');
-include('includes/functions_selects.php');
+include 'install/functions.php';
+include 'includes/functions_selects.php';
 
 $nuke_name = "Nuke Evolution (Xtreme)";
 $sql_version = @mysqli_get_server_info();
